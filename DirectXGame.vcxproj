@@ -112,6 +112,7 @@
     <ClCompile Include="base\WinApp.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mymath\Mymath.cpp" />
+    <ClCompile Include="SceneManager\Divide\PlayScene.cpp" />
     <ClCompile Include="SceneManager\Divide\TestScene.cpp" />
     <ClCompile Include="SceneManager\Divide\TitleScene.cpp" />
     <ClCompile Include="SceneManager\SceneManager.cpp" />
@@ -148,6 +149,7 @@
     <ClInclude Include="math\Vector4.h" />
     <ClInclude Include="Mymath\MyConst.h" />
     <ClInclude Include="Mymath\Mymath.h" />
+    <ClInclude Include="SceneManager\Divide\PlayScene.h" />
     <ClInclude Include="SceneManager\Divide\SceneList.h" />
     <ClInclude Include="SceneManager\Divide\TestScene.h" />
     <ClInclude Include="SceneManager\Divide\TitleScene.h" />

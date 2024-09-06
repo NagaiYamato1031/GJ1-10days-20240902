@@ -81,6 +81,9 @@
     <ClCompile Include="SceneManager\Divide\TestScene.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="SceneManager\Divide\PlayScene.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3d\ViewProjection.h">
@@ -185,10 +188,13 @@
     <ClInclude Include="SceneManager\Divide\TitleScene.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="SceneManager\Divide\TestScene.h">
+    <ClInclude Include="SceneManager\Divide\SceneList.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="SceneManager\Divide\SceneList.h">
+    <ClInclude Include="SceneManager\Divide\PlayScene.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager\Divide\TestScene.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
