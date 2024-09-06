@@ -10,6 +10,10 @@
 *.userosscache
 *.sln.docstates
 
+# 試験的機能を試すシーン
+TestScene.h
+TestScene.cpp
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
