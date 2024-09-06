@@ -10,9 +10,6 @@
 *.userosscache
 *.sln.docstates
 
-# 試験的機能を試すシーン
-TestScene.h
-TestScene.cpp
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -365,3 +362,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/SceneManager/Divide/TestScene.h
+/SceneManager/Divide/TestScene.cpp
