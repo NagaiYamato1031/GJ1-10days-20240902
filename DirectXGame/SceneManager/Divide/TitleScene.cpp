@@ -1,5 +1,7 @@
 #include "TitleScene.h"
 
+#include "PlayScene.h"
+
 void TitleScene::Init() {
 }
 
@@ -9,6 +11,11 @@ void TitleScene::Update() {
 	ImGui::Text("Title");
 	ImGui::End();
 
+	// スペースを押すとプレイシーンへ
+	if (input_->TriggerKey(DIK_SPACE)) {
+		nextScene_ = new PlayScene;
+		sceneFlag_.isTransition_ = true;
+	}
 }
 
 void TitleScene::DrawBackdrop() {

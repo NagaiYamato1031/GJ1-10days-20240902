@@ -1,6 +1,12 @@
 #pragma once
 
-#include <Mymath/Mymath.h>
+#include <Utility/Mymath.h>
+#include "Audio.h"
+#include "Input.h"
+#include "Model.h"
+#include "Sprite.h"
+#include "ViewProjection.h"
+#include "WorldTransform.h"
 
 /// <summary>
 /// 操作するプレイヤー
@@ -26,9 +32,16 @@ public: // パブリック関数 **//
 	/// <summary>
 	/// モデル描画
 	/// </summary>
-	void DrawModel();
+	void DrawModel(ViewProjection* view);
 
 private: //** メンバ変数 **//
+	// 入力管理
+	Input* input_ = nullptr;
 
+	// 3D モデル
+	Model* model_ = nullptr;
+
+	// ワールド座標
+	WorldTransform transform_;
 };
 

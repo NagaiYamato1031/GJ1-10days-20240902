@@ -111,13 +111,14 @@
     <ClCompile Include="base\DirectXCommon.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Mymath\Mymath.cpp" />
+    <ClCompile Include="Utility\Mymath.cpp" />
     <ClCompile Include="Player\Player.cpp" />
     <ClCompile Include="SceneManager\Divide\PlayScene.cpp" />
     <ClCompile Include="SceneManager\Divide\TestScene.cpp" />
     <ClCompile Include="SceneManager\Divide\TitleScene.cpp" />
     <ClCompile Include="SceneManager\SceneManager.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
+    <ClCompile Include="Utility\WorldTransformEx.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\ImGuiManager.h" />
@@ -148,8 +149,8 @@
     <ClInclude Include="math\Vector2.h" />
     <ClInclude Include="math\Vector3.h" />
     <ClInclude Include="math\Vector4.h" />
-    <ClInclude Include="Mymath\MyConst.h" />
-    <ClInclude Include="Mymath\Mymath.h" />
+    <ClInclude Include="Utility\MyConst.h" />
+    <ClInclude Include="Utility\Mymath.h" />
     <ClInclude Include="Player\Player.h" />
     <ClInclude Include="SceneManager\Divide\PlayScene.h" />
     <ClInclude Include="SceneManager\Divide\SceneList.h" />
