@@ -2,9 +2,15 @@
 
 #include "SceneManager/IScene.h"
 
+#include "DirectXCommon.h"
+#include "Sprite.h"
+
 // IScene クラスを継承したタイトルシーン
 class TitleScene : public ACJPN::Scene::IScene {
 public: //** パブリック関数 **//
+
+	TitleScene();
+	~TitleScene();
 
 	/// <summary>
 	/// 初期化
@@ -29,7 +35,13 @@ public: //** パブリック関数 **//
 	/// </summary>
 	void DrawOverlay() override;
 private: //** メンバ変数 **//
+	//DirectXCommon* dxCommon_ = nullptr;
 
+	//uint32_t textureHandle_ = 0;
+
+	//Sprite* sprite_ = nullptr;
+
+	//Vector3 MoziPos = {0, 0, 0};
 
 private: //** メンバ関数 **//
 };
