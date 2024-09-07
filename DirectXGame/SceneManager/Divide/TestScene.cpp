@@ -17,6 +17,11 @@ void TestScene::Init() {
 	// 原点のオブジェクト
 	origin_.reset(Model::CreateSphere());
 	originTransform_.Initialize();
+	// 東側のオブジェクト
+	east_.reset(Model::Create());
+	eastTransform_.Initialize();
+	eastTransform_.translation_.x = 10.0f;
+	eastTransform_.UpdateMatrix();
 }
 
 void TestScene::Update() {
@@ -47,6 +52,7 @@ void TestScene::DrawBackdrop() {
 void TestScene::Draw3D() {
 	player_.DrawModel(camera_.GetView());
 	origin_->Draw(originTransform_, *camera_.GetView());
+	east_->Draw(eastTransform_, *camera_.GetView());
 }
 
 void TestScene::DrawOverlay() {

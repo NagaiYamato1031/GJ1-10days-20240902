@@ -35,8 +35,21 @@ void FollowCamera::Update() {
 	// ターゲットに追従
 	camera_->translation_ = position;
 
+	// カメラを回転させる
+	camera_->rotation_.z = theta - 3.14f * 0.5f;
+
 	// カメラ更新
 	camera_->UpdateMatrix();
+
+	// 自力で計算する
+	// ビュー行列を生成
+	Matrix4x4 mScale = MakeIdentity4x4();
+	Matrix4x4 mRotate = MakeRotateXYZMatrix(camera_->rotation_);
+	Matrix4x4 mTranslate = MakeTranslateMatrix(camera_->translation_);
+	// ビュー行列にする
+	camera_->matView = Inverse(Multiply(Multiply(mScale,mRotate),mTranslate));
+	// 行列を転送
+	camera_->TransferMatrix();
 }
 
 void FollowCamera::DebguWindow() {

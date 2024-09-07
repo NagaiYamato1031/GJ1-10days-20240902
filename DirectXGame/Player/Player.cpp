@@ -16,7 +16,7 @@ void Player::Init() {
 	// 北側から始まる
 	transform_.translation_.y = kPaddingCenter_;
 
-	theta_ = -3.14f * 0.5f;
+	theta_ = 3.14f * 0.5f;
 }
 
 void Player::Update() {
