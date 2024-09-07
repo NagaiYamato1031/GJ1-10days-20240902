@@ -53,5 +53,13 @@ private: //** メンバ変数 **//
 
 	// ワールド座標
 	WorldTransform transform_;
+
+	// 中心からの距離
+	float kPaddingCenter_ = 50.0f;
+	
+	// 中心からの回転角
+	float theta_ = 0.0f;
+
+
 };
 

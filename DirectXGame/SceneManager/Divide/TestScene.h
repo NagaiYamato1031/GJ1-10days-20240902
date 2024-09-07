@@ -46,6 +46,10 @@ private: //** メンバ変数 **//
 	// プレイヤー
 	Player player_;
 
+	// 原点のわかるオブジェクト
+	std::unique_ptr<Model> origin_;
+	WorldTransform originTransform_;
+
 private: //** メンバ関数 **//
 
 	/// <summary>

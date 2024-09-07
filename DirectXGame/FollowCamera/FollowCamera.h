@@ -46,9 +46,14 @@ public: //** パブリック関数 **//
 	void DebguWindow();
 
 private: //** メンバ変数 **//
+	
+	// 基本的なターゲットからの距離
+	// 北側にいるところから始まる
+	Vector3 kOffset = { 0.0f,-25.0f,-100.0f };
 
 	// オフセット
-	Vector3 offset = { 0.0f,0.0f,-10.0f };
+	// 毎回計算して位置に加算する
+	Vector3 offset = { 0.0f,0.0f,0.0f };
 
 
 	// ターゲット

@@ -13,6 +13,10 @@ void TestScene::Init() {
 
 	// ターゲットに設定
 	camera_.SetTarget(player_.GetTransform());
+
+	// 原点のオブジェクト
+	origin_.reset(Model::CreateSphere());
+	originTransform_.Initialize();
 }
 
 void TestScene::Update() {
@@ -42,6 +46,7 @@ void TestScene::DrawBackdrop() {
 
 void TestScene::Draw3D() {
 	player_.DrawModel(camera_.GetView());
+	origin_->Draw(originTransform_, *camera_.GetView());
 }
 
 void TestScene::DrawOverlay() {
