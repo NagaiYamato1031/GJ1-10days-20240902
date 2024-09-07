@@ -2,6 +2,8 @@
 
 #include "SceneManager/IScene.h"
 
+#include <Player/Player.h>
+
 // IScene クラスを継承したタイトルシーン
 class TestScene : public ACJPN::Scene::IScene {
 public: //** パブリック関数 **//
@@ -32,6 +34,11 @@ private: //** メンバ変数 **//
 
 	// 時間を測る
 	int time = 0;
+
+	// カメラ
+	std::unique_ptr<ViewProjection> camera_;
+
+	std::unique_ptr<Player> player_;
 
 private: //** メンバ関数 **//
 
