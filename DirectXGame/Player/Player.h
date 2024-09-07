@@ -34,6 +34,8 @@ public: // パブリック関数 **//
 	/// </summary>
 	void DrawModel(ViewProjection* view);
 
+	WorldTransform* GetTransform() { return &transform_; }
+
 private: //** メンバ変数 **//
 	// 入力管理
 	Input* input_ = nullptr;
