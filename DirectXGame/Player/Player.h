@@ -60,6 +60,8 @@ private: //** メンバ変数 **//
 	// 中心からの回転角
 	float theta_ = 0.0f;
 
+	// 一度に変更する角度
+	float kSpeed_ = 0.02f;
 
 };
 
