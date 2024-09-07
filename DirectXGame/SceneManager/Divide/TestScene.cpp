@@ -16,10 +16,8 @@ void TestScene::Init() {
 }
 
 void TestScene::Update() {
-
-	ImGui::Begin("Scene");
-	ImGui::Text("Test");
-	ImGui::End();
+	// デバッグ情報
+	DebugWindow();
 
 	// 遷移中はほかのことをしない
 	if (sceneFlag_.isTransition_) {
@@ -32,8 +30,10 @@ void TestScene::Update() {
 		sceneFlag_.isTransition_ = true;
 	}
 
+	// プレイヤー更新
 	player_.Update();
 
+	// フォローカメラ更新
 	camera_.Update();
 }
 
@@ -47,6 +47,12 @@ void TestScene::Draw3D() {
 void TestScene::DrawOverlay() {
 }
 
+void TestScene::DebugWindow() {
+	ImGui::Begin("Scene");
+	ImGui::Text("Test");
+	ImGui::End();
+}
+
 void TestScene::TransitionUpdate() {
 	// 時間で終了時間を決めることもできる
 	time--;
@@ -57,6 +63,4 @@ void TestScene::TransitionUpdate() {
 		return;
 	}
 	// 遷移中の処理
-
-
 }

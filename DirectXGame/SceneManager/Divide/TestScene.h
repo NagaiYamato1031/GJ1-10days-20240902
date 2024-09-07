@@ -31,6 +31,11 @@ public: //** パブリック関数 **//
 	/// UI の描画
 	/// </summary>
 	void DrawOverlay() override;
+
+	/// <summary>
+	/// デバッグ情報
+	/// </summary>
+	void DebugWindow() override;
 private: //** メンバ変数 **//
 
 	// 時間を測る

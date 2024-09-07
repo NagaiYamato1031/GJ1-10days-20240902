@@ -6,10 +6,8 @@ void EndScene::Init() {
 }
 
 void EndScene::Update() {
-
-	ImGui::Begin("Scene");
-	ImGui::Text("End");
-	ImGui::End();
+	// デバッグ情報
+	DebugWindow();
 
 	// スペースを押すとタイトルシーンへ
 	if (input_->TriggerKey(DIK_SPACE)) {
@@ -20,6 +18,12 @@ void EndScene::Update() {
 }
 
 void EndScene::DrawBackdrop() {
+}
+
+void EndScene::DebugWindow() {
+	ImGui::Begin("Scene");
+	ImGui::Text("End");
+	ImGui::End();
 }
 
 void EndScene::Draw3D() {

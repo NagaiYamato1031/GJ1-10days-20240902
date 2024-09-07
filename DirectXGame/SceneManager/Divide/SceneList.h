@@ -5,3 +5,4 @@
 #endif // _DEBUG
 #include "TitleScene.h"
 #include "PlayScene.h"
+#include "EndScene.h"

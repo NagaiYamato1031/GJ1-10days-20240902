@@ -64,6 +64,11 @@ namespace ACJPN {
 			virtual void DrawOverlay() {}
 
 			/// <summary>
+			/// デバッグ情報の表示
+			/// </summary>
+			virtual void DebugWindow() {}
+
+			/// <summary>
 			/// シーンの処理がすべて終わったかを返す
 			/// </summary>
 			bool IsEnd() const { return sceneFlag_.allEnd_; }

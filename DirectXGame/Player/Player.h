@@ -34,7 +34,15 @@ public: // パブリック関数 **//
 	/// </summary>
 	void DrawModel(ViewProjection* view);
 
+	/// <summary>
+	/// ワールド座標取得
+	/// </summary>
 	WorldTransform* GetTransform() { return &transform_; }
+
+	/// <summary>
+	/// デバッグ情報
+	/// </summary>
+	void DebugWindow();
 
 private: //** メンバ変数 **//
 	// 入力管理

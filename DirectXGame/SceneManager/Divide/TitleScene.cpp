@@ -6,10 +6,8 @@ void TitleScene::Init() {
 }
 
 void TitleScene::Update() {
-
-	ImGui::Begin("Scene");
-	ImGui::Text("Title");
-	ImGui::End();
+	// デバッグ情報
+	DebugWindow();
 
 	// スペースを押すとプレイシーンへ
 	if (input_->TriggerKey(DIK_SPACE)) {
@@ -20,6 +18,12 @@ void TitleScene::Update() {
 }
 
 void TitleScene::DrawBackdrop() {
+}
+
+void TitleScene::DebugWindow() {
+	ImGui::Begin("Scene");
+	ImGui::Text("Title");
+	ImGui::End();
 }
 
 void TitleScene::Draw3D() {

@@ -13,15 +13,22 @@ void Player::Init() {
 }
 
 void Player::Update() {
-	ImGui::Begin("PlayerWindow");
+	// デバッグ情報表示
+	DebugWindow();
 
-	ImGui::DragFloat3("traslate", &transform_.translation_.x, 0.1f);
-
-	ImGui::End();
-
+	// 行列更新
 	transform_.UpdateMatrix();
 }
 
 void Player::DrawModel(ViewProjection* view) {
 	model_->Draw(transform_, *view);
+}
+
+void Player::DebugWindow() {
+	ImGui::Begin("PlayerWindow");
+
+	ImGui::DragFloat3("rotation", &transform_.rotation_.x, 0.01f);
+	ImGui::DragFloat3("translate", &transform_.translation_.x, 0.01f);
+
+	ImGui::End();
 }
