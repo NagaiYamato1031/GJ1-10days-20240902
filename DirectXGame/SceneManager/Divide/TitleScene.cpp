@@ -15,6 +15,7 @@ void TitleScene::Update() {
 	if (input_->TriggerKey(DIK_SPACE)) {
 		nextScene_ = new PlayScene;
 		sceneFlag_.isTransition_ = true;
+		sceneFlag_.allEnd_ = true;
 	}
 }
 

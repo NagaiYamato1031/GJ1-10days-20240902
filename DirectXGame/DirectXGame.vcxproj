@@ -111,6 +111,7 @@
     <ClCompile Include="base\DirectXCommon.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SceneManager\Divide\EndScene.cpp" />
     <ClCompile Include="Utility\Mymath.cpp" />
     <ClCompile Include="Player\Player.cpp" />
     <ClCompile Include="SceneManager\Divide\PlayScene.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="math\Vector2.h" />
     <ClInclude Include="math\Vector3.h" />
     <ClInclude Include="math\Vector4.h" />
+    <ClInclude Include="SceneManager\Divide\EndScene.h" />
     <ClInclude Include="Utility\MyConst.h" />
     <ClInclude Include="Utility\Mymath.h" />
     <ClInclude Include="Player\Player.h" />
