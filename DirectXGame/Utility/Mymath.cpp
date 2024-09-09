@@ -1,6 +1,7 @@
 #include "Mymath.h"
 #include <cassert>
 #include <cmath>
+#include <algorithm>
 
 using namespace ACJPN;
 using namespace ACJPN::Math;
@@ -385,6 +386,83 @@ bool Math::IsCollision(const Plane& plane, const Segment& segment) {
 		return false;
 	}
 	return true;
+}
+
+bool Math::IsCollision(const Sphere& s, const Capsule& c) {
+	// 距離を出す
+	Vector3 d = s.center - c.start;
+	Vector3 ba = c.end - c.start;
+	// カプセルの長さ
+	float length = Length(ba);
+	// 正規化
+	Vector3 normal = Normalize(ba);
+	// 内積
+	float dot = Dot(d, normal);
+	float t = dot / length;
+	t = std::clamp(t, 0.0f, 1.0f);
+	// 線形補間
+	Vector3 f = (1.0f - t) * c.start + t * c.end;
+	// 最近接線
+	Vector3 closestPoint = s.center - f;
+	// 距離
+	float distance = Length(closestPoint);
+	// 半径の合計と比較
+	return distance <= s.radius + c.radius;
+}
+
+bool Math::IsCollision(const Capsule& c, const Sphere& s) {
+	return IsCollision(s, c);;
+}
+
+bool Math::IsCollision(const AABB& a, const AABB& b) {
+	return (a.min.x <= b.max.x && b.min.x <= a.max.x) &&
+		(a.min.y <= b.max.y && b.min.y <= a.max.y) &&
+		(a.min.z <= b.max.z && b.min.z <= a.max.z);
+}
+
+bool Math::IsCollision(const AABB& a, const Sphere& s) {
+	// 最近接線を求める
+	Vector3 closestPoint{
+		std::clamp(s.center.x,a.min.x,a.max.x),
+		std::clamp(s.center.y,a.min.y,a.max.y),
+		std::clamp(s.center.z,a.min.z,a.max.z),
+	};
+	// 最近接線と球の中心との距離を求める
+	float distance = Length(closestPoint - s.center);
+	// 距離が半径よりも短い
+	return distance <= s.radius;
+}
+
+bool Math::IsCollision(const Sphere& s, const AABB& a) {
+	return IsCollision(a, s);;
+}
+
+bool Math::IsCollision(const AABB& a, const Capsule& c) {
+	// 距離を出す
+	Vector3 d = (a.min + a.max) * 0.5f - c.start;
+	Vector3 ba = c.end - c.start;
+	// カプセルの長さ
+	float length = Length(ba);
+	// 正規化
+	Vector3 normal = Normalize(ba);
+	// 内積
+	float dot = Dot(d, normal);
+	float t = dot / length;
+	t = std::clamp(t, 0.0f, 1.0f);
+	// 線形補間
+	Vector3 f = (1.0f - t) * c.start + t * c.end;
+	// 最近接線
+	Vector3 closestPoint = {
+		std::clamp(f.x, a.min.x,a.max.x),
+		std::clamp(f.y, a.min.y,a.max.y),
+		std::clamp(f.z, a.min.z,a.max.z)
+	};
+	float distance = Length(closestPoint - f);
+	return distance <= c.radius;
+}
+
+bool Math::IsCollision(const Capsule& c, const AABB& a) {
+	return false;
 }
 
 
