@@ -110,6 +110,7 @@
     <ClCompile Include="2d\ImGuiManager.cpp" />
     <ClCompile Include="base\DirectXCommon.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
+    <ClCompile Include="Boss\Boss.cpp" />
     <ClCompile Include="BulletManager\BulletManager.cpp" />
     <ClCompile Include="BulletManager\Divide\SimpleBullet.cpp" />
     <ClCompile Include="FollowCamera\FollowCamera.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="base\StringUtility.h" />
     <ClInclude Include="base\TextureManager.h" />
     <ClInclude Include="base\WinApp.h" />
+    <ClInclude Include="Boss\Boss.h" />
     <ClInclude Include="BulletManager\BulletManager.h" />
     <ClInclude Include="BulletManager\Divide\BulletList.h" />
     <ClInclude Include="BulletManager\Divide\SimpleBullet.h" />
