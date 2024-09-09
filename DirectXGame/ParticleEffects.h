@@ -26,6 +26,8 @@ public: /*パブリック関数*/
 
 	void UpdateParticle();//生成したパーティクルを動かす
 
+	void DrawParticle();
+
 	// 頑張って自分で書いた奴}
 
 private: /*メンバ変数*/

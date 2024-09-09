@@ -39,3 +39,7 @@ void ParticleEffects::DrawModel(ViewProjection* view) {
 void ParticleEffects::CreateParticle() {}
 
 void ParticleEffects::UpdateParticle() {}
+
+void ParticleEffects::DrawParticle() { 
+	model_->Draw(worldTransform_, viewProjection_, textureHandle_);
+}
