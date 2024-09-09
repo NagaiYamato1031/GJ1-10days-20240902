@@ -4,7 +4,27 @@
 
 #include "PlayScene.h"
 
+#include "TextureManager.h"
+
+EndScene::EndScene() {}
+
+EndScene::~EndScene() {
+
+	delete spriteT_;
+	delete spriteP_;
+}
+
 void EndScene::Init() {
+
+	SelectFrag_T = false;
+	SelectFrag_P = false;
+
+	TMoziPos = {640, 500, 0};
+	PMoziPos = {640, 600, 0};
+
+	spriteT_ = Sprite::Create(textureHandle_T, {TMoziPos.x, TMoziPos.y});
+	spriteP_ = Sprite::Create(textureHandle_P, {PMoziPos.x, PMoziPos.y});
+
 }
 
 void EndScene::Update() {
@@ -56,4 +76,14 @@ void EndScene::Draw3D() {
 }
 
 void EndScene::DrawOverlay() {
+
+	if (SelectFrag_T == true) {
+
+		spriteT_->Draw();
+	}
+
+	if (SelectFrag_P == true) {
+
+		spriteP_->Draw();
+	}
 }

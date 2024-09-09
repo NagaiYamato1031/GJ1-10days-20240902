@@ -2,9 +2,15 @@
 
 #include "SceneManager/IScene.h"
 
+#include "DirectXCommon.h"
+#include "Sprite.h"
+
 // IScene クラスを継承した終了時のシーン
 class EndScene : public ACJPN::Scene::IScene {
 public: //** パブリック関数 **//
+
+	EndScene();
+	~EndScene();
 
 	/// <summary>
 	/// 初期化
@@ -35,8 +41,20 @@ public: //** パブリック関数 **//
 	void DebugWindow() override;
 private: //** メンバ変数 **//
 
+	DirectXCommon* dxCommon_ = nullptr;
+
 	bool SelectFrag_T = false;
 	bool SelectFrag_P = false;
+
+	Vector3 TMoziPos = {0, 0, 0};
+	Vector3 PMoziPos = {0, 0, 0};
+
+	uint32_t textureHandle_T = 0;
+	uint32_t textureHandle_P = 0;
+
+	Sprite* spriteT_ = nullptr;
+	Sprite* spriteP_ = nullptr;
+
 
 private: //** メンバ関数 **//
 };
