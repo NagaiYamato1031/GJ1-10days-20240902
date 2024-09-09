@@ -8,7 +8,6 @@ using namespace ACJPN;
 using namespace ACJPN::Math;
 
 ParticleEffects::~ParticleEffects() { 
-	particle_PlayerBullets_.clear();
 	
 }
 
@@ -39,5 +38,8 @@ void ParticleEffects::DrawParticle(const ViewProjection* viewProjection) {
 }
 
 void ParticleEffects::TestDelete() {
+	for (Particle_PlayerBullet* particle_PlayerBullet : particle_PlayerBullets_) {
+		delete particle_PlayerBullet;
+	}
 	particle_PlayerBullets_.clear();
 }
