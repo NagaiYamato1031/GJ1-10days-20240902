@@ -26,9 +26,9 @@ public: /*パブリック関数*/
 
 	void UpdateParticle();//生成したパーティクルを動かす
 
-	void DrawParticle(const ViewProjection* viewProjection);
+	void DrawParticle(const ViewProjection* viewProjection);//パーティクルを描画
 
-	void TestDelete();
+	void TestDelete();//パーティクルを全削除
 
 	// 頑張って自分で書いた奴}
 

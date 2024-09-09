@@ -9,6 +9,7 @@ using namespace ACJPN::Math;
 
 ParticleEffects::~ParticleEffects() { 
 	particle_PlayerBullets_.clear();
+	
 }
 
 void ParticleEffects::Init() { 

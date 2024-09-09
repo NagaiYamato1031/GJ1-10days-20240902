@@ -7,7 +7,7 @@ using namespace ACJPN;
 using namespace ACJPN::Math;
 
 Particle_PlayerBullet::~Particle_PlayerBullet() { 
-	delete model_;
+
 }
 
 void Particle_PlayerBullet::Init( Model *model,const Vector3& position) {
@@ -24,6 +24,7 @@ void Particle_PlayerBullet::Init( Model *model,const Vector3& position) {
 }
 
 void Particle_PlayerBullet::Update() {
+	//なんか書いてあった奴をまねて書いた奴ら
 	ImGui::Begin("ParticleWindow");
 
 	ImGui::DragFloat3("translate", &worldTransform_.translation_.x, 0.1f);
