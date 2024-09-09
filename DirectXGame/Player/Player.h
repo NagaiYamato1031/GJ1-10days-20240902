@@ -10,6 +10,7 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include <BulletManager/BulletManager.h>
 
 /// <summary>
 /// 操作するプレイヤー
@@ -27,6 +28,16 @@ private: //** サブクラス **//
 		Drop,
 
 		_Count,
+	};
+
+	/// <summary>
+	/// フラグを管理する構造体
+	/// </summary>
+	struct Flags {
+		// プレイヤーが地面についているフラグ
+		bool isGround_ = true;
+		// ジャンプしているフラグ
+		bool isJumping_ = false;
 	};
 
 public: //** コンストラクタ **//
@@ -77,6 +88,12 @@ private: //** メンバ変数 **//
 	// ワールド座標
 	WorldTransform transform_;
 
+	// フラグ
+	Flags flag_;
+
+	// 弾管理
+	BulletManager bulletManager_;
+
 	// 中心からの回転角
 	float theta_ = 0.0f;
 
@@ -88,13 +105,8 @@ private: //** メンバ変数 **//
 	// 最終的な原点からの距離
 	float latestDistance_ = 0.0f;
 
-	// プレイヤーが地面についているフラグ
-	bool isGround_ = true;
-	// ジャンプしているフラグ
-	bool isJumping_ = false;
-
 	// 経過時間
-	int elapseFrame_ = 0;
+	int elapsedFrame_ = 0;
 
 	// 横移動は完全に別原理で動かさなければいけないのでは...?
 

@@ -1,6 +1,7 @@
 #include "Player.h"
 
 #include <ImGuiManager.h>
+#include <BulletManager/Divide/BulletList.h>
 
 using namespace ACJPN;
 using namespace ACJPN::Math;
@@ -24,6 +25,9 @@ void Player::Init() {
 
 	// メンバ関数ポインタ配列を初期化
 	InitFunctionArray();
+
+	// 弾管理クラスの初期化
+	bulletManager_.Init();
 }
 
 void Player::Update() {
@@ -38,6 +42,9 @@ void Player::Update() {
 	}
 	// 行動の更新
 	(this->*updateFunc[behavior_])();
+
+	// 弾管理クラス更新
+	bulletManager_.Update();
 
 	// 距離を計算
 	latestDistance_ = kPaddingCenter_ + distance_;
@@ -54,6 +61,7 @@ void Player::Update() {
 }
 
 void Player::DrawModel(ViewProjection* view) {
+	bulletManager_.DrawModel(view);
 	model_->Draw(transform_, *view);
 }
 
@@ -77,6 +85,8 @@ void Player::DebugWindow() {
 	default:
 		break;
 	}
+
+	ImGui::Text("Bullet : %d", bulletManager_.GetList().size());
 
 	ImGui::DragFloat("theta", &theta_, 0.001f);
 	if (theta_ < -3.14f * 2){
@@ -126,7 +136,7 @@ void Player::InitNone() {
 }
 
 void Player::InitJump() {
-	elapseFrame_ = 0;
+	elapsedFrame_ = 0;
 	fineAir_ = 0.5f;
 }
 
@@ -148,9 +158,9 @@ void Player::UpdateNone() {
 	if (input_->PushKey(DIK_D)) {
 		theta_ -= kSpeed_;
 	}
-	if (isGround_ && input_->TriggerKey(DIK_SPACE)) {
-		isJumping_ = true;
-		isGround_ = false;
+	if (flag_.isGround_ && input_->TriggerKey(DIK_SPACE)) {
+		flag_.isJumping_ = true;
+		flag_.isGround_ = false;
 		reqBehavior_ = Behavior::Jump;
 	}
 }
@@ -169,9 +179,9 @@ void Player::UpdateJump() {
 	}
 	fineAir_ -= 0.01f;
 	distance_ += fineAir_;
-	elapseFrame_++;
-	if (50 <= elapseFrame_) {
-		isJumping_ = false;
+	elapsedFrame_++;
+	if (50 <= elapsedFrame_) {
+		flag_.isJumping_ = false;
 		reqBehavior_ = Behavior::Fall;
 	}
 }
@@ -192,7 +202,7 @@ void Player::UpdateFall() {
 	distance_ += fineAir_;
 	if (distance_ <= 0.0f) {
 		distance_ = 0.0f;
-		isGround_ = true;
+		flag_.isGround_ = true;
 		reqBehavior_ = Behavior::None;
 	}
 }
@@ -201,8 +211,18 @@ void Player::UpdateDrop() {
 	fineAir_ -= 0.01f;
 	distance_ += fineAir_;
 	if (distance_ <= 0.0f) {
+		// 弾を生成する
+		SimpleBullet* data = new SimpleBullet;
+		data->Init();
+		data->transform_.translation_ = transform_.translation_;
+		// 速度を向いている方向に向ける
+		data->velocity_.x = std::cosf(theta_) * -1.5f;
+		data->velocity_.y = std::sinf(theta_) * -1.5f;
+		// 登録
+		bulletManager_.Regist(data);
+
 		distance_ = 0.0f;
-		isGround_ = true;
+		flag_.isGround_ = true;
 		reqBehavior_ = Behavior::None;
 	}
 }
