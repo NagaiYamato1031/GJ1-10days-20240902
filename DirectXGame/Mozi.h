@@ -67,8 +67,10 @@ private:
 	uint32_t textureHandleJ_ = 0;
 	uint32_t textureHandleH_ = 0;
 
-
 	Sprite* spriteS_ = nullptr;
 	Sprite* spriteJ_ = nullptr;
 	Sprite* spriteH_ = nullptr;
+
+	//画像カラー
+	Vector4 MoziColor = {0, 0, 0, 0};
 };

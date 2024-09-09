@@ -35,6 +35,7 @@ public: //** パブリック関数 **//
 	/// </summary>
 	void DrawOverlay() override;
 private: //** メンバ変数 **//
+
 	//DirectXCommon* dxCommon_ = nullptr;
 
 	//uint32_t textureHandle_ = 0;
