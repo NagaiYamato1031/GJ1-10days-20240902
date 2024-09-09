@@ -49,4 +49,7 @@ private: //** プライベート変数 **//
 	// ワールド座標
 	WorldTransform transform_;
 
+	// 当たり判定
+
+
 };

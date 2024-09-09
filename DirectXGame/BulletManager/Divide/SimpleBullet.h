@@ -9,7 +9,7 @@ class SimpleBullet : public IBullet {
 public: //** コンストラクタ **//
 
 	SimpleBullet() = default;
-	~SimpleBullet() = default;
+	~SimpleBullet() override = default;
 
 public: //** パブリック関数 **//
 

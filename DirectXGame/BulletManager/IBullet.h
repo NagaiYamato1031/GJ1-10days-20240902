@@ -23,7 +23,7 @@ public: //** コンストラクタ **//
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~IBullet() = default;
+	virtual ~IBullet() = default;
 
 public: //** パブリック関数 **//
 
