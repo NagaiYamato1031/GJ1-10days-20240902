@@ -35,6 +35,8 @@ public: //** パブリック関数 **//
 	void DebugWindow() override;
 private: //** メンバ変数 **//
 
+	bool SelectFrag_T = false;
+	bool SelectFrag_P = false;
 
 private: //** メンバ関数 **//
 };
