@@ -15,25 +15,36 @@ void Player::Init() {
 	transform_.Initialize();
 	// 北側から始まる
 	transform_.translation_.y = kPaddingCenter_;
-
+	// 北側に固定
 	theta_ = 3.14f * 0.5f;
+
+	// 値を初期化
+	distance_ = 0.0f;
+	latestDistance_ = kPaddingCenter_;
+
+	// メンバ関数ポインタ配列を初期化
+	InitFunctionArray();
 }
 
 void Player::Update() {
 	// デバッグ情報表示
 	DebugWindow();
 
-	// 入力で移動する
-	if (input_->PushKey(DIK_A)) {
-		theta_ += kSpeed_;
+	// 行動の更新があった時
+	if (reqBehavior_) {
+		behavior_ = reqBehavior_.value();
+		(this->*initFunc[behavior_])();
+		reqBehavior_ = std::nullopt;
 	}
-	if (input_->PushKey(DIK_D)) {
-		theta_ -= kSpeed_;
-	}
+	// 行動の更新
+	(this->*updateFunc[behavior_])();
+
+	// 距離を計算
+	latestDistance_ = kPaddingCenter_ + distance_;
 
 	// 角度に応じて移動させる
-	transform_.translation_.x = std::cosf(theta_) * kPaddingCenter_;
-	transform_.translation_.y = std::sinf(theta_) * kPaddingCenter_;
+	transform_.translation_.x = std::cosf(theta_) * latestDistance_;
+	transform_.translation_.y = std::sinf(theta_) * latestDistance_;
 
 	// 回転を合わせて中心に経っているようにする
 	transform_.rotation_.z = theta_;
@@ -64,4 +75,108 @@ void Player::DebugWindow() {
 	ImGui::DragFloat("Padding", &kPaddingCenter_, 0.1f);
 
 	ImGui::End();
+}
+
+void Player::InitFunctionArray() {
+	// 配列の最大値を決める
+	initFunc.resize(Behavior::_Count);
+	updateFunc.resize(Behavior::_Count);
+
+	// 初期化関数
+	initFunc[Behavior::None] = &Player::InitNone;
+	initFunc[Behavior::Jump] = &Player::InitJump;
+	initFunc[Behavior::Fall] = &Player::InitFall;
+	initFunc[Behavior::Drop] = &Player::InitDrop;
+	// 更新関数
+	updateFunc[Behavior::None] = &Player::UpdateNone;
+	updateFunc[Behavior::Jump] = &Player::UpdateJump;
+	updateFunc[Behavior::Fall] = &Player::UpdateFall;
+	updateFunc[Behavior::Drop] = &Player::UpdateDrop;
+}
+
+//** 初期化 **//
+
+void Player::InitNone() {
+}
+
+void Player::InitJump() {
+	elapseFrame_ = 0;
+	fineAir_ = 0.5f;
+}
+
+void Player::InitFall() {
+	//fineAir_ = 0.0f;
+}
+
+void Player::InitDrop() {
+	fineAir_ = -1.0f;
+}
+
+//** 更新 **//
+
+void Player::UpdateNone() {
+	// 入力で移動する
+	if (input_->PushKey(DIK_A)) {
+		theta_ += kSpeed_;
+	}
+	if (input_->PushKey(DIK_D)) {
+		theta_ -= kSpeed_;
+	}
+	if (isGround_ && input_->TriggerKey(DIK_SPACE)) {
+		isJumping_ = true;
+		isGround_ = false;
+		reqBehavior_ = Behavior::Jump;
+	}
+}
+
+void Player::UpdateJump() {
+	// 入力で移動する
+	if (input_->PushKey(DIK_A)) {
+		theta_ += kSpeed_;
+	}
+	if (input_->PushKey(DIK_D)) {
+		theta_ -= kSpeed_;
+	}
+	// 追加入力で急降下
+	if (input_->TriggerKey(DIK_SPACE)) {
+		reqBehavior_ = Behavior::Drop;
+	}
+	fineAir_ -= 0.01f;
+	distance_ += fineAir_;
+	elapseFrame_++;
+	if (50 <= elapseFrame_) {
+		isJumping_ = false;
+		reqBehavior_ = Behavior::Fall;
+	}
+}
+
+void Player::UpdateFall() {
+	// 入力で移動する
+	if (input_->PushKey(DIK_A)) {
+		theta_ += kSpeed_;
+	}
+	if (input_->PushKey(DIK_D)) {
+		theta_ -= kSpeed_;
+	}
+	// 追加入力で急降下
+	if (input_->TriggerKey(DIK_SPACE)) {
+		reqBehavior_ = Behavior::Drop;
+	}
+	fineAir_ -= 0.01f;
+	distance_ += fineAir_;
+	if (distance_ <= 0.0f) {
+		distance_ = 0.0f;
+		isGround_ = true;
+		reqBehavior_ = Behavior::None;
+	}
+}
+
+void Player::UpdateDrop() {
+	fineAir_ -= 0.01f;
+	distance_ += fineAir_;
+	if (distance_ <= 0.0f) {
+		distance_ = 0.0f;
+		isGround_ = true;
+		reqBehavior_ = Behavior::None;
+	}
 }

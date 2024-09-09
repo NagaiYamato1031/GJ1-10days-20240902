@@ -37,7 +37,7 @@ void TestScene::Update() {
 		return;
 	}
 	// スペースを押すとタイトルへ
-	if (input_->TriggerKey(DIK_SPACE)) {
+	if (input_->TriggerKey(DIK_RETURN)) {
 		nextScene_ = new TitleScene;
 		sceneFlag_.isTransition_ = true;
 	}
