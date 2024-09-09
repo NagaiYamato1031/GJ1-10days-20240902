@@ -10,7 +10,7 @@ void Player::Init() {
 	input_ = Input::GetInstance();
 
 	// モデル読み込み
-	model_ = Model::CreateFromOBJ("cube");
+	model_.reset(Model::CreateFromOBJ("cube"));
 	// 初期化
 	transform_.Initialize();
 	// 北側から始まる
@@ -31,8 +31,12 @@ void Player::Update() {
 		theta_ -= kSpeed_;
 	}
 
+	// 角度に応じて移動させる
 	transform_.translation_.x = std::cosf(theta_) * kPaddingCenter_;
 	transform_.translation_.y = std::sinf(theta_) * kPaddingCenter_;
+
+	// 回転を合わせて中心に経っているようにする
+	transform_.rotation_.z = theta_;
 
 	// 行列更新
 	transform_.UpdateMatrix();

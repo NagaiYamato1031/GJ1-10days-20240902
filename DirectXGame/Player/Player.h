@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <Utility/Mymath.h>
 #include "Audio.h"
 #include "Input.h"
@@ -49,7 +50,7 @@ private: //** メンバ変数 **//
 	Input* input_ = nullptr;
 
 	// 3D モデル
-	Model* model_ = nullptr;
+	std::unique_ptr<Model> model_;
 
 	// ワールド座標
 	WorldTransform transform_;

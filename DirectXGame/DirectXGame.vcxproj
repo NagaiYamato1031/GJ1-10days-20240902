@@ -114,6 +114,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SceneManager\Divide\EndScene.cpp" />
     <ClCompile Include="SceneManager\IScene.cpp" />
+    <ClCompile Include="Stage\Stage.cpp" />
     <ClCompile Include="Utility\Mymath.cpp" />
     <ClCompile Include="Player\Player.cpp" />
     <ClCompile Include="SceneManager\Divide\PlayScene.cpp" />
@@ -154,6 +155,7 @@
     <ClInclude Include="math\Vector3.h" />
     <ClInclude Include="math\Vector4.h" />
     <ClInclude Include="SceneManager\Divide\EndScene.h" />
+    <ClInclude Include="Stage\Stage.h" />
     <ClInclude Include="Utility\MyConst.h" />
     <ClInclude Include="Utility\Mymath.h" />
     <ClInclude Include="Player\Player.h" />
