@@ -363,5 +363,4 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/DirectXGame/SceneManager/Divide/TestScene.cpp
-/DirectXGame/SceneManager/Divide/TestScene.h
+
