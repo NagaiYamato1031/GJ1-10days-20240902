@@ -60,19 +60,45 @@ void Player::DrawModel(ViewProjection* view) {
 void Player::DebugWindow() {
 	ImGui::Begin("PlayerWindow");
 
-	ImGui::DragFloat("kSpeed", &kSpeed_, 0.0001f);
+	ImGui::Text("Behavior : ");	ImGui::SameLine();
+	switch (behavior_) {
+	case Player::None:
+		ImGui::Text("None");
+		break;
+	case Player::Jump:
+		ImGui::Text("Jump");
+		break;
+	case Player::Fall:
+		ImGui::Text("Fall");
+		break;
+	case Player::Drop:
+		ImGui::Text("Drop");
+		break;
+	default:
+		break;
+	}
+
 	ImGui::DragFloat("theta", &theta_, 0.001f);
 	if (theta_ < -3.14f * 2){
 		theta_ += 3.14f * 2;
 	}else if (3.14f * 2 < theta_){
 		theta_ -= 3.14f * 2;
 	}
-	ImGui::DragFloat3("rotation", &transform_.rotation_.x, 0.01f);
-	ImGui::DragFloat3("translate", &transform_.translation_.x, 0.01f);
+	if (ImGui::TreeNode("Transform")) {
+		ImGui::DragFloat3("rotation", &transform_.rotation_.x, 0.01f);
+		ImGui::DragFloat3("translate", &transform_.translation_.x, 0.01f);
 
+		ImGui::TreePop();
+	}
 	ImGui::Separator();
 
-	ImGui::DragFloat("Padding", &kPaddingCenter_, 0.1f);
+	if (ImGui::TreeNode("ConstVariables")) {
+		ImGui::DragFloat("Padding", &kPaddingCenter_, 0.1f);
+		ImGui::DragFloat("kSpeed", &kSpeed_, 0.0001f);
+
+		ImGui::TreePop();
+	}
+	ImGui::Separator();
 
 	ImGui::End();
 }
