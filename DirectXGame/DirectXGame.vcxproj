@@ -112,6 +112,7 @@
     <ClCompile Include="base\WinApp.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ParticleEffects.cpp" />
+    <ClCompile Include="Particle_PlayerBullet.cpp" />
     <ClCompile Include="Utility\Mymath.cpp" />
     <ClCompile Include="Player\Player.cpp" />
     <ClCompile Include="SceneManager\Divide\PlayScene.cpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="math\Vector3.h" />
     <ClInclude Include="math\Vector4.h" />
     <ClInclude Include="ParticleEffects.h" />
+    <ClInclude Include="Particle_PlayerBullet.h" />
     <ClInclude Include="Utility\MyConst.h" />
     <ClInclude Include="Utility\Mymath.h" />
     <ClInclude Include="Player\Player.h" />

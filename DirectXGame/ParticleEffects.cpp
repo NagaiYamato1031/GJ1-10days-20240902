@@ -3,43 +3,40 @@
 #include <ImGuiManager.h>
 #include <TextureManager.h>
 
+
 using namespace ACJPN;
 using namespace ACJPN::Math;
 
 ParticleEffects::~ParticleEffects() { 
-	delete model_; 
+	particle_PlayerBullets_.clear();
 }
 
-void ParticleEffects::Init() {
-	//ファイル名を指定してテクスチャを読み込む
-	textureHandle_ = TextureManager::Load("white1x1.png");
-
-	//3Dモデルの生成
+void ParticleEffects::Init() { 
 	model_ = Model::Create();
-	//ワールドトランスフォームの初期化
-	worldTransform_.Initialize();
-	//ビュープロジェクションの初期化
-	viewProjection_.Initialize();
 }
 
-void ParticleEffects::Update() {
-	ImGui::Begin("ParticleWindow");
 
-	ImGui::DragFloat3("translate", &worldTransform_.translation_.x, 0.1f);
+void ParticleEffects::CreateParticle_PlayerBullet(const Vector3& position) { 
 
-	ImGui::End();
+	Particle_PlayerBullet* newParticle = new Particle_PlayerBullet();
+	newParticle->Init(model_,position);
 
-	worldTransform_.UpdateMatrix();
+	particle_PlayerBullets_.push_back(newParticle);
+
 }
 
-void ParticleEffects::DrawModel(ViewProjection* view) { 	
-	model_->Draw(worldTransform_, *view); 
+void ParticleEffects::UpdateParticle() {
+	for (Particle_PlayerBullet* particle_PlayerBullet : particle_PlayerBullets_) {
+		particle_PlayerBullet->Update();
+	}
 }
 
-void ParticleEffects::CreateParticle() {}
+void ParticleEffects::DrawParticle(const ViewProjection* viewProjection) { 
+	for (Particle_PlayerBullet* particle_PlayerBullet : particle_PlayerBullets_) {
+		particle_PlayerBullet->Draw(viewProjection);
+	}
+}
 
-void ParticleEffects::UpdateParticle() {}
-
-void ParticleEffects::DrawParticle() { 
-	model_->Draw(worldTransform_, viewProjection_, textureHandle_);
+void ParticleEffects::TestDelete() {
+	particle_PlayerBullets_.clear();
 }
