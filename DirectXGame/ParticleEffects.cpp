@@ -28,6 +28,11 @@ void ParticleEffects::CreateParticle_PlayerBullet(const Vector3& position) {
 void ParticleEffects::UpdateParticle() {
 	for (Particle_PlayerBullet* particle_PlayerBullet : particle_PlayerBullets_) {
 		particle_PlayerBullet->Update();
+
+		if (particle_PlayerBullet->IsBreak()) {
+			//delete particle_PlayerBullet;
+
+		}
 	}
 }
 

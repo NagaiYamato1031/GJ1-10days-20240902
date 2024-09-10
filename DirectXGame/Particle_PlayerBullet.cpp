@@ -14,6 +14,9 @@ void Particle_PlayerBullet::Init( Model *model,const Vector3& position) {
 	// ファイル名を指定してテクスチャを読み込む
 	textureHandle_ = TextureManager::Load("white1x1.png");
 
+	//破壊フラグ
+	isBreak = false;
+
 	// 3Dモデルの生成
 	model_ = model; // Model::Create();
 	
@@ -28,6 +31,7 @@ void Particle_PlayerBullet::Update() {
 	ImGui::Begin("ParticleWindow");
 
 	ImGui::DragFloat3("translate", &worldTransform_.translation_.x, 0.1f);
+	ImGui::Checkbox(" isBreak", &isBreak);
 
 	ImGui::End();
 
@@ -35,5 +39,14 @@ void Particle_PlayerBullet::Update() {
 }
 
 void Particle_PlayerBullet::Draw(const ViewProjection* viewProjection) {
-	model_->Draw(worldTransform_, *viewProjection, textureHandle_);
+	model_->Draw(worldTransform_, *viewProjection, textureHandle_); 
+}
+
+bool Particle_PlayerBullet::IsBreak() {
+	if (isBreak) {
+		return true;
+	}
+	else {
+		return false;
+	}
 }

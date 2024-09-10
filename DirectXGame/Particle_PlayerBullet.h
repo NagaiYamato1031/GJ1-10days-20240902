@@ -14,6 +14,8 @@ public: /*パブリック関数*/
 	void Update();                        // 更新
 	void Draw( const ViewProjection* viewProjection);//描画
 
+	bool IsBreak();//フラグ管理
+
 private: /*メンバ変数*/
 	// 入力管理
 	Input* input_ = nullptr;
@@ -26,4 +28,6 @@ private: /*メンバ変数*/
 
 
 	uint32_t textureHandle_ = 0;
+
+	bool isBreak;
 };
