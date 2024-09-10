@@ -44,7 +44,7 @@ void TestScene::Update() {
 		testDeg++;
 	}
 
-	if (input_->PushKey(DIK_6)) {
+	if (input_->PushKey(DIK_7)) {
 		particleEffects_->CreateParticle_PlayerBullet(testVec,testDeg);
 	}
 	if (input_->PushKey(DIK_1)) {
@@ -58,6 +58,9 @@ void TestScene::Update() {
 	}
 	if (input_->PushKey(DIK_4)) {
 		particleEffects_->CreateParticle_BoundBullet(testVec, testDeg);
+	}
+	if (input_->PushKey(DIK_5)) {
+		particleEffects_->CreateParticle_BBBullet(testVec, testDeg);
 	}
 
 	if (input_->TriggerKey(DIK_U)) {

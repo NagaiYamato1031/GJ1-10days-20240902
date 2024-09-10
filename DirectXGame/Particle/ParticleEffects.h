@@ -39,6 +39,7 @@ public: /*パブリック関数*/
 	void CreateParticle_ChaserBullet(const Vector3& position, const float& rotationDeg);
 	void CreateParticle_FootpaceBullet(const Vector3& position, const float& rotationDeg);
 	void CreateParticle_BoundBullet(const Vector3& position, const float& rotationDeg);
+	void CreateParticle_BBBullet(const Vector3& position, const float& rotationDeg);
 
 	void UpdateParticle();//生成したパーティクルを動かす
 
@@ -64,6 +65,7 @@ private: /*メンバ変数*/
 	BulletParticle chaserBullet_;//追跡弾
 	BulletParticle footpaceBullet_;//持続弾
 	BulletParticle boundBullet_;//バウンド弾
+	BulletParticle bbBullet_;
 
 
 	//パーティクルのリスト
@@ -72,6 +74,7 @@ private: /*メンバ変数*/
 	std::list<Particle_EnemyBullet*> particle_ChaserBullets_;//追跡弾
 	std::list<Particle_EnemyBullet*> particle_FootpaceBullets_;//持続弾
 	std::list<Particle_EnemyBullet*> particle_BoundBullets_;//バウンド弾
+	std::list<Particle_EnemyBullet*> particle_BBBullets_;//大玉
 
 
 };

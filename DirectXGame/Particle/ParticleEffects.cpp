@@ -77,6 +77,18 @@ void ParticleEffects::Init() {
 	    0.5f  //  ランダムでずらす距離
 	};
 
+	//大玉
+	bbBullet_ = {
+	    0.3f, // 速さ
+	    {1.0f, 1.0f, 1.0f}, // サイズ
+	    0.0f, // 回転角
+	    30, //  生存時間
+	    3.0f, //  生成間隔(フレーム)
+	    0.0f, //  生成間隔バッファ
+	    4, //  ランダム範囲（正方向のみ
+	    0.5f  //  ランダムでずらす距離
+	};
+
 #pragma endregion
 
 	model_ = Model::Create();
@@ -146,6 +158,18 @@ void ParticleEffects::CreateParticle_BoundBullet(const Vector3& position, const 
 		particle_BoundBullets_.push_back(newParticle);
 	}
 	boundBullet_.intervalBuff--;
+}
+
+void ParticleEffects::CreateParticle_BBBullet(const Vector3& position, const float& rotationDeg) {
+	if (bbBullet_.intervalBuff <= 0) {
+		boundBullet_.intervalBuff = bbBullet_.interval;
+
+		Particle_EnemyBullet* newParticle = new Particle_EnemyBullet();
+		newParticle->Init_BB(bbBullet_.lifeTime, model_, position, bbBullet_.scalar, bbBullet_.scale, rotationDeg, bbBullet_.randomRenge, bbBullet_.randomFar);
+
+		particle_BBBullets_.push_back(newParticle);
+	}
+	bbBullet_.intervalBuff--;
 }
 
 
@@ -221,6 +245,18 @@ void ParticleEffects::UpdateParticle() {
 			++it;
 		}
 	}
+	for (auto it = particle_BBBullets_.begin(); it != particle_BBBullets_.end();) {
+		Particle_EnemyBullet* particle_BBBullet = *it;
+		particle_BBBullet->Update_Bound();
+
+		if (particle_BBBullet->IsBreak()) {
+			delete particle_BBBullet;
+			it = particle_BBBullets_.erase(it);
+
+		} else {
+			++it;
+		}
+	}
 }
 
 void ParticleEffects::DrawParticle(const ViewProjection* viewProjection) { 
@@ -239,6 +275,9 @@ void ParticleEffects::DrawParticle(const ViewProjection* viewProjection) {
 	for (Particle_EnemyBullet* particle_BoundBullet : particle_BoundBullets_) {
 		particle_BoundBullet->Draw_Bound(viewProjection);
 	}
+	for (Particle_EnemyBullet* particle_BBBullet : particle_BBBullets_) {
+		particle_BBBullet->Draw_BB(viewProjection);
+	}
 }
 
 void ParticleEffects::TestDelete() {
@@ -246,8 +285,6 @@ void ParticleEffects::TestDelete() {
 		delete particle_PlayerBullet;
 	}
 	particle_PlayerBullets_.clear();
-
-
 	for (Particle_EnemyBullet* particle_StandardBullet : particle_StandardBullets_) {
 		delete particle_StandardBullet;
 	}
@@ -259,10 +296,13 @@ void ParticleEffects::TestDelete() {
 	for (Particle_EnemyBullet* particle_FootpaceBullet : particle_FootpaceBullets_) {
 		delete particle_FootpaceBullet;
 	}
-	particle_StandardBullets_.clear();
-
+	particle_ChaserBullets_.clear();
 	for (Particle_EnemyBullet* particle_BoundBullet : particle_BoundBullets_) {
 		delete particle_BoundBullet;
 	}
-	particle_StandardBullets_.clear();
+	particle_BoundBullets_.clear();
+	for (Particle_EnemyBullet* particle_BoundBullet : particle_BoundBullets_) {
+		delete particle_BoundBullet;
+	}
+	particle_BBBullets_.clear();
 }

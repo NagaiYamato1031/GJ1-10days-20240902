@@ -36,6 +36,12 @@ public:
 	void Draw_Bound(const ViewProjection* viewProjection);// 描画
 	
 
+	//大玉
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	void Init_BB(float time, Model* model, const Vector3& position, const float& scalar, const Vector3& scale, const float& rotate, const int& randomRange, const float& randomFar); // 初期化生成
+	void Update_BB();// 更新
+	void Draw_BB(const ViewProjection* viewProjection);// 描画
+
 
 
 	bool IsBreak(); // フラグ管理
