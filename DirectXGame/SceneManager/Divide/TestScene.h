@@ -3,7 +3,7 @@
 #include "SceneManager/IScene.h"
 
 #include <Player/Player.h>
-#include "ParticleEffects.h"
+#include <Particle/ParticleEffects.h>
 
 // IScene クラスを継承したタイトルシーン
 class TestScene : public ACJPN::Scene::IScene {
