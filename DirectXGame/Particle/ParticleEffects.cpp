@@ -83,6 +83,21 @@ void ParticleEffects::Init() {
 
 }
 
+
+
+void ParticleEffects::CreateParticle_PlayerBullet(const Vector3& position,const float& rotationDeg) { 
+
+	if (playerBullet_.intervalBuff <= 0) {
+		playerBullet_.intervalBuff = playerBullet_.interval;
+
+		Particle_PlayerBullet* newParticle = new Particle_PlayerBullet();
+		newParticle->Init(playerBullet_.lifeTime, model_, position, playerBullet_.scalar, playerBullet_.scale, rotationDeg,playerBullet_.randomRenge,playerBullet_.randomFar);
+
+		particle_PlayerBullets_.push_back(newParticle);
+	}
+	playerBullet_.intervalBuff--;
+}
+
 void ParticleEffects::CreateParticle_StandardBullet(const Vector3& position, const float& rotationDeg) {
 
 	if (standardBullet_.intervalBuff <= 0) {
@@ -96,17 +111,41 @@ void ParticleEffects::CreateParticle_StandardBullet(const Vector3& position, con
 	standardBullet_.intervalBuff--;
 }
 
-void ParticleEffects::CreateParticle_PlayerBullet(const Vector3& position,const float& rotationDeg) { 
+void ParticleEffects::CreateParticle_ChaserBullet(const Vector3& position, const float& rotationDeg) {
 
-	if (playerBullet_.intervalBuff <= 0) {
-		playerBullet_.intervalBuff = playerBullet_.interval;
+	if (chaserBullet_.intervalBuff <= 0) {
+		chaserBullet_.intervalBuff = chaserBullet_.interval;
 
-		Particle_PlayerBullet* newParticle = new Particle_PlayerBullet();
-		newParticle->Init(playerBullet_.lifeTime, model_, position, playerBullet_.scalar, playerBullet_.scale, rotationDeg,playerBullet_.randomRenge,playerBullet_.randomFar);
+		Particle_EnemyBullet* newParticle = new Particle_EnemyBullet();
+		newParticle->Init_Chaser(chaserBullet_.lifeTime, model_, position, chaserBullet_.scalar, chaserBullet_.scale, rotationDeg, chaserBullet_.randomRenge, chaserBullet_.randomFar);
 
-		particle_PlayerBullets_.push_back(newParticle);
+		particle_ChaserBullets_.push_back(newParticle);
 	}
-	playerBullet_.intervalBuff--;
+	chaserBullet_.intervalBuff--;
+}
+
+void ParticleEffects::CreateParticle_FootpaceBullet(const Vector3& position, const float& rotationDeg) {
+	if (footpaceBullet_.intervalBuff <= 0) {
+		footpaceBullet_.intervalBuff = footpaceBullet_.interval;
+
+		Particle_EnemyBullet* newParticle = new Particle_EnemyBullet();
+		newParticle->Init_Footpace(footpaceBullet_.lifeTime, model_, position, footpaceBullet_.scalar, footpaceBullet_.scale, rotationDeg, footpaceBullet_.randomRenge, footpaceBullet_.randomFar);
+
+		particle_FootpaceBullets_.push_back(newParticle);
+	}
+	footpaceBullet_.intervalBuff--;
+}
+
+void ParticleEffects::CreateParticle_BoundBullet(const Vector3& position, const float& rotationDeg) {
+	if (boundBullet_.intervalBuff <= 0) {
+		boundBullet_.intervalBuff = boundBullet_.interval;
+
+		Particle_EnemyBullet* newParticle = new Particle_EnemyBullet();
+		newParticle->Init_Bound(boundBullet_.lifeTime, model_, position, boundBullet_.scalar, boundBullet_.scale, rotationDeg, boundBullet_.randomRenge, boundBullet_.randomFar);
+
+		particle_BoundBullets_.push_back(newParticle);
+	}
+	boundBullet_.intervalBuff--;
 }
 
 
@@ -146,6 +185,42 @@ void ParticleEffects::UpdateParticle() {
 			++it;
 		}
 	}
+	for (auto it = particle_ChaserBullets_.begin(); it != particle_ChaserBullets_.end();) {
+		Particle_EnemyBullet* particle_ChaserBullet = *it;
+		particle_ChaserBullet->Update_Chaser();
+
+		if (particle_ChaserBullet->IsBreak()) {
+			delete particle_ChaserBullet;
+			it = particle_ChaserBullets_.erase(it);
+
+		} else {
+			++it;
+		}
+	}
+	for (auto it = particle_FootpaceBullets_.begin(); it != particle_FootpaceBullets_.end();) {
+		Particle_EnemyBullet* particle_FootpaceBullet = *it;
+		particle_FootpaceBullet->Update_Footpace();
+
+		if (particle_FootpaceBullet->IsBreak()) {
+			delete particle_FootpaceBullet;
+			it = particle_FootpaceBullets_.erase(it);
+
+		} else {
+			++it;
+		}
+	}
+	for (auto it = particle_BoundBullets_.begin(); it != particle_BoundBullets_.end();) {
+		Particle_EnemyBullet* particle_BoundBullet = *it;
+		particle_BoundBullet->Update_Bound();
+
+		if (particle_BoundBullet->IsBreak()) {
+			delete particle_BoundBullet;
+			it = particle_BoundBullets_.erase(it);
+
+		} else {
+			++it;
+		}
+	}
 }
 
 void ParticleEffects::DrawParticle(const ViewProjection* viewProjection) { 
@@ -155,6 +230,15 @@ void ParticleEffects::DrawParticle(const ViewProjection* viewProjection) {
 	for (Particle_EnemyBullet* particle_StandardBullet : particle_StandardBullets_) {
 		particle_StandardBullet->Draw_Standard(viewProjection);
 	}
+	for (Particle_EnemyBullet* particle_ChaserBullet : particle_ChaserBullets_) {
+		particle_ChaserBullet->Draw_Chaser(viewProjection);
+	}
+	for (Particle_EnemyBullet* particle_FootpaceBullet : particle_FootpaceBullets_) {
+		particle_FootpaceBullet->Draw_Footpace(viewProjection);
+	}
+	for (Particle_EnemyBullet* particle_BoundBullet : particle_BoundBullets_) {
+		particle_BoundBullet->Draw_Bound(viewProjection);
+	}
 }
 
 void ParticleEffects::TestDelete() {
@@ -162,4 +246,23 @@ void ParticleEffects::TestDelete() {
 		delete particle_PlayerBullet;
 	}
 	particle_PlayerBullets_.clear();
+
+
+	for (Particle_EnemyBullet* particle_StandardBullet : particle_StandardBullets_) {
+		delete particle_StandardBullet;
+	}
+	particle_StandardBullets_.clear();
+	for (Particle_EnemyBullet* particle_ChaserBullet : particle_ChaserBullets_) {
+		delete particle_ChaserBullet;
+	}
+	particle_ChaserBullets_.clear();
+	for (Particle_EnemyBullet* particle_FootpaceBullet : particle_FootpaceBullets_) {
+		delete particle_FootpaceBullet;
+	}
+	particle_StandardBullets_.clear();
+
+	for (Particle_EnemyBullet* particle_BoundBullet : particle_BoundBullets_) {
+		delete particle_BoundBullet;
+	}
+	particle_StandardBullets_.clear();
 }

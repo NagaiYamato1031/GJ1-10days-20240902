@@ -15,6 +15,7 @@ void TestScene::Init() {
 
 	particleEffects_->Init();
 	testDeg=0.0f;
+	testVec = {0, 0, 0};
 }
 
 void TestScene::Update() {
@@ -42,10 +43,23 @@ void TestScene::Update() {
 	if (input_->PushKey(DIK_Q)) {
 		testDeg++;
 	}
-	if (input_->PushKey(DIK_E)) {
-		//particleEffects_->CreateParticle_PlayerBullet(Vector3(0, 0, 0),testDeg);
-		particleEffects_->CreateParticle_StandardBullet(Vector3(0, 0, 0), testDeg);
+
+	if (input_->PushKey(DIK_6)) {
+		particleEffects_->CreateParticle_PlayerBullet(testVec,testDeg);
 	}
+	if (input_->PushKey(DIK_1)) {
+		particleEffects_->CreateParticle_StandardBullet(testVec, testDeg);
+	}
+	if (input_->PushKey(DIK_2)) {
+		particleEffects_->CreateParticle_ChaserBullet(testVec, testDeg);
+	}
+	if (input_->PushKey(DIK_3)) {
+		particleEffects_->CreateParticle_FootpaceBullet(testVec, testDeg);
+	}
+	if (input_->PushKey(DIK_4)) {
+		particleEffects_->CreateParticle_BoundBullet(testVec, testDeg);
+	}
+
 	if (input_->TriggerKey(DIK_U)) {
 		particleEffects_->TestDelete();
 	}

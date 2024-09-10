@@ -33,8 +33,12 @@ public: /*パブリック関数*/
 
 	//頑張って自分で書いた奴{
 
-	void CreateParticle_StandardBullet(const Vector3& position, const float& rotationDeg);
+
 	void CreateParticle_PlayerBullet(const Vector3& position,const float& rotationDeg);//パーティクルを生成
+	void CreateParticle_StandardBullet(const Vector3& position, const float& rotationDeg);
+	void CreateParticle_ChaserBullet(const Vector3& position, const float& rotationDeg);
+	void CreateParticle_FootpaceBullet(const Vector3& position, const float& rotationDeg);
+	void CreateParticle_BoundBullet(const Vector3& position, const float& rotationDeg);
 
 	void UpdateParticle();//生成したパーティクルを動かす
 

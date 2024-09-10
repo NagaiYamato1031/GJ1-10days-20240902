@@ -53,4 +53,5 @@ private: //** メンバ関数 **//
 	void TransitionUpdate();
 
 	float testDeg;
+	Vector3 testVec;
 };

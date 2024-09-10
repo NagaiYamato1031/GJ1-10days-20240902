@@ -64,7 +64,7 @@ void Particle_EnemyBullet::Draw_Standard(const ViewProjection* viewProjection) {
 
 void Particle_EnemyBullet::Init_Chaser(float time, Model* model, const Vector3& position, const float& scalar, const Vector3& scale, const float& rotate, const int& randomRange, const float& randomFar) {
 	// ファイル名を指定してテクスチャを読み込む
-	textureHandle_ = TextureManager::Load("Sample_Bullet.png");
+	textureHandle_ = TextureManager::Load("chaser_Bullet.png");
 
 	// 生存時間受け取り
 	time_ = time;
@@ -75,7 +75,7 @@ void Particle_EnemyBullet::Init_Chaser(float time, Model* model, const Vector3& 
 
 	float rotate_ = ToRadian(rotate);
 	// 速さ速度変換
-	velocity_ = Vector3(-scalar * sinf(rotate_), scalar * cosf(rotate_), 0);
+	velocity_ = Vector3(scalar * sinf(rotate_), -scalar * cosf(rotate_), 0);
 	Vector3 disranceVec = Vector3(distance * cosf(rotate_), distance * sinf(rotate), 0);
 
 	// 破壊フラグ初期化
@@ -118,7 +118,7 @@ void Particle_EnemyBullet::Draw_Chaser(const ViewProjection* viewProjection) {
 
 void Particle_EnemyBullet::Init_Footpace(float time, Model* model, const Vector3& position, const float& scalar, const Vector3& scale, const float& rotate, const int& randomRange, const float& randomFar) {
 	// ファイル名を指定してテクスチャを読み込む
-	textureHandle_ = TextureManager::Load("Sample_Bullet.png");
+	textureHandle_ = TextureManager::Load("footpace_Bullet.png");
 
 	// 生存時間受け取り
 	time_ = time;
@@ -129,7 +129,7 @@ void Particle_EnemyBullet::Init_Footpace(float time, Model* model, const Vector3
 
 	float rotate_ = ToRadian(rotate);
 	// 速さ速度変換
-	velocity_ = Vector3(-scalar * sinf(rotate_), scalar * cosf(rotate_), 0);
+	velocity_ = Vector3(scalar * sinf(rotate_), -scalar * cosf(rotate_), 0);
 	Vector3 disranceVec = Vector3(distance * cosf(rotate_), distance * sinf(rotate), 0);
 
 	// 破壊フラグ初期化
@@ -172,7 +172,7 @@ void Particle_EnemyBullet::Draw_Footpace(const ViewProjection* viewProjection) {
 
 void Particle_EnemyBullet::Init_Bound(float time, Model* model, const Vector3& position, const float& scalar, const Vector3& scale, const float& rotate, const int& randomRange, const float& randomFar) {
 	// ファイル名を指定してテクスチャを読み込む
-	textureHandle_ = TextureManager::Load("Sample_Bullet.png");
+	textureHandle_ = TextureManager::Load("Bound_Bullet.png");
 
 	// 生存時間受け取り
 	time_ = time;
@@ -183,7 +183,7 @@ void Particle_EnemyBullet::Init_Bound(float time, Model* model, const Vector3& p
 
 	float rotate_ = ToRadian(rotate);
 	// 速さ速度変換
-	velocity_ = Vector3(-scalar * sinf(rotate_), scalar * cosf(rotate_), 0);
+	velocity_ = Vector3(scalar * sinf(rotate_), -scalar * cosf(rotate_), 0);
 	Vector3 disranceVec = Vector3(distance * cosf(rotate_), distance * sinf(rotate), 0);
 
 	// 破壊フラグ初期化
