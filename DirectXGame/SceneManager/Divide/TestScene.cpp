@@ -34,6 +34,7 @@ void TestScene::Update() {
 	// デバッグ情報
 	DebugWindow();
 
+
 	// 遷移中はほかのことをしない
 	if (sceneFlag_.isTransition_) {
 		TransitionUpdate();

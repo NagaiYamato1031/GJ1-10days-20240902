@@ -115,6 +115,9 @@
     <ClCompile Include="BulletManager\Divide\SimpleBullet.cpp" />
     <ClCompile Include="FollowCamera\FollowCamera.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ParticleEffects.cpp" />
+    <ClCompile Include="Particle_PlayerBullet.cpp" />
+    <ClCompile Include="Utility\Mymath.cpp" />
     <ClCompile Include="SceneManager\Divide\EndScene.cpp" />
     <ClCompile Include="Stage\Stage.cpp" />
     <ClCompile Include="Utility\Mymath.cpp" />
@@ -161,6 +164,10 @@
     <ClInclude Include="math\Vector2.h" />
     <ClInclude Include="math\Vector3.h" />
     <ClInclude Include="math\Vector4.h" />
+    <ClInclude Include="ParticleEffects.h" />
+    <ClInclude Include="Particle_PlayerBullet.h" />
+    <ClInclude Include="Utility\MyConst.h" />
+    <ClInclude Include="Utility\Mymath.h" />
     <ClInclude Include="SceneManager\Divide\EndScene.h" />
     <ClInclude Include="Stage\Stage.h" />
     <ClInclude Include="Utility\MyConst.h" />
