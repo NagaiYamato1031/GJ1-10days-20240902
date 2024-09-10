@@ -72,5 +72,8 @@ private:
 	Sprite* spriteH_ = nullptr;
 
 	//画像カラー
-	Vector4 MoziColor = {0, 0, 0, 0};
+	Vector4 MoziColorS = {1.0f, 1.0f, 1.0f, 0};
+	Vector4 MoziColorJ = {1.0f, 1.0f, 1.0f, 0};
+	Vector4 MoziColorH = {1.0f, 1.0f, 1.0f, 0};
+
 };

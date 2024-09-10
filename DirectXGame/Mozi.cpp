@@ -28,7 +28,46 @@ void Mozi::Init() {
 
 }
 
-void Mozi::Update() {}
+void Mozi::Update() {
+
+	//SousaMozi
+	if (SousaMozi == true) {
+
+		MoziColorS.w += 0.005f;
+		spriteS_->SetColor(MoziColorS);
+	}
+	if (MoziColorS.w >= 1.0f) {
+
+		SousaMozi = false;
+		MoziColorS.w = 0.0f;
+	}
+
+	//JumpMozi
+	if (JumMozi == true) {
+
+		MoziColorJ.w += 0.005f;
+		spriteS_->SetColor(MoziColorJ);
+	}
+	if (MoziColorJ.w >= 1.0f) {
+
+		JumMozi = false;
+		MoziColorJ.w = 0.0f;
+	}
+
+	//HipMozi
+	if (HipMozi == true) {
+
+		MoziColorH.w += 0.005f;
+		spriteS_->SetColor(MoziColorH);
+	}
+	if (MoziColorH.w >= 1.0f) {
+
+		HipMozi = false;
+		MoziColorH.w = 0.0f;
+	}
+
+
+}
 
 void Mozi::DrawM() {
 
