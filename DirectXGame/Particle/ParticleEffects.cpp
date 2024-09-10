@@ -12,9 +12,6 @@ ParticleEffects::~ParticleEffects() {
 }
 
 void ParticleEffects::Init() { 
-
-
-
 	#pragma region 弾の構造体
 
 	//プレイヤーの弾
@@ -28,7 +25,6 @@ void ParticleEffects::Init() {
 		4,//ランダム範囲（正方向のみ
 		0.5f//ランダムでずらす距離
 	};
-
 	//通常弾
 	standardBullet_ = {
 	    0.3f, // 速さ
@@ -40,7 +36,6 @@ void ParticleEffects::Init() {
 	    4, //  ランダム範囲（正方向のみ
 	    0.5f  //  ランダムでずらす距離
 	};
-
 	//追跡弾
 	chaserBullet_ = {
 	    0.3f, // 速さ
@@ -52,7 +47,6 @@ void ParticleEffects::Init() {
 	    4, //  ランダム範囲（正方向のみ
 	    0.5f  //  ランダムでずらす距離
 	};
-
 	//持続弾
 	footpaceBullet_ = {
 	    0.3f, // 速さ
@@ -64,7 +58,6 @@ void ParticleEffects::Init() {
 	    4, //  ランダム範囲（正方向のみ
 	    0.5f  //  ランダムでずらす距離
 	};
-
 	//バウンド弾
 	boundBullet_ = {
 	    0.3f, // 速さ
@@ -76,7 +69,6 @@ void ParticleEffects::Init() {
 	    4, //  ランダム範囲（正方向のみ
 	    0.5f  //  ランダムでずらす距離
 	};
-
 	//大玉
 	bbBullet_ = {
 	    0.3f, // 速さ
@@ -109,7 +101,6 @@ void ParticleEffects::CreateParticle_PlayerBullet(const Vector3& position,const 
 	}
 	playerBullet_.intervalBuff--;
 }
-
 void ParticleEffects::CreateParticle_StandardBullet(const Vector3& position, const float& rotationDeg) {
 
 	if (standardBullet_.intervalBuff <= 0) {
@@ -122,7 +113,6 @@ void ParticleEffects::CreateParticle_StandardBullet(const Vector3& position, con
 	}
 	standardBullet_.intervalBuff--;
 }
-
 void ParticleEffects::CreateParticle_ChaserBullet(const Vector3& position, const float& rotationDeg) {
 
 	if (chaserBullet_.intervalBuff <= 0) {
@@ -135,7 +125,6 @@ void ParticleEffects::CreateParticle_ChaserBullet(const Vector3& position, const
 	}
 	chaserBullet_.intervalBuff--;
 }
-
 void ParticleEffects::CreateParticle_FootpaceBullet(const Vector3& position, const float& rotationDeg) {
 	if (footpaceBullet_.intervalBuff <= 0) {
 		footpaceBullet_.intervalBuff = footpaceBullet_.interval;
@@ -147,7 +136,6 @@ void ParticleEffects::CreateParticle_FootpaceBullet(const Vector3& position, con
 	}
 	footpaceBullet_.intervalBuff--;
 }
-
 void ParticleEffects::CreateParticle_BoundBullet(const Vector3& position, const float& rotationDeg) {
 	if (boundBullet_.intervalBuff <= 0) {
 		boundBullet_.intervalBuff = boundBullet_.interval;
@@ -159,7 +147,6 @@ void ParticleEffects::CreateParticle_BoundBullet(const Vector3& position, const 
 	}
 	boundBullet_.intervalBuff--;
 }
-
 void ParticleEffects::CreateParticle_BBBullet(const Vector3& position, const float& rotationDeg) {
 	if (bbBullet_.intervalBuff <= 0) {
 		boundBullet_.intervalBuff = bbBullet_.interval;
@@ -175,7 +162,7 @@ void ParticleEffects::CreateParticle_BBBullet(const Vector3& position, const flo
 
 void ParticleEffects::UpdateParticle() {
 
-#ifdef DEBUG
+#ifdef _DEBUG
 	ImGui::Begin("ParticleWindow");
 
 	// プレイヤー
@@ -239,7 +226,7 @@ void ParticleEffects::UpdateParticle() {
 	ImGui::DragFloat("RandomFar", &bbBullet_.randomFar, 0.1f);
 
 	ImGui::End();
-#endif // DEBUG
+#endif // _DEBUG
 
 
 	for (auto it = particle_PlayerBullets_.begin(); it != particle_PlayerBullets_.end();) {
