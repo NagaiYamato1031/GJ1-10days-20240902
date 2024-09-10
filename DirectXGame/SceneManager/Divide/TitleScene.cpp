@@ -21,9 +21,11 @@ void TitleScene::DrawBackdrop() {
 }
 
 void TitleScene::DebugWindow() {
+#ifdef _DEBUG
 	ImGui::Begin("Scene");
 	ImGui::Text("Title");
 	ImGui::End();
+#endif // _DEBUG
 }
 
 void TitleScene::Draw3D() {

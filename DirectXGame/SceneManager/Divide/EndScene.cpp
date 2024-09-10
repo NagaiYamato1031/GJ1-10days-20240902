@@ -21,9 +21,11 @@ void EndScene::DrawBackdrop() {
 }
 
 void EndScene::DebugWindow() {
+#ifdef _DEBUG
 	ImGui::Begin("Scene");
 	ImGui::Text("End");
 	ImGui::End();
+#endif // _DEBUG
 }
 
 void EndScene::Draw3D() {

@@ -66,9 +66,11 @@ void TestScene::DrawOverlay() {
 }
 
 void TestScene::DebugWindow() {
+#ifdef _DEBUG
 	ImGui::Begin("Scene");
 	ImGui::Text("Test");
 	ImGui::End();
+#endif // _DEBUG
 }
 
 void TestScene::TransitionUpdate() {

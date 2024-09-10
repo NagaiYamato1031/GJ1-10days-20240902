@@ -21,9 +21,11 @@ void PlayScene::DrawBackdrop() {
 }
 
 void PlayScene::DebugWindow() {
+#ifdef _DEBUG
 	ImGui::Begin("Scene");
 	ImGui::Text("Play");
 	ImGui::End();
+#endif // _DEBUG
 }
 
 void PlayScene::Draw3D() {

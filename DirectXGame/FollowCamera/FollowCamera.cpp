@@ -53,6 +53,7 @@ void FollowCamera::Update() {
 }
 
 void FollowCamera::DebguWindow() {
+#ifdef _DEBUG
 	ImGui::Begin("FollowCamera");
 
 	ImGui::DragFloat3("InitPosition", &kOffset.x, 0.1f);
@@ -64,4 +65,5 @@ void FollowCamera::DebguWindow() {
 	ImGui::DragFloat3("translate", &camera_->translation_.x, 0.01f);
 
 	ImGui::End();
+#endif // _DEBUG
 }
