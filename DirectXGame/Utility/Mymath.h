@@ -96,12 +96,12 @@ namespace ACJPN {
 
 #pragma region Vector3
 
-/// <summary>
-/// ベクトルの加算
-/// </summary>
-/// <param name="v1">ベクトル１</param>
-/// <param name="v2">ベクトル２</param>
-/// <returns>加算されたベクトル</returns>
+		/// <summary>
+		/// ベクトルの加算
+		/// </summary>
+		/// <param name="v1">ベクトル１</param>
+		/// <param name="v2">ベクトル２</param>
+		/// <returns>加算されたベクトル</returns>
 		Vector3 Add(const Vector3& v1, const Vector3& v2);
 
 		/// <summary>
@@ -202,12 +202,12 @@ namespace ACJPN {
 
 #pragma region Vecotor4
 
-/// <summary>
-/// ベクトルの加算
-/// </summary>
-/// <param name="v1">ベクトル１</param>
-/// <param name="v2">ベクトル２</param>
-/// <returns>加算されたベクトル</returns>
+		/// <summary>
+		/// ベクトルの加算
+		/// </summary>
+		/// <param name="v1">ベクトル１</param>
+		/// <param name="v2">ベクトル２</param>
+		/// <returns>加算されたベクトル</returns>
 		Vector4 Add(const Vector4& v1, const Vector4& v2);
 
 		/// <summary>
@@ -262,14 +262,16 @@ namespace ACJPN {
 // End Vector
 #pragma endregion
 
+#pragma region Collision
+
 #pragma region Sphere
 
-	/// <summary>
-	/// 球と球の衝突判定
-	/// </summary>
-	/// <param name="s1">球 1</param>
-	/// <param name="s2">球 2</param>
-	/// <returns>true:衝突している,false:衝突していない</returns>
+		/// <summary>
+		/// 球と球の衝突判定
+		/// </summary>
+		/// <param name="s1">球 1</param>
+		/// <param name="s2">球 2</param>
+		/// <returns>true:衝突している,false:衝突していない</returns>
 		bool IsCollision(const Sphere& s1, const Sphere& s2);
 		/// <summary>
 		/// 球と平面の衝突判定
@@ -299,24 +301,86 @@ namespace ACJPN {
 		/// <param name="line">線分</param>
 		/// <returns></returns>
 		bool IsCollision(const Plane& plane, const Segment& segment);
+		/// <summary>
+		/// 球とカプセルの衝突判定
+		/// </summary>
+		/// <param name="s">球</param>
+		/// <param name="c">カプセル</param>
+		/// <returns></returns>
+		bool IsCollision(const Sphere& s, const Capsule& c);
+		/// <summary>
+		/// 球とカプセルの衝突判定
+		/// <param>※オーバーロード</param>
+		/// </summary>
+		/// <param name="c">カプセル</param>
+		/// <param name="s">球</param>
+		/// <returns></returns>
+		bool IsCollision(const Capsule& c, const Sphere& s);
 
+		// End Sphere
 #pragma endregion
+
+#pragma region AABB
+
+		/// <summary>
+		/// AABB と AABB の衝突判定
+		/// </summary>
+		/// <param name="a">AABB1</param>
+		/// <param name="b">AABB2</param>
+		/// <returns></returns>
+		bool IsCollision(const AABB& a, const AABB& b);
+		/// <summary>
+		/// AABB と球の衝突判定
+		/// </summary>
+		/// <param name="a">AABB</param>
+		/// <param name="s">球</param>
+		/// <returns></returns>
+		bool IsCollision(const AABB& a, const Sphere& s);
+		/// <summary>
+		/// AABB と球の衝突判定
+		/// <param>※オーバーロード</param>
+		/// </summary>
+		/// <param name="s">球</param>
+		/// <param name="a">AABB</param>
+		/// <returns></returns>
+		bool IsCollision(const Sphere& s, const AABB& a);
+		/// <summary>
+		/// AABB とカプセルの衝突判定
+		/// </summary>
+		/// <param name="a">AABB</param>
+		/// <param name="c">カプセル</param>
+		/// <returns></returns>
+		bool IsCollision(const AABB& a, const Capsule& c);
+		/// <summary>
+		/// AABB とカプセルの衝突判定
+		/// <param>※オーバーロード</param>
+		/// </summary>
+		/// <param name="c">カプセル</param>
+		/// <param name="a">AABB</param>
+		/// <returns></returns>
+		bool IsCollision(const Capsule& c, const AABB& a);
+		// End AABB
+#pragma endregion
+
+// End Collision
+#pragma endregion
+
 
 #pragma region Matrix
 
 #pragma region Matrix3x3
 
-		// End Matrix3x3
+// End Matrix3x3
 #pragma endregion
 
 #pragma region Matrix4x4
 
-/// <summary>
-/// 行列の加算
-/// </summary>
-/// <param name="m1">行列１</param>
-/// <param name="m2">行列２</param>
-/// <returns>加算された行列</returns>
+		/// <summary>
+		/// 行列の加算
+		/// </summary>
+		/// <param name="m1">行列１</param>
+		/// <param name="m2">行列２</param>
+		/// <returns>加算された行列</returns>
 		Matrix4x4 Add(const Matrix4x4& m1, const Matrix4x4& m2);
 
 		/// <summary>

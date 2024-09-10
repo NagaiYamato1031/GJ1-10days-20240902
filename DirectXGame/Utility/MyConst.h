@@ -47,10 +47,29 @@ namespace ACJPN {
 			Vector3 diff;	// 終点への差分ベクトル
 		};
 
+		/// <summary>
+		/// 平面
+		/// </summary>
 		struct Plane {
 			Vector3 normal;	// 法線
 			float distance;	// 距離
 		};
 
+		/// <summary>
+		/// AABB
+		/// </summary>
+		struct AABB {
+			Vector3 min;	// 最小点
+			Vector3 max;	// 最大点
+		};
+
+		/// <summary>
+		/// カプセル
+		/// </summary>
+		struct Capsule {
+			Vector3 start;	// 始点
+			Vector3 end;	// 終点
+			float radius;	// 半径
+		};
 	}
 }

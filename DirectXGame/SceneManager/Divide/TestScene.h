@@ -5,6 +5,7 @@
 #include <FollowCamera/FollowCamera.h>
 #include <Player/Player.h>
 #include <Stage/Stage.h>
+#include <Boss/Boss.h>
 
 // IScene クラスを継承したタイトルシーン
 class TestScene : public ACJPN::Scene::IScene {
@@ -48,6 +49,8 @@ private: //** メンバ変数 **//
 	Player player_;
 	// ステージ
 	Stage stage_;
+	// ボス
+	Boss boss_;
 
 	// 原点のわかるオブジェクト
 	std::unique_ptr<Model> origin_;

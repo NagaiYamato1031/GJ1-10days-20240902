@@ -14,6 +14,9 @@ void TestScene::Init() {
 	// ステージ初期化
 	stage_.Init();
 
+	// ボス初期化
+	boss_.Init();
+
 	// ターゲットに設定
 	camera_.SetTarget(player_.GetTransform());
 
@@ -45,6 +48,9 @@ void TestScene::Update() {
 	// プレイヤー更新
 	player_.Update();
 
+	// ボス初期化
+	boss_.Update();
+
 	// ステージ更新
 	stage_.Update();
 
@@ -56,10 +62,12 @@ void TestScene::DrawBackdrop() {
 }
 
 void TestScene::Draw3D() {
-	stage_.DrawModel(camera_.GetView());
-	player_.DrawModel(camera_.GetView());
 	origin_->Draw(originTransform_, *camera_.GetView());
 	east_->Draw(eastTransform_, *camera_.GetView());
+
+	stage_.DrawModel(camera_.GetView());
+	player_.DrawModel(camera_.GetView());
+	boss_.DrawModel(camera_.GetView());
 }
 
 void TestScene::DrawOverlay() {
