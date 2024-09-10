@@ -8,9 +8,7 @@
 using namespace ACJPN;
 using namespace ACJPN::Math;
 
-Particle_PlayerBullet::~Particle_PlayerBullet() { 
 
-}
 
 void Particle_PlayerBullet::Init( float time,Model *model,const Vector3& position,const float& scalar,const Vector3& scale,const float& rotate,const int& randomRange,const float& randomFar) {
 	// ファイル名を指定してテクスチャを読み込む

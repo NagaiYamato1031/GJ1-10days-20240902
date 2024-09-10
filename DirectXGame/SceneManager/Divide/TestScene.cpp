@@ -43,7 +43,8 @@ void TestScene::Update() {
 		testDeg++;
 	}
 	if (input_->PushKey(DIK_E)) {
-		particleEffects_->CreateParticle_PlayerBullet(Vector3(0, 0, 0),testDeg);
+		//particleEffects_->CreateParticle_PlayerBullet(Vector3(0, 0, 0),testDeg);
+		particleEffects_->CreateParticle_StandardBullet(Vector3(0, 0, 0), testDeg);
 	}
 	if (input_->TriggerKey(DIK_U)) {
 		particleEffects_->TestDelete();

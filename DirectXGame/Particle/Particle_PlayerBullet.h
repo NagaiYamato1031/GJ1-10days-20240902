@@ -1,17 +1,16 @@
 #pragma once
 #include <Utility/Mymath.h>
-#include <Input.h>
 #include <Model.h>
 #include <WorldTransform.h>
 class Particle_PlayerBullet {
 public: /*コンストラクタ*/
 	Particle_PlayerBullet() = default;
-	~Particle_PlayerBullet();
+	~Particle_PlayerBullet()=default;
 
 public: /*パブリック関数*/
 
 	void Init(float time, Model* model, const Vector3& position, const float& velocity, const Vector3& scale, const float& rotate, const int& randomRange, const float& randomFar); // 初期化
-	void Update();                        // 更新
+	void Update();// 更新
 	void Draw( const ViewProjection* viewProjection);//描画
 
 	bool IsBreak();//フラグ管理
@@ -20,8 +19,6 @@ public: /*パブリック関数*/
 
 
 private: /*メンバ変数*/
-	// 入力管理
-	Input* input_ = nullptr;
 
 	// 3Dモデル
 	Model* model_ = nullptr;
