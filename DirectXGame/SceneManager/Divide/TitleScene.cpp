@@ -10,7 +10,7 @@ void TitleScene::Update() {
 	DebugWindow();
 
 	// スペースを押すとプレイシーンへ
-	if (input_->TriggerKey(DIK_SPACE)) {
+	if (input_->TriggerKey(DIK_RETURN)) {
 		nextScene_ = new PlayScene;
 		sceneFlag_.isTransition_ = true;
 		sceneFlag_.allEnd_ = true;
@@ -20,16 +20,16 @@ void TitleScene::Update() {
 void TitleScene::DrawBackdrop() {
 }
 
+void TitleScene::Draw3D() {
+}
+
+void TitleScene::DrawOverlay() {
+}
+
 void TitleScene::DebugWindow() {
 #ifdef _DEBUG
 	ImGui::Begin("Scene");
 	ImGui::Text("Title");
 	ImGui::End();
 #endif // _DEBUG
-}
-
-void TitleScene::Draw3D() {
-}
-
-void TitleScene::DrawOverlay() {
 }

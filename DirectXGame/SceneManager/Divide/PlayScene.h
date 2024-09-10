@@ -2,6 +2,10 @@
 
 #include "SceneManager/IScene.h"
 
+#include <FollowCamera/FollowCamera.h>
+#include <Player/Player.h>
+#include <Stage/Stage.h>
+
 // IScene クラスを継承したゲームプレイシーン
 class PlayScene : public ACJPN::Scene::IScene {
 public: //** パブリック関数 **//
@@ -35,6 +39,20 @@ public: //** パブリック関数 **//
 	void DebugWindow() override;
 private: //** メンバ変数 **//
 
+	// カメラ
+	FollowCamera camera_;
+	// プレイヤー
+	Player player_;
+	// ステージ
+	Stage stage_;
+
+	// 原点のわかるオブジェクト
+	std::unique_ptr<Model> origin_;
+	WorldTransform originTransform_;
+
+	// 原点から東にあるオブジェクト
+	std::unique_ptr<Model> east_;
+	WorldTransform eastTransform_;
 
 private: //** メンバ関数 **//
 };
