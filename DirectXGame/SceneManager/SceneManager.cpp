@@ -17,7 +17,13 @@ void ACJPN::Scene::SceneManager::Init() {
 	dxCommon_ = DirectXCommon::GetInstance();
 
 	// 最初のシーンを設定し初期化
+#ifdef _DEBUG
 	currentScene_ = new TestScene;
+#endif // _DEBUG
+#ifndef _DEBUG
+	currentScene_ = new TitleScene;
+#endif // !_DEBUG
+
 	currentScene_->Init();
 	
 	// null にしておく

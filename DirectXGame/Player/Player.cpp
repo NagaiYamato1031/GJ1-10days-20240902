@@ -66,6 +66,7 @@ void Player::DrawModel(ViewProjection* view) {
 }
 
 void Player::DebugWindow() {
+#ifdef _DEBUG
 	ImGui::Begin("PlayerWindow");
 
 	ImGui::Text("Behavior : ");	ImGui::SameLine();
@@ -111,6 +112,7 @@ void Player::DebugWindow() {
 	ImGui::Separator();
 
 	ImGui::End();
+#endif // _DEBUG
 }
 
 void Player::InitFunctionArray() {

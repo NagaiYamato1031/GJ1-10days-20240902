@@ -66,11 +66,6 @@ void EndScene::Update() {
 void EndScene::DrawBackdrop() {
 }
 
-void EndScene::DebugWindow() {
-	ImGui::Begin("Scene");
-	ImGui::Text("End");
-	ImGui::End();
-}
 
 void EndScene::Draw3D() {
 }
@@ -86,4 +81,12 @@ void EndScene::DrawOverlay() {
 
 		spriteP_->Draw();
 	}
+}
+
+void EndScene::DebugWindow() {
+#ifdef _DEBUG
+	ImGui::Begin("Scene");
+	ImGui::Text("End");
+	ImGui::End();
+#endif // _DEBUG
 }
