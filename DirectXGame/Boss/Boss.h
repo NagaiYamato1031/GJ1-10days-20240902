@@ -1,23 +1,23 @@
 #pragma once
 
 #include <memory>
-
-#include "SceneManager/IScene.h"
-
-#include <Utility/Mymath.h>
 #include "Audio.h"
 #include "Input.h"
 #include "Model.h"
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include <Utility/Mymath.h>
 #include <BulletManager/BulletManager.h>
+
+// 前方宣言
+class Player;
 
 /// <summary>
 /// ボス
 /// 後で仮想化するかもしれない
 /// </summary>
-class Boss : public ACJPN::Scene::IScene {
+class Boss {
 public: //** コンストラクタ **//
 
 	/// <summary>
@@ -46,6 +46,13 @@ public: //** パブリック関数 **//
 	/// </summary>
 	void DrawModel(ViewProjection* view);
 
+	/// <summary>
+	/// フラグ取得
+	/// </summary>
+	bool IsDead() const { return isDead_; }
+
+	void SetPlayer(Player* p) { player_ = p; }
+
 private: //** プライベート変数 **//
 
 	// 3D モデル
@@ -56,6 +63,9 @@ private: //** プライベート変数 **//
 
 	// 弾管理
 	BulletManager bulletManager_;
+
+	// プレイヤーを参照する
+	Player* player_ = nullptr;
 
 	//エネミー体力
 	int EnemyHP_ = 40;
@@ -69,7 +79,7 @@ private: //** プライベート変数 **//
 	float theta_ = 0.0f;
 
 	//エネミー死亡判定
-	bool EnemyIsDead = false;
+	bool isDead_ = false;
 
 	//フェーズ一覧
 	enum Phase {
@@ -99,8 +109,4 @@ private:
 	void Phase_03(); //第三段階
 
 	void Phase_04(); //最終段階
-
-	//シーン遷移
-	void SceneLoad(); //EndSceneに移行する関数
-
 };

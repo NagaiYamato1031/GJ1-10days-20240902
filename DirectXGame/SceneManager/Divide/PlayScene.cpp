@@ -15,6 +15,8 @@ void PlayScene::Init() {
 	// ボス
 	boss_.Init();
 
+	boss_.SetPlayer(&player_);
+
 	// ターゲットに設定
 	camera_.SetTarget(player_.GetTransform());
 

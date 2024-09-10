@@ -74,7 +74,7 @@ public: // パブリック関数 **//
 
 private: //** メンバ変数 **//
 	// 一度に変更する角度
-	float kSpeed_ = 0.02f;
+	float kSpeed_ = 0.01f;
 
 	// 中心からの距離
 	float kPaddingCenter_ = 50.0f;

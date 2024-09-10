@@ -1,7 +1,6 @@
 #include "Boss.h"
 #include <BulletManager/Divide/BulletList.h>
-
-#include <SceneManager/Divide/EndScene.h>
+#include <Player/Player.h>
 
 using namespace ACJPN;
 using namespace ACJPN::Math;
@@ -16,7 +15,7 @@ void Boss::Init() {
 
 	//ＨＰ・フラグ・フェーズ初期化
 	EnemyHP_ = 40;
-	EnemyIsDead = false;
+	isDead_ = false;
 	phase_ = p1;
 }
 
@@ -136,7 +135,7 @@ void Boss::Phase_04() {
 	if (EnemyHP_ >= 0 && EnemyHP_ <= 9) {
 		
 		//フラグをTrueにする
-		EnemyIsDead = true;
+		isDead_ = true;
 	}
 }
 
@@ -147,9 +146,12 @@ void Boss::EnemyAttack_1() {
 	SimpleBullet* data = new SimpleBullet;
 	data->Init();
 	data->transform_.translation_ = transform_.translation_;
+	// 座標
+	Vector3 pos = player_->GetTransform()->translation_;
+	Vector3 norm = Normalize(pos);
 	// 弾とプレイヤーの距離を計算する
-	data->velocity_.x = std::cosf(theta_) * -1.5f;
-	data->velocity_.y = std::sinf(theta_) * -1.5f;
+	data->velocity_.x = norm.x * 1.0f;
+	data->velocity_.y = norm.y * 1.0f;
 	// 登録
 	bulletManager_.Regist(data);
 }
@@ -179,19 +181,3 @@ void Boss::EnemyAttack_3() {
 	// 登録
 	bulletManager_.Regist(data);
 }
-
-void Boss::SceneLoad() {
-
-	//EnemyIsDeadがtrueの時に
-	if (EnemyIsDead == true) {
-
-		nextScene_ = new EndScene;
-		sceneFlag_.isTransition_ = true;
-		sceneFlag_.allEnd_ = true;
-
-		EnemyIsDead = false;
-	}
-}
-
-
-
