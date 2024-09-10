@@ -154,6 +154,9 @@
     <ClInclude Include="BulletManager\BulletManager.h" />
     <ClInclude Include="BulletManager\Divide\BulletList.h" />
     <ClInclude Include="BulletManager\Divide\SimpleBullet.h" />
+    <ClInclude Include="Collider\CollisionManager.h" />
+    <ClInclude Include="Collider\MaskCollision.h" />
+    <ClInclude Include="Collider\ICollider.h" />
     <ClInclude Include="FollowCamera\FollowCamera.h" />
     <ClInclude Include="BulletManager\IBullet.h" />
     <ClInclude Include="input\Input.h" />
