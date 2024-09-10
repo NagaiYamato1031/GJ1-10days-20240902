@@ -1,6 +1,8 @@
 #include "Boss.h"
 #include <BulletManager/Divide/BulletList.h>
 
+#include <SceneManager/Divide/EndScene.h>
+
 using namespace ACJPN;
 using namespace ACJPN::Math;
 
@@ -58,6 +60,8 @@ void Boss::Phase_01() {
 	if (AttackFrame01 <= 0) {
 
 		EnemyAttack_1();
+
+		//フレーム初期化
 		AttackFrame01 = 180;
 	}
 
@@ -82,7 +86,7 @@ void Boss::Phase_02() {
 	else if (AttackFrame02 <= 0) {
 
 		EnemyAttack_2();
-		AttackFrame02 = 60;
+		AttackFrame02 = 180;
 	}
 
 	//フェーズ３へ移行
@@ -176,17 +180,16 @@ void Boss::EnemyAttack_3() {
 	bulletManager_.Regist(data);
 }
 
-
 void Boss::SceneLoad() {
 
 	//EnemyIsDeadがtrueの時に
 	if (EnemyIsDead == true) {
 
-		/*nextScene_ = ;
+		nextScene_ = new EndScene;
 		sceneFlag_.isTransition_ = true;
 		sceneFlag_.allEnd_ = true;
 
-		EnemyIsDead = false;*/
+		EnemyIsDead = false;
 	}
 }
 

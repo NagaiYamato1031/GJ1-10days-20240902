@@ -62,9 +62,8 @@ private: //** プライベート変数 **//
 
 	//エネミー攻撃遷移フレーム
 	int AttackFrame01 = 180;
-	int AttackFrame02 = 60;
-	int AttackFrame03 = 180;
-
+	int AttackFrame02 = 180;
+	int AttackFrame03 = 360;
 
 	// 中心からの回転角
 	float theta_ = 0.0f;
