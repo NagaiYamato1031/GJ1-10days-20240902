@@ -18,10 +18,12 @@ void Particle_PlayerBullet::Init( float time,Model *model,const Vector3& positio
 	//生存時間受け取り
 	time_ = time;
 
+	float rotate_ = ToRadian(rotate);
+	
 	//速さ速度変換
 	velocity_ = Vector3{
-		scalar * sinf(rotate), 
-		scalar * cosf(rotate),
+		scalar * sinf(rotate_), 
+		scalar * cosf(rotate_),
 		0
 	};
 
@@ -35,7 +37,7 @@ void Particle_PlayerBullet::Init( float time,Model *model,const Vector3& positio
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = position;
 	worldTransform_.scale_ = scale;
-	worldTransform_.rotation_ = Vector3(0, 0, rotate);
+	worldTransform_.rotation_ = Vector3(0, 0, rotate_);
 }
 
 void Particle_PlayerBullet::Update() {
@@ -72,4 +74,8 @@ bool Particle_PlayerBullet::IsBreak() {
 	else {
 		return false;
 	}
+}
+
+float Particle_PlayerBullet::ToRadian(float angle) {
+	return angle *  3.14159265359f/ 180.0f; 
 }

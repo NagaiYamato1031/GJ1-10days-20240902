@@ -15,6 +15,9 @@ public: /*パブリック関数*/
 	void Draw( const ViewProjection* viewProjection);//描画
 
 	bool IsBreak();//フラグ管理
+	
+	float ToRadian(float angle);
+
 
 private: /*メンバ変数*/
 	// 入力管理

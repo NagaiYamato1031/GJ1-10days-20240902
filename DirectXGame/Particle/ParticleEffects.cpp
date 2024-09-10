@@ -15,7 +15,7 @@ void ParticleEffects::Init() {
 	time_ = 60;
 	scalar_PlayerBullet_ = 1.0f;
 	scale_PlayerBullet_ = Vector3(0.5f, 0.5f, 0.5f);
-	rotate_PlayerBullet_ = 1;
+	rotate_PlayerBullet_ = 90.0f;
 	model_ = Model::Create();
 }
 
