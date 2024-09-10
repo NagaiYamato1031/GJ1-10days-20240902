@@ -32,4 +32,7 @@ inline void CollisionManager::RegistCollider(int mask, std::shared_ptr<ShapeColl
 }
 
 void CollisionManager::CheckCollision() {
+	// 完全に手動でマスク処理を分ける
+
+
 }
