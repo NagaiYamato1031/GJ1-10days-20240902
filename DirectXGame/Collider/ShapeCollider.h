@@ -76,10 +76,8 @@ namespace ACJPN::Collider {
 		/// 対応した形状までのポインタを返す
 		/// </summary>
 		/// <typeparam name="U">?</typeparam>
-		/// <param name="c">取得するコライダー</param>
 		/// <returns>形状までのポインタ</returns>
-		template<class U>
-		U* GetShape(ShapeCollider* c);
+		T* GetShape();
 
 		/// <summary>
 		/// 衝突関数
@@ -115,13 +113,22 @@ namespace ACJPN::Collider {
 	}
 
 	template<typename T>
-	template<class U>
-	U* ShapeCollider<T>::GetShape(ShapeCollider* c) {
-		return *std::get_if<U*>(&c->data);
+	T* ShapeCollider<T>::GetShape() {
+		return *std::get_if<T*>(&data);
 	}
 
 	template<typename T>
 	void ShapeCollider<T>::CheckCollision(ShapeColliderBase* c) {
+		if (auto sphere = dynamic_cast<ShapeCollider<Math::Sphere>*>(c)) {
+			if (Math::IsCollision(*GetShape(), *sphere->GetShape())) {
+				stayLambda(sphere->mask);
+			}
+		}
+		else if (auto aabb = dynamic_cast<ShapeCollider<Math::AABB>*>(c)) {
+			if (Math::IsCollision(*GetShape(), *aabb->GetShape())) {
+				stayLambda(aabb->mask);
+			}
+		}
 		/*if (Math::IsCollision(*GetShape<T>(this), *GetShape<T>(c))) {
 			stayLambda(c->mask);
 		}*/

@@ -40,7 +40,7 @@ void TestScene::Init() {
 	sphere_.center = { 0.0f,0.0f,0.0f };
 	sphere_.radius = 1.0f;
 	colSphere = std::make_shared<ShapeCollider<Sphere>>(&sphere_);
-	Sphere* ptrSphere = colSphere->GetShape<Sphere>(colSphere.get());
+	Sphere* ptrSphere = colSphere->GetShape();
 	if (ptrSphere) {
 
 	}
