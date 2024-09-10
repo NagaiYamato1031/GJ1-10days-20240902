@@ -51,4 +51,6 @@ private: //** メンバ関数 **//
 	/// 遷移中の更新
 	/// </summary>
 	void TransitionUpdate();
+
+	float testDeg;
 };

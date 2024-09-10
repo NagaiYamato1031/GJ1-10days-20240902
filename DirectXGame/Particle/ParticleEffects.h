@@ -3,7 +3,6 @@
 #include <Input.h>
 #include <Model.h>
 #include <Sprite.h>
-//#include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "Particle_PlayerBullet.h"
 #include "list"
@@ -15,17 +14,11 @@ public: /*コンストラクタ*/
 
 public: /*パブリック関数*/
 
-	//Player.hに書いてあったことをとりあえずそのまま書いた奴{
-	void Init();
-	//初期化
-	//time：生存時間(フレーム計算)
-
-	// Player.hに書いてあったことをとりあえずそのまま書いた奴}
-
+	void Init();//初期化
 
 	//頑張って自分で書いた奴{
 
-	void CreateParticle_PlayerBullet(const Vector3& position);//パーティクルを生成
+	void CreateParticle_PlayerBullet(const Vector3& position,const float& rotationDeg);//パーティクルを生成
 
 	void UpdateParticle();//生成したパーティクルを動かす
 
@@ -57,6 +50,12 @@ private: /*メンバ変数*/
 	//生成間隔
 	float interval_PlayerBullet_;
 	float intervalBuff_PlayerBullet_;
+
+	//生成ランダム範囲（正方向のみのサイズ
+	int randomRenge_PlayerBullet_;
+
+	//ランダムでずらす距離
+	float randomFar_PlayerBullet_;
 
 	//パーティクルのリスト
 	std::list<Particle_PlayerBullet*> particle_PlayerBullets_;

@@ -14,6 +14,7 @@ void TestScene::Init() {
 	particleEffects_=std::make_unique<ParticleEffects>();
 
 	particleEffects_->Init();
+	testDeg=0.0f;
 }
 
 void TestScene::Update() {
@@ -38,9 +39,11 @@ void TestScene::Update() {
 	player_->Update();
 
 	camera_->UpdateMatrix();
-
+	if (input_->PushKey(DIK_Q)) {
+		testDeg++;
+	}
 	if (input_->PushKey(DIK_E)) {
-		particleEffects_->CreateParticle_PlayerBullet(Vector3(0, 0, 0));
+		particleEffects_->CreateParticle_PlayerBullet(Vector3(0, 0, 0),testDeg);
 	}
 	if (input_->TriggerKey(DIK_U)) {
 		particleEffects_->TestDelete();

@@ -12,24 +12,27 @@ ParticleEffects::~ParticleEffects() {
 }
 
 void ParticleEffects::Init() { 
-	lifeTime_PlayerBullet_ = 10;//生存時間
-	scalar_PlayerBullet_ = 1.0f;//速さ
-	scale_PlayerBullet_ = Vector3(0.5f, 0.5f, 0.5f);//サイズ
+	lifeTime_PlayerBullet_ = 30;//生存時間
+	scalar_PlayerBullet_ = 0.3f;//速さ
+	scale_PlayerBullet_ = Vector3(1.0f, 1.0f, 1.0f);//サイズ
 	rotate_PlayerBullet_ = 0.0f;//回転角
 	interval_PlayerBullet_ = 3.0f;//生成間隔
 	intervalBuff_PlayerBullet_ = 0;
+	randomRenge_PlayerBullet_ = 4;//ランダム範囲（正方向のみのサイズ
+	randomFar_PlayerBullet_ = 0.5f;//ランダムでずらす距離
 
 	model_ = Model::Create();
+
 }
 
 
-void ParticleEffects::CreateParticle_PlayerBullet(const Vector3& position) { 
+void ParticleEffects::CreateParticle_PlayerBullet(const Vector3& position,const float& rotationDeg) { 
 
 	if (intervalBuff_PlayerBullet_ <= 0) {
 		intervalBuff_PlayerBullet_ = interval_PlayerBullet_;
 
 		Particle_PlayerBullet* newParticle = new Particle_PlayerBullet();
-		newParticle->Init(lifeTime_PlayerBullet_, model_, position, scalar_PlayerBullet_, scale_PlayerBullet_, rotate_PlayerBullet_);
+		newParticle->Init(lifeTime_PlayerBullet_, model_, position, scalar_PlayerBullet_, scale_PlayerBullet_, rotationDeg,randomRenge_PlayerBullet_,randomFar_PlayerBullet_);
 
 		particle_PlayerBullets_.push_back(newParticle);
 	}
@@ -44,6 +47,8 @@ void ParticleEffects::UpdateParticle() {
 	ImGui::DragFloat3("Scale", &scale_PlayerBullet_.x, 0.1f);
 	ImGui::DragFloat("Intervall", &interval_PlayerBullet_, 0.1f);
 	ImGui::DragFloat("LifeTime", &lifeTime_PlayerBullet_, 0.1f);
+	ImGui::DragInt("RandomRenge", &randomRenge_PlayerBullet_, 0.1f);
+	ImGui::DragFloat("RandomFar", &randomFar_PlayerBullet_, 0.1f);
 	ImGui::End();
 
 	for (auto it = particle_PlayerBullets_.begin(); it != particle_PlayerBullets_.end();) {
