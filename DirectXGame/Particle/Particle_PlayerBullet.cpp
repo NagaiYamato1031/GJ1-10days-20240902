@@ -18,8 +18,11 @@ void Particle_PlayerBullet::Init( float time,Model *model,const Vector3& positio
 	time_ = time;
 
 	//ランダム生成
-	int rand_ = (rand() % (randomRange * 2)) - randomRange;
-	float distance = rand_ * randomFar;
+	float distance = 0;
+	if (randomRange != 0) {
+		int rand_ = (rand() % (randomRange * 2)) - randomRange;
+		distance = rand_ * randomFar;
+	}
 
 	float rotate_ = ToRadian(rotate);	
 	//速さ速度変換

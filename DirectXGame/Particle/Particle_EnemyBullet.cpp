@@ -17,8 +17,11 @@ void Particle_EnemyBullet::Init_Standard(float time, Model* model, const Vector3
 	time_ = time;
 
 	// ランダム生成
-	int rand_ = (rand() % (randomRange * 2)) - randomRange;
-	float distance = rand_ * randomFar;
+	float distance = 0;
+	if (randomRange != 0) {
+		int rand_ = (rand() % (randomRange * 2)) - randomRange;
+		distance = rand_ * randomFar;
+	}
 
 	float rotate_ = ToRadian(rotate);
 	// 速さ速度変換
@@ -63,8 +66,11 @@ void Particle_EnemyBullet::Init_Chaser(float time, Model* model, const Vector3& 
 	time_ = time;
 
 	// ランダム生成
-	int rand_ = (rand() % (randomRange * 2)) - randomRange;
-	float distance = rand_ * randomFar;
+	float distance = 0;
+	if (randomRange != 0) {
+		int rand_ = (rand() % (randomRange * 2)) - randomRange;
+		distance = rand_ * randomFar;
+	}
 
 	float rotate_ = ToRadian(rotate);
 	// 速さ速度変換
@@ -109,8 +115,11 @@ void Particle_EnemyBullet::Init_Footpace(float time, Model* model, const Vector3
 	time_ = time;
 
 	// ランダム生成
-	int rand_ = (rand() % (randomRange * 2)) - randomRange;
-	float distance = rand_ * randomFar;
+	float distance = 0;
+	if (randomRange != 0) {
+		int rand_ = (rand() % (randomRange * 2)) - randomRange;
+		distance = rand_ * randomFar;
+	}
 
 	float rotate_ = ToRadian(rotate);
 	// 速さ速度変換
@@ -155,8 +164,11 @@ void Particle_EnemyBullet::Init_Bound(float time, Model* model, const Vector3& p
 	time_ = time;
 
 	// ランダム生成
-	int rand_ = (rand() % (randomRange * 2)) - randomRange;
-	float distance = rand_ * randomFar;
+	float distance = 0;
+	if (randomRange != 0) {
+		int rand_ = (rand() % (randomRange * 2)) - randomRange;
+		distance = rand_ * randomFar;
+	}
 
 	float rotate_ = ToRadian(rotate);
 	// 速さ速度変換
@@ -201,8 +213,11 @@ void Particle_EnemyBullet::Init_BB(float time, Model* model, const Vector3& posi
 	time_ = time;
 
 	// ランダム生成
-	int rand_ = (rand() % (randomRange * 2)) - randomRange;
-	float distance = rand_ * randomFar;
+	float distance = 0;
+	if (randomRange != 0) {
+		int rand_ = (rand() % (randomRange * 2)) - randomRange;
+		distance = rand_ * randomFar;
+	}
 
 	float rotate_ = ToRadian(rotate);
 	// 速さ速度変換

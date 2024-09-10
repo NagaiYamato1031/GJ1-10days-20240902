@@ -13,7 +13,6 @@ ParticleEffects::~ParticleEffects() {
 
 void ParticleEffects::Init() { 
 	#pragma region 弾の構造体
-
 	//プレイヤーの弾
 	playerBullet_={
 	    0.3f, // 速さ
@@ -23,7 +22,8 @@ void ParticleEffects::Init() {
 		3.0f,//生成間隔(フレーム)
 		0.0f,//生成間隔バッファ
 		4,//ランダム範囲（正方向のみ
-		0.5f//ランダムでずらす距離
+		0.5f,//ランダムでずらす距離
+	    1, //  一度に生成する数(波とぶつかった時のエフェクトで使用するよ～
 	};
 	//通常弾
 	standardBullet_ = {
@@ -34,7 +34,8 @@ void ParticleEffects::Init() {
 	    3.0f, //  生成間隔(フレーム)
 	    0.0f, //  生成間隔バッファ
 	    4, //  ランダム範囲（正方向のみ
-	    0.5f  //  ランダムでずらす距離
+	    0.5f,  //  ランダムでずらす距離
+	    1, //  一度に生成する数(波とぶつかった時のエフェクトで使用するよ～
 	};
 	//追跡弾
 	chaserBullet_ = {
@@ -45,7 +46,8 @@ void ParticleEffects::Init() {
 	    3.0f, //  生成間隔(フレーム)
 	    0.0f, //  生成間隔バッファ
 	    4, //  ランダム範囲（正方向のみ
-	    0.5f  //  ランダムでずらす距離
+	    0.5f,  //  ランダムでずらす距離
+	    1, //  一度に生成する数(波とぶつかった時のエフェクトで使用するよ～
 	};
 	//持続弾
 	footpaceBullet_ = {
@@ -56,7 +58,8 @@ void ParticleEffects::Init() {
 	    3.0f, //  生成間隔(フレーム)
 	    0.0f, //  生成間隔バッファ
 	    4, //  ランダム範囲（正方向のみ
-	    0.5f  //  ランダムでずらす距離
+	    0.5f,  //  ランダムでずらす距離
+	    1, //  一度に生成する数(波とぶつかった時のエフェクトで使用するよ～
 	};
 	//バウンド弾
 	boundBullet_ = {
@@ -67,7 +70,8 @@ void ParticleEffects::Init() {
 	    3.0f, //  生成間隔(フレーム)
 	    0.0f, //  生成間隔バッファ
 	    4, //  ランダム範囲（正方向のみ
-	    0.5f  //  ランダムでずらす距離
+	    0.5f,  //  ランダムでずらす距離
+	    1, //  一度に生成する数(波とぶつかった時のエフェクトで使用するよ～
 	};
 	//大玉
 	bbBullet_ = {
@@ -78,10 +82,23 @@ void ParticleEffects::Init() {
 	    3.0f, //  生成間隔(フレーム)
 	    0.0f, //  生成間隔バッファ
 	    4, //  ランダム範囲（正方向のみ
-	    0.5f  //  ランダムでずらす距離
+	    0.5f,  //  ランダムでずらす距離
+	    1, //  一度に生成する数(波とぶつかった時のエフェクトで使用するよ～
 	};
 
 #pragma endregion
+
+	wave_ = {
+	    0.3f, // 速さ
+	    {1.0f, 1.0f, 1.0f}, // サイズ
+	    0.0f, // 回転角
+	    30, //  生存時間
+	    3.0f, //  生成間隔(フレーム)
+	    0.0f, //  生成間隔バッファ
+	    0, //  ランダム範囲（正方向のみ
+	    0.0f,  //  ランダムでずらす距離
+		3,//一度に生成する数(波とぶつかった時のエフェクトで使用するよ～
+	};
 
 	model_ = Model::Create();
 
@@ -94,10 +111,12 @@ void ParticleEffects::CreateParticle_PlayerBullet(const Vector3& position,const 
 	if (playerBullet_.intervalBuff <= 0) {
 		playerBullet_.intervalBuff = playerBullet_.interval;
 
-		Particle_PlayerBullet* newParticle = new Particle_PlayerBullet();
-		newParticle->Init(playerBullet_.lifeTime, model_, position, playerBullet_.scalar, playerBullet_.scale, rotationDeg,playerBullet_.randomRenge,playerBullet_.randomFar);
-
-		particle_PlayerBullets_.push_back(newParticle);
+		for (int i = 0; i < playerBullet_.createCount; i++) {
+			Particle_PlayerBullet* newParticle = new Particle_PlayerBullet();
+			Vector3 createPos = Vector3(((position.x + (playerBullet_.scale.x * i * 2)) - (playerBullet_.scale.x * 2.0f * (playerBullet_.createCount - 1.0f) / 2.0f)), 0, 0);
+			newParticle->Init(playerBullet_.lifeTime, model_, createPos, playerBullet_.scalar, playerBullet_.scale, rotationDeg, playerBullet_.randomRenge, playerBullet_.randomFar);
+			particle_PlayerBullets_.push_back(newParticle);
+		}
 	}
 	playerBullet_.intervalBuff--;
 }
@@ -106,10 +125,12 @@ void ParticleEffects::CreateParticle_StandardBullet(const Vector3& position, con
 	if (standardBullet_.intervalBuff <= 0) {
 		standardBullet_.intervalBuff = standardBullet_.interval;
 
-		Particle_EnemyBullet* newParticle = new Particle_EnemyBullet();
-		newParticle->Init_Standard(standardBullet_.lifeTime, model_, position, standardBullet_.scalar, standardBullet_.scale, rotationDeg, standardBullet_.randomRenge, standardBullet_.randomFar);
-
-		particle_StandardBullets_.push_back(newParticle);
+		for (int i = 0; i < standardBullet_.createCount; i++) {
+			Particle_EnemyBullet* newParticle = new Particle_EnemyBullet();
+			Vector3 createPos = Vector3(((position.x + (standardBullet_.scale.x * i * 2)) - (standardBullet_.scale.x * 2.0f * (standardBullet_.createCount - 1.0f) / 2.0f)), 0, 0);
+			newParticle->Init_Standard(standardBullet_.lifeTime, model_, createPos, standardBullet_.scalar, standardBullet_.scale, rotationDeg, standardBullet_.randomRenge, standardBullet_.randomFar);
+			particle_StandardBullets_.push_back(newParticle);
+		}
 	}
 	standardBullet_.intervalBuff--;
 }
@@ -118,10 +139,12 @@ void ParticleEffects::CreateParticle_ChaserBullet(const Vector3& position, const
 	if (chaserBullet_.intervalBuff <= 0) {
 		chaserBullet_.intervalBuff = chaserBullet_.interval;
 
-		Particle_EnemyBullet* newParticle = new Particle_EnemyBullet();
-		newParticle->Init_Chaser(chaserBullet_.lifeTime, model_, position, chaserBullet_.scalar, chaserBullet_.scale, rotationDeg, chaserBullet_.randomRenge, chaserBullet_.randomFar);
-
-		particle_ChaserBullets_.push_back(newParticle);
+		for (int i = 0; i < chaserBullet_.createCount; i++) {
+			Particle_EnemyBullet* newParticle = new Particle_EnemyBullet();
+			Vector3 createPos = Vector3(((position.x + (chaserBullet_.scale.x * i * 2)) - (chaserBullet_.scale.x * 2.0f * (chaserBullet_.createCount - 1.0f) / 2.0f)), 0, 0);
+			newParticle->Init_Chaser(chaserBullet_.lifeTime, model_, createPos, chaserBullet_.scalar, chaserBullet_.scale, rotationDeg, chaserBullet_.randomRenge, chaserBullet_.randomFar);
+			particle_ChaserBullets_.push_back(newParticle);
+		}
 	}
 	chaserBullet_.intervalBuff--;
 }
@@ -129,10 +152,12 @@ void ParticleEffects::CreateParticle_FootpaceBullet(const Vector3& position, con
 	if (footpaceBullet_.intervalBuff <= 0) {
 		footpaceBullet_.intervalBuff = footpaceBullet_.interval;
 
-		Particle_EnemyBullet* newParticle = new Particle_EnemyBullet();
-		newParticle->Init_Footpace(footpaceBullet_.lifeTime, model_, position, footpaceBullet_.scalar, footpaceBullet_.scale, rotationDeg, footpaceBullet_.randomRenge, footpaceBullet_.randomFar);
-
-		particle_FootpaceBullets_.push_back(newParticle);
+		for (int i = 0; i < footpaceBullet_.createCount; i++) {
+			Particle_EnemyBullet* newParticle = new Particle_EnemyBullet();
+			Vector3 createPos = Vector3(((position.x + (footpaceBullet_.scale.x * i * 2)) - (footpaceBullet_.scale.x * 2.0f * (footpaceBullet_.createCount - 1.0f) / 2.0f)), 0, 0);
+			newParticle->Init_Footpace(footpaceBullet_.lifeTime, model_, createPos, footpaceBullet_.scalar, footpaceBullet_.scale, rotationDeg, footpaceBullet_.randomRenge, footpaceBullet_.randomFar);
+			particle_FootpaceBullets_.push_back(newParticle);
+		}
 	}
 	footpaceBullet_.intervalBuff--;
 }
@@ -140,10 +165,12 @@ void ParticleEffects::CreateParticle_BoundBullet(const Vector3& position, const 
 	if (boundBullet_.intervalBuff <= 0) {
 		boundBullet_.intervalBuff = boundBullet_.interval;
 
-		Particle_EnemyBullet* newParticle = new Particle_EnemyBullet();
-		newParticle->Init_Bound(boundBullet_.lifeTime, model_, position, boundBullet_.scalar, boundBullet_.scale, rotationDeg, boundBullet_.randomRenge, boundBullet_.randomFar);
-
-		particle_BoundBullets_.push_back(newParticle);
+		for (int i = 0; i < boundBullet_.createCount; i++) {
+			Particle_EnemyBullet* newParticle = new Particle_EnemyBullet();
+			Vector3 createPos = Vector3(((position.x + (boundBullet_.scale.x * i * 2)) - (boundBullet_.scale.x * 2.0f * (boundBullet_.createCount - 1.0f) / 2.0f)), 0, 0);
+			newParticle->Init_Bound(boundBullet_.lifeTime, model_, createPos, boundBullet_.scalar, boundBullet_.scale, rotationDeg, boundBullet_.randomRenge, boundBullet_.randomFar);
+			particle_BoundBullets_.push_back(newParticle);
+		}
 	}
 	boundBullet_.intervalBuff--;
 }
@@ -151,10 +178,26 @@ void ParticleEffects::CreateParticle_BBBullet(const Vector3& position, const flo
 	if (bbBullet_.intervalBuff <= 0) {
 		boundBullet_.intervalBuff = bbBullet_.interval;
 
-		Particle_EnemyBullet* newParticle = new Particle_EnemyBullet();
-		newParticle->Init_BB(bbBullet_.lifeTime, model_, position, bbBullet_.scalar, bbBullet_.scale, rotationDeg, bbBullet_.randomRenge, bbBullet_.randomFar);
+		for (int i = 0; i < bbBullet_.createCount; i++) {
+			Particle_EnemyBullet* newParticle = new Particle_EnemyBullet();
+			Vector3 createPos = Vector3(((position.x + (bbBullet_.scale.x * i * 2)) - (bbBullet_.scale.x * 2.0f * (bbBullet_.createCount - 1.0f) / 2.0f)), 0, 0);
+			newParticle->Init_BB(bbBullet_.lifeTime, model_, createPos, bbBullet_.scalar, bbBullet_.scale, rotationDeg, bbBullet_.randomRenge, bbBullet_.randomFar);
+			particle_BBBullets_.push_back(newParticle);
+		}
+	}
+	bbBullet_.intervalBuff--;
+}
 
-		particle_BBBullets_.push_back(newParticle);
+void ParticleEffects::CreateParticle_Wave(const Vector3& position, const float& rotationDeg) {
+	if (bbBullet_.intervalBuff <= 0) {
+		boundBullet_.intervalBuff = bbBullet_.interval;
+
+		for (int i = 0; i < wave_.createCount; i++) {
+			Particle_Wave* newParticle = new Particle_Wave();
+			Vector3 createPos = Vector3(((position.x + (wave_.scale.x * i*2)) - (wave_.scale.x*2.0f * (wave_.createCount-1.0f)/2.0f)), 0, 0);
+			newParticle->Init(wave_.lifeTime, model_, createPos, wave_.scalar, wave_.scale, rotationDeg, wave_.randomRenge, wave_.randomFar);
+			particle_Waves_.push_back(newParticle);
+		}
 	}
 	bbBullet_.intervalBuff--;
 }
@@ -164,67 +207,85 @@ void ParticleEffects::UpdateParticle() {
 
 #ifdef _DEBUG
 	ImGui::Begin("ParticleWindow");
-
+	#pragma region 弾
 	// プレイヤー
 	ImGui::Text("PlayerBullet");
-	ImGui::DragFloat("Scalar", &playerBullet_.scalar, 0.1f);
-	ImGui::DragFloat("Rotate", &playerBullet_.rotation, 0.1f);
-	ImGui::DragFloat3("Scale", &playerBullet_.scale.x, 0.1f);
-	ImGui::DragFloat("Intervall", &playerBullet_.interval, 0.1f);
-	ImGui::DragFloat("LifeTime", &playerBullet_.lifeTime, 0.1f);
-	ImGui::DragInt("RandomRenge", &playerBullet_.randomRenge, 0.1f);
-	ImGui::DragFloat("RandomFar", &playerBullet_.randomFar, 0.1f);
+	ImGui::DragFloat("Scalar_PlayerBullet", &playerBullet_.scalar, 0.1f);
+	ImGui::DragFloat("Rotate_PlayerBullet", &playerBullet_.rotation, 0.1f);
+	ImGui::DragFloat3("Scale_PlayerBullet", &playerBullet_.scale.x, 0.1f);
+	ImGui::DragFloat("Intervall_PlayerBullet", &playerBullet_.interval, 0.1f);
+	ImGui::DragFloat("LifeTime_PlayerBullet", &playerBullet_.lifeTime, 0.1f);
+	ImGui::DragInt("RandomRenge_PlayerBullet", &playerBullet_.randomRenge, 0.1f);
+	ImGui::DragFloat("RandomFar_PlayerBullet", &playerBullet_.randomFar, 0.1f);
+	ImGui::DragInt("CreateCount_PlayerBullet", &playerBullet_.createCount, 1);
 
 	//通常弾
 	ImGui::Text("StandardBullet");
-	ImGui::DragFloat("Scalar", &standardBullet_.scalar, 0.1f);
-	ImGui::DragFloat("Rotate", &standardBullet_.rotation, 0.1f);
-	ImGui::DragFloat3("Scale", &standardBullet_.scale.x, 0.1f);
-	ImGui::DragFloat("Intervall", &standardBullet_.interval, 0.1f);
-	ImGui::DragFloat("LifeTime", &standardBullet_.lifeTime, 0.1f);
-	ImGui::DragInt("RandomRenge", &standardBullet_.randomRenge, 0.1f);
-	ImGui::DragFloat("RandomFar", &standardBullet_.randomFar, 0.1f);
+	ImGui::DragFloat("Scalar_StandardBullet", &standardBullet_.scalar, 0.1f);
+	ImGui::DragFloat("Rotate_StandardBullet", &standardBullet_.rotation, 0.1f);
+	ImGui::DragFloat3("Scale_StandardBullet", &standardBullet_.scale.x, 0.1f);
+	ImGui::DragFloat("Intervall_StandardBullet", &standardBullet_.interval, 0.1f);
+	ImGui::DragFloat("LifeTime_StandardBullet", &standardBullet_.lifeTime, 0.1f);
+	ImGui::DragInt("RandomRenge_StandardBullet", &standardBullet_.randomRenge, 0.1f);
+	ImGui::DragFloat("RandomFar_StandardBullet", &standardBullet_.randomFar, 0.1f);
+	ImGui::DragInt("CreateCount_StandardBullet", &standardBullet_.createCount, 1);
 
 	// 追跡弾
 	ImGui::Text("ChaserBullet");
-	ImGui::DragFloat("Scalar", &chaserBullet_.scalar, 0.1f);
-	ImGui::DragFloat("Rotate", &chaserBullet_.rotation, 0.1f);
-	ImGui::DragFloat3("Scale", &chaserBullet_.scale.x, 0.1f);
-	ImGui::DragFloat("Intervall", &chaserBullet_.interval, 0.1f);
-	ImGui::DragFloat("LifeTime", &chaserBullet_.lifeTime, 0.1f);
-	ImGui::DragInt("RandomRenge", &chaserBullet_.randomRenge, 0.1f);
-	ImGui::DragFloat("RandomFar", &chaserBullet_.randomFar, 0.1f);
+	ImGui::DragFloat("Scalar_ChaserBullet", &chaserBullet_.scalar, 0.1f);
+	ImGui::DragFloat("Rotate_ChaserBullet", &chaserBullet_.rotation, 0.1f);
+	ImGui::DragFloat3("Scale_ChaserBullet", &chaserBullet_.scale.x, 0.1f);
+	ImGui::DragFloat("Intervall_ChaserBullet", &chaserBullet_.interval, 0.1f);
+	ImGui::DragFloat("LifeTime_ChaserBullet", &chaserBullet_.lifeTime, 0.1f);
+	ImGui::DragInt("RandomRenge_ChaserBullet", &chaserBullet_.randomRenge, 0.1f);
+	ImGui::DragFloat("RandomFar_ChaserBullet", &chaserBullet_.randomFar, 0.1f);
+	ImGui::DragInt("CreateCount_RandomRenge", &chaserBullet_.createCount, 1);
 
 	//持続弾 
 	ImGui::Text("FootpaceBullet");
-	ImGui::DragFloat("Scalar", &footpaceBullet_.scalar, 0.1f);
-	ImGui::DragFloat("Rotate", &footpaceBullet_.rotation, 0.1f);
-	ImGui::DragFloat3("Scale", &footpaceBullet_.scale.x, 0.1f);
-	ImGui::DragFloat("Intervall", &footpaceBullet_.interval, 0.1f);
-	ImGui::DragFloat("LifeTime", &footpaceBullet_.lifeTime, 0.1f);
-	ImGui::DragInt("RandomRenge", &footpaceBullet_.randomRenge, 0.1f);
-	ImGui::DragFloat("RandomFar", &footpaceBullet_.randomFar, 0.1f);
+	ImGui::DragFloat("Scalar_FootpaceBullet", &footpaceBullet_.scalar, 0.1f);
+	ImGui::DragFloat("Rotate_FootpaceBullet", &footpaceBullet_.rotation, 0.1f);
+	ImGui::DragFloat3("Scale_FootpaceBullet", &footpaceBullet_.scale.x, 0.1f);
+	ImGui::DragFloat("Intervall_FootpaceBullet", &footpaceBullet_.interval, 0.1f);
+	ImGui::DragFloat("LifeTime_FootpaceBullet", &footpaceBullet_.lifeTime, 0.1f);
+	ImGui::DragInt("RandomRenge_FootpaceBullet", &footpaceBullet_.randomRenge, 0.1f);
+	ImGui::DragFloat("RandomFar_FootpaceBullet", &footpaceBullet_.randomFar, 0.1f);
+	ImGui::DragInt("CreateCount_FootpaceBullet", &footpaceBullet_.createCount, 1);
 
 	// バウンド弾
 	ImGui::Text("BoundBullet");
-	ImGui::DragFloat("Scalar", &boundBullet_.scalar, 0.1f);
-	ImGui::DragFloat("Rotate", &boundBullet_.rotation, 0.1f);
-	ImGui::DragFloat3("Scale", &boundBullet_.scale.x, 0.1f);
-	ImGui::DragFloat("Intervall", &boundBullet_.interval, 0.1f);
-	ImGui::DragFloat("LifeTime", &boundBullet_.lifeTime, 0.1f);
-	ImGui::DragInt("RandomRenge", &boundBullet_.randomRenge, 0.1f);
-	ImGui::DragFloat("RandomFar", &boundBullet_.randomFar, 0.1f);
+	ImGui::DragFloat("Scalar_BoundBullet", &boundBullet_.scalar, 0.1f);
+	ImGui::DragFloat("Rotate_BoundBullet", &boundBullet_.rotation, 0.1f);
+	ImGui::DragFloat3("Scale_BoundBullet", &boundBullet_.scale.x, 0.1f);
+	ImGui::DragFloat("Intervall_BoundBullet", &boundBullet_.interval, 0.1f);
+	ImGui::DragFloat("LifeTime_BoundBullet", &boundBullet_.lifeTime, 0.1f);
+	ImGui::DragInt("RandomRenge_BoundBullet", &boundBullet_.randomRenge, 0.1f);
+	ImGui::DragFloat("RandomFar_BoundBullet", &boundBullet_.randomFar, 0.1f);
+	ImGui::DragInt("CreateCount_BoundBullet", &boundBullet_.createCount, 1);
 
 	// 大玉
 	ImGui::Text("BBBullet");
-	ImGui::DragFloat("Scalar", &bbBullet_.scalar, 0.1f);
-	ImGui::DragFloat("Rotate", &bbBullet_.rotation, 0.1f);
-	ImGui::DragFloat3("Scale", &bbBullet_.scale.x, 0.1f);
-	ImGui::DragFloat("Intervall", &bbBullet_.interval, 0.1f);
-	ImGui::DragFloat("LifeTime", &bbBullet_.lifeTime, 0.1f);
-	ImGui::DragInt("RandomRenge", &bbBullet_.randomRenge, 0.1f);
-	ImGui::DragFloat("RandomFar", &bbBullet_.randomFar, 0.1f);
+	ImGui::DragFloat("Scalar_BBBullet", &bbBullet_.scalar, 0.1f);
+	ImGui::DragFloat("Rotate_BBBullet", &bbBullet_.rotation, 0.1f);
+	ImGui::DragFloat3("Scale_BBBullet", &bbBullet_.scale.x, 0.1f);
+	ImGui::DragFloat("Intervall_BBBullet", &bbBullet_.interval, 0.1f);
+	ImGui::DragFloat("LifeTime_BBBullet", &bbBullet_.lifeTime, 0.1f);
+	ImGui::DragInt("RandomRenge_BBBullet", &bbBullet_.randomRenge, 0.1f);
+	ImGui::DragFloat("RandomFar_BBBullet", &bbBullet_.randomFar, 0.1f);
+	ImGui::DragInt("CreateCount_BBBullet", &bbBullet_.createCount, 1);
 
+#pragma endregion
+
+	// 波
+	ImGui::Text("Wave");
+	ImGui::DragFloat("Scalar_Wave", &wave_.scalar, 0.1f);
+	ImGui::DragFloat("Rotate_Wave", &wave_.rotation, 0.1f);
+	ImGui::DragFloat3("Scale_Wave", &wave_.scale.x, 0.1f);
+	ImGui::DragFloat("Intervall_Wave", &wave_.interval, 0.1f);
+	ImGui::DragFloat("LifeTime_Wave", &wave_.lifeTime, 0.1f);
+	ImGui::DragInt("RandomRenge_Wave", &wave_.randomRenge, 0.1f);
+	ImGui::DragFloat("RandomFar_Wave", &wave_.randomFar, 0.1f);
+	ImGui::DragInt("CreateCount_Wave", &wave_.createCount, 1);
 	ImGui::End();
 #endif // _DEBUG
 
@@ -301,6 +362,19 @@ void ParticleEffects::UpdateParticle() {
 			++it;
 		}
 	}
+
+	for (auto it = particle_Waves_.begin(); it != particle_Waves_.end();) {
+		Particle_Wave* particle_Wave = *it;
+		particle_Wave->Update();
+
+		if (particle_Wave->IsBreak()) {
+			delete particle_Wave;
+			it = particle_Waves_.erase(it);
+
+		} else {
+			++it;
+		}
+	}
 }
 
 void ParticleEffects::DrawParticle(const ViewProjection* viewProjection) { 
@@ -321,6 +395,10 @@ void ParticleEffects::DrawParticle(const ViewProjection* viewProjection) {
 	}
 	for (Particle_EnemyBullet* particle_BBBullet : particle_BBBullets_) {
 		particle_BBBullet->Draw_BB(viewProjection);
+	}
+
+	for (Particle_Wave* particle_Wave : particle_Waves_) {
+		particle_Wave->Draw(viewProjection);
 	}
 }
 
@@ -349,4 +427,9 @@ void ParticleEffects::TestDelete() {
 		delete particle_BoundBullet;
 	}
 	particle_BBBullets_.clear();
+
+	for (Particle_Wave* particle_Wave : particle_Waves_) {
+		delete particle_Wave;
+	}
+	particle_Waves_.clear();
 }
