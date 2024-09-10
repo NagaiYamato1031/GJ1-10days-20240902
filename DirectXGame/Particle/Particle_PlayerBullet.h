@@ -10,7 +10,7 @@ public: /*コンストラクタ*/
 
 public: /*パブリック関数*/
 
-	void Init(float time,Model *model,const Vector3& position,const Vector3& velocity);   // 初期化
+	void Init(float time, Model* model, const Vector3& position, const float& velocity, const Vector3& scale, const float& rotate); // 初期化
 	void Update();                        // 更新
 	void Draw( const ViewProjection* viewProjection);//描画
 
@@ -26,6 +26,7 @@ private: /*メンバ変数*/
 	// ワールド座標
 	WorldTransform worldTransform_;
 
+
 	//速度
 	Vector3 velocity_;
 
@@ -37,4 +38,5 @@ private: /*メンバ変数*/
 	
 	//生存時間受け取り用
 	float time_;
+	
 };

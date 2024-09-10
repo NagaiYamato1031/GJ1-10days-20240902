@@ -13,7 +13,9 @@ ParticleEffects::~ParticleEffects() {
 
 void ParticleEffects::Init() { 
 	time_ = 60;
-	velocity_ = Vector3(0, 1, 0);
+	scalar_PlayerBullet_ = 1.0f;
+	scale_PlayerBullet_ = Vector3(0.5f, 0.5f, 0.5f);
+	rotate_PlayerBullet_ = 1;
 	model_ = Model::Create();
 }
 
@@ -21,7 +23,7 @@ void ParticleEffects::Init() {
 void ParticleEffects::CreateParticle_PlayerBullet(const Vector3& position) { 
 
 	Particle_PlayerBullet* newParticle = new Particle_PlayerBullet();
-	newParticle->Init(time_,model_,position,velocity_);
+	newParticle->Init(time_,model_,position,scalar_PlayerBullet_,scale_PlayerBullet_,rotate_PlayerBullet_);
 
 	particle_PlayerBullets_.push_back(newParticle);
 

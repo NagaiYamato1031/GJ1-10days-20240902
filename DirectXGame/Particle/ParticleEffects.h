@@ -45,8 +45,12 @@ private: /*メンバ変数*/
 	//ワールド座標
 	WorldTransform worldTransform_;
 
-	//速度
-	Vector3 velocity_;
+	//速さ
+	float scalar_PlayerBullet_;
+	//サイズ
+	Vector3 scale_PlayerBullet_;
+	//回転
+	float rotate_PlayerBullet_;
 
 	//テクスチャハンドル
 	uint32_t textureHandle_ = 0;

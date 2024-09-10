@@ -11,15 +11,19 @@ Particle_PlayerBullet::~Particle_PlayerBullet() {
 
 }
 
-void Particle_PlayerBullet::Init( float time,Model *model,const Vector3& position,const Vector3& velocity) {
+void Particle_PlayerBullet::Init( float time,Model *model,const Vector3& position,const float& scalar,const Vector3& scale,const float& rotate) {
 	// ファイル名を指定してテクスチャを読み込む
 	textureHandle_ = TextureManager::Load("white1x1.png");
 
 	//生存時間受け取り
 	time_ = time;
 
-	//速度受け取り
-	velocity_ = velocity;
+	//速さ速度変換
+	velocity_ = Vector3{
+		scalar * sinf(rotate), 
+		scalar * cosf(rotate),
+		0
+	};
 
 	//破壊フラグ初期化
 	isBreak_ = false;
@@ -30,7 +34,8 @@ void Particle_PlayerBullet::Init( float time,Model *model,const Vector3& positio
 	// ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = position;
-
+	worldTransform_.scale_ = scale;
+	worldTransform_.rotation_ = Vector3(0, 0, rotate);
 }
 
 void Particle_PlayerBullet::Update() {
@@ -52,6 +57,7 @@ void Particle_PlayerBullet::Update() {
 		isBreak_ = true;
 	}
 
+	//ワールドマトリックス更新
 	worldTransform_.UpdateMatrix();
 }
 
