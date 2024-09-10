@@ -1,11 +1,13 @@
 #pragma once
 
-#include "SceneManager/IScene.h"
-
 #include <FollowCamera/FollowCamera.h>
 #include <Player/Player.h>
 #include <Stage/Stage.h>
 #include <Boss/Boss.h>
+
+#include "SceneManager/IScene.h"
+
+#include "EndScene.h"
 
 // IScene クラスを継承したタイトルシーン
 class TestScene : public ACJPN::Scene::IScene {
