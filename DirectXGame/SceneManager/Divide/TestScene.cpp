@@ -13,7 +13,7 @@ void TestScene::Init() {
 	player_->Init();
 	particleEffects_=std::make_unique<ParticleEffects>();
 
-	particleEffects_->Init(60);
+	particleEffects_->Init();
 }
 
 void TestScene::Update() {

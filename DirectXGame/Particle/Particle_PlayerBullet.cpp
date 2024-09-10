@@ -11,14 +11,17 @@ Particle_PlayerBullet::~Particle_PlayerBullet() {
 
 }
 
-void Particle_PlayerBullet::Init( float time,Model *model,const Vector3& position) {
+void Particle_PlayerBullet::Init( float time,Model *model,const Vector3& position,const Vector3& velocity) {
 	// ファイル名を指定してテクスチャを読み込む
 	textureHandle_ = TextureManager::Load("white1x1.png");
 
-	//生存時間
+	//生存時間受け取り
 	time_ = time;
 
-	//破壊フラグ
+	//速度受け取り
+	velocity_ = velocity;
+
+	//破壊フラグ初期化
 	isBreak_ = false;
 
 	// 3Dモデルの生成
@@ -31,6 +34,10 @@ void Particle_PlayerBullet::Init( float time,Model *model,const Vector3& positio
 }
 
 void Particle_PlayerBullet::Update() {
+
+	//速度加算
+	worldTransform_.translation_ += velocity_;
+
 	//なんか書いてあった奴をまねて書いた奴ら
 	ImGui::Begin("ParticleWindow");
 

@@ -16,7 +16,7 @@ public: /*コンストラクタ*/
 public: /*パブリック関数*/
 
 	//Player.hに書いてあったことをとりあえずそのまま書いた奴{
-	void Init(float time);
+	void Init();
 	//初期化
 	//time：生存時間(フレーム計算)
 
@@ -44,6 +44,9 @@ private: /*メンバ変数*/
 
 	//ワールド座標
 	WorldTransform worldTransform_;
+
+	//速度
+	Vector3 velocity_;
 
 	//テクスチャハンドル
 	uint32_t textureHandle_ = 0;
