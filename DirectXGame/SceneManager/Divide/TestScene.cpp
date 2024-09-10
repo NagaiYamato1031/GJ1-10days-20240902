@@ -39,7 +39,7 @@ void TestScene::Update() {
 
 	camera_->UpdateMatrix();
 
-	if (input_->TriggerKey(DIK_E)) {
+	if (input_->PushKey(DIK_E)) {
 		particleEffects_->CreateParticle_PlayerBullet(Vector3(0, 0, 0));
 	}
 	if (input_->TriggerKey(DIK_U)) {

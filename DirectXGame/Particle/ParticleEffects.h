@@ -51,13 +51,15 @@ private: /*メンバ変数*/
 	Vector3 scale_PlayerBullet_;
 	//回転
 	float rotate_PlayerBullet_;
+	// 生存時間
+	float lifeTime_PlayerBullet_;
 
-	//テクスチャハンドル
-	uint32_t textureHandle_ = 0;
+	//生成間隔
+	float interval_PlayerBullet_;
+	float intervalBuff_PlayerBullet_;
 
 	//パーティクルのリスト
 	std::list<Particle_PlayerBullet*> particle_PlayerBullets_;
 
-	//生存時間
-	float time_;
+
 };

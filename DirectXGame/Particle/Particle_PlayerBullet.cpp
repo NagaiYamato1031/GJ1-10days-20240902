@@ -13,7 +13,7 @@ Particle_PlayerBullet::~Particle_PlayerBullet() {
 
 void Particle_PlayerBullet::Init( float time,Model *model,const Vector3& position,const float& scalar,const Vector3& scale,const float& rotate) {
 	// ファイル名を指定してテクスチャを読み込む
-	textureHandle_ = TextureManager::Load("white1x1.png");
+	textureHandle_ = TextureManager::Load("sample.png");
 
 	//生存時間受け取り
 	time_ = time;
