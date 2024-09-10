@@ -462,7 +462,7 @@ bool Math::IsCollision(const AABB& a, const Capsule& c) {
 }
 
 bool Math::IsCollision(const Capsule& c, const AABB& a) {
-	return false;
+	return IsCollision(a, c);
 }
 
 

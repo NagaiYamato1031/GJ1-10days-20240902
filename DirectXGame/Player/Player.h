@@ -142,8 +142,5 @@ private: //** メンバ関数 **//
 	void UpdateJump();
 	void UpdateFall();
 	void UpdateDrop();
-
-	// ワールド座標
-	WorldTransform transform_;
 };
 
