@@ -16,7 +16,10 @@ public: /*コンストラクタ*/
 public: /*パブリック関数*/
 
 	//Player.hに書いてあったことをとりあえずそのまま書いた奴{
-	void Init();//初期化
+	void Init(float time);
+	//初期化
+	//time：生存時間(フレーム計算)
+
 	// Player.hに書いてあったことをとりあえずそのまま書いた奴}
 
 
@@ -41,10 +44,13 @@ private: /*メンバ変数*/
 
 	//ワールド座標
 	WorldTransform worldTransform_;
-	//ビュープロジェクション
-	//ViewProjection viewProjection_;
 
+	//テクスチャハンドル
 	uint32_t textureHandle_ = 0;
 
+	//パーティクルのリスト
 	std::list<Particle_PlayerBullet*> particle_PlayerBullets_;
+
+	//生存時間
+	float time_;
 };

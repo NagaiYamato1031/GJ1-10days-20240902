@@ -10,7 +10,7 @@ public: /*コンストラクタ*/
 
 public: /*パブリック関数*/
 
-	void Init(Model *model,const Vector3& position);   // 初期化
+	void Init(float time,Model *model,const Vector3& position);   // 初期化
 	void Update();                        // 更新
 	void Draw( const ViewProjection* viewProjection);//描画
 
@@ -29,5 +29,7 @@ private: /*メンバ変数*/
 
 	uint32_t textureHandle_ = 0;
 
-	bool isBreak;
+	bool isBreak_;
+	
+	float time_;
 };

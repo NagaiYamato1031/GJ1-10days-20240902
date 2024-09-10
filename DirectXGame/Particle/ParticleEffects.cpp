@@ -11,7 +11,8 @@ ParticleEffects::~ParticleEffects() {
 	
 }
 
-void ParticleEffects::Init() { 
+void ParticleEffects::Init(float time) { 
+	time_ = time;
 	model_ = Model::Create();
 }
 
@@ -19,7 +20,7 @@ void ParticleEffects::Init() {
 void ParticleEffects::CreateParticle_PlayerBullet(const Vector3& position) { 
 
 	Particle_PlayerBullet* newParticle = new Particle_PlayerBullet();
-	newParticle->Init(model_,position);
+	newParticle->Init(time_,model_,position);
 
 	particle_PlayerBullets_.push_back(newParticle);
 
