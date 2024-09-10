@@ -52,14 +52,6 @@ void Particle_PlayerBullet::Update() {
 	//速度加算
 	worldTransform_.translation_ += velocity_;
 
-	//なんか書いてあった奴をまねて書いた奴ら
-	ImGui::Begin("PlayerBulletParticleWindow");
-
-	ImGui::DragFloat3("translate", &worldTransform_.translation_.x, 0.1f);
-	ImGui::Checkbox(" isBreak", &isBreak_);
-
-	ImGui::End();
-
 	//壊れるまでの時間計算
 	time_--;
 	if (time_ <= 0) {

@@ -41,14 +41,6 @@ void Particle_EnemyBullet::Update_Standard() {
 	// 速度加算
 	worldTransform_.translation_ += velocity_;
 
-	// なんか書いてあった奴をまねて書いた奴ら
-	ImGui::Begin("StandardEnemyBulletParticleWindow");
-
-	ImGui::DragFloat3("translate", &worldTransform_.translation_.x, 0.1f);
-	ImGui::Checkbox(" isBreak", &isBreak_);
-
-	ImGui::End();
-
 	// 壊れるまでの時間計算
 	time_--;
 	if (time_ <= 0) {
@@ -94,14 +86,6 @@ void Particle_EnemyBullet::Init_Chaser(float time, Model* model, const Vector3& 
 void Particle_EnemyBullet::Update_Chaser() {
 	// 速度加算
 	worldTransform_.translation_ += velocity_;
-
-	// なんか書いてあった奴をまねて書いた奴ら
-	ImGui::Begin("ChaserEnemyBulletParticleWindow");
-
-	ImGui::DragFloat3("translate", &worldTransform_.translation_.x, 0.1f);
-	ImGui::Checkbox(" isBreak", &isBreak_);
-
-	ImGui::End();
 
 	// 壊れるまでの時間計算
 	time_--;
@@ -149,14 +133,6 @@ void Particle_EnemyBullet::Update_Footpace() {
 	// 速度加算
 	worldTransform_.translation_ += velocity_;
 
-	// なんか書いてあった奴をまねて書いた奴ら
-	ImGui::Begin("FootpaceEnemyBulletParticleWindow");
-
-	ImGui::DragFloat3("translate", &worldTransform_.translation_.x, 0.1f);
-	ImGui::Checkbox(" isBreak", &isBreak_);
-
-	ImGui::End();
-
 	// 壊れるまでの時間計算
 	time_--;
 	if (time_ <= 0) {
@@ -203,13 +179,6 @@ void Particle_EnemyBullet::Update_Bound() {
 	// 速度加算
 	worldTransform_.translation_ += velocity_;
 
-	// なんか書いてあった奴をまねて書いた奴ら
-	ImGui::Begin("BoundEnemyBulletParticleWindow");
-	ImGui::DragFloat3("translate", &worldTransform_.translation_.x, 0.1f);
-	ImGui::Checkbox(" isBreak", &isBreak_);
-
-	ImGui::End();
-
 	// 壊れるまでの時間計算
 	time_--;
 	if (time_ <= 0) {
@@ -255,13 +224,6 @@ void Particle_EnemyBullet::Init_BB(float time, Model* model, const Vector3& posi
 void Particle_EnemyBullet::Update_BB() {
 	// 速度加算
 	worldTransform_.translation_ += velocity_;
-
-	// なんか書いてあった奴をまねて書いた奴ら
-	ImGui::Begin("BBEnemyBulletParticleWindow");
-	ImGui::DragFloat3("translate", &worldTransform_.translation_.x, 0.1f);
-	ImGui::Checkbox(" isBreak", &isBreak_);
-
-	ImGui::End();
 
 	// 壊れるまでの時間計算
 	time_--;

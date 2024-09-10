@@ -175,15 +175,72 @@ void ParticleEffects::CreateParticle_BBBullet(const Vector3& position, const flo
 
 void ParticleEffects::UpdateParticle() {
 
+#ifdef DEBUG
 	ImGui::Begin("ParticleWindow");
+
+	// プレイヤー
+	ImGui::Text("PlayerBullet");
 	ImGui::DragFloat("Scalar", &playerBullet_.scalar, 0.1f);
-	ImGui::DragFloat("Rotate", &playerBullet_.rotation,0.1f);
+	ImGui::DragFloat("Rotate", &playerBullet_.rotation, 0.1f);
 	ImGui::DragFloat3("Scale", &playerBullet_.scale.x, 0.1f);
 	ImGui::DragFloat("Intervall", &playerBullet_.interval, 0.1f);
 	ImGui::DragFloat("LifeTime", &playerBullet_.lifeTime, 0.1f);
 	ImGui::DragInt("RandomRenge", &playerBullet_.randomRenge, 0.1f);
 	ImGui::DragFloat("RandomFar", &playerBullet_.randomFar, 0.1f);
+
+	//通常弾
+	ImGui::Text("StandardBullet");
+	ImGui::DragFloat("Scalar", &standardBullet_.scalar, 0.1f);
+	ImGui::DragFloat("Rotate", &standardBullet_.rotation, 0.1f);
+	ImGui::DragFloat3("Scale", &standardBullet_.scale.x, 0.1f);
+	ImGui::DragFloat("Intervall", &standardBullet_.interval, 0.1f);
+	ImGui::DragFloat("LifeTime", &standardBullet_.lifeTime, 0.1f);
+	ImGui::DragInt("RandomRenge", &standardBullet_.randomRenge, 0.1f);
+	ImGui::DragFloat("RandomFar", &standardBullet_.randomFar, 0.1f);
+
+	// 追跡弾
+	ImGui::Text("ChaserBullet");
+	ImGui::DragFloat("Scalar", &chaserBullet_.scalar, 0.1f);
+	ImGui::DragFloat("Rotate", &chaserBullet_.rotation, 0.1f);
+	ImGui::DragFloat3("Scale", &chaserBullet_.scale.x, 0.1f);
+	ImGui::DragFloat("Intervall", &chaserBullet_.interval, 0.1f);
+	ImGui::DragFloat("LifeTime", &chaserBullet_.lifeTime, 0.1f);
+	ImGui::DragInt("RandomRenge", &chaserBullet_.randomRenge, 0.1f);
+	ImGui::DragFloat("RandomFar", &chaserBullet_.randomFar, 0.1f);
+
+	//持続弾 
+	ImGui::Text("FootpaceBullet");
+	ImGui::DragFloat("Scalar", &footpaceBullet_.scalar, 0.1f);
+	ImGui::DragFloat("Rotate", &footpaceBullet_.rotation, 0.1f);
+	ImGui::DragFloat3("Scale", &footpaceBullet_.scale.x, 0.1f);
+	ImGui::DragFloat("Intervall", &footpaceBullet_.interval, 0.1f);
+	ImGui::DragFloat("LifeTime", &footpaceBullet_.lifeTime, 0.1f);
+	ImGui::DragInt("RandomRenge", &footpaceBullet_.randomRenge, 0.1f);
+	ImGui::DragFloat("RandomFar", &footpaceBullet_.randomFar, 0.1f);
+
+	// バウンド弾
+	ImGui::Text("BoundBullet");
+	ImGui::DragFloat("Scalar", &boundBullet_.scalar, 0.1f);
+	ImGui::DragFloat("Rotate", &boundBullet_.rotation, 0.1f);
+	ImGui::DragFloat3("Scale", &boundBullet_.scale.x, 0.1f);
+	ImGui::DragFloat("Intervall", &boundBullet_.interval, 0.1f);
+	ImGui::DragFloat("LifeTime", &boundBullet_.lifeTime, 0.1f);
+	ImGui::DragInt("RandomRenge", &boundBullet_.randomRenge, 0.1f);
+	ImGui::DragFloat("RandomFar", &boundBullet_.randomFar, 0.1f);
+
+	// 大玉
+	ImGui::Text("BBBullet");
+	ImGui::DragFloat("Scalar", &bbBullet_.scalar, 0.1f);
+	ImGui::DragFloat("Rotate", &bbBullet_.rotation, 0.1f);
+	ImGui::DragFloat3("Scale", &bbBullet_.scale.x, 0.1f);
+	ImGui::DragFloat("Intervall", &bbBullet_.interval, 0.1f);
+	ImGui::DragFloat("LifeTime", &bbBullet_.lifeTime, 0.1f);
+	ImGui::DragInt("RandomRenge", &bbBullet_.randomRenge, 0.1f);
+	ImGui::DragFloat("RandomFar", &bbBullet_.randomFar, 0.1f);
+
 	ImGui::End();
+#endif // DEBUG
+
 
 	for (auto it = particle_PlayerBullets_.begin(); it != particle_PlayerBullets_.end();) {
 		Particle_PlayerBullet* particle_PlayerBullet = *it;
