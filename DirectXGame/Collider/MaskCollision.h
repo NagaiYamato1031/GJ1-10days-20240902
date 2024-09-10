@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ICollider.h"
+#include "ShapeCollider.h"
 
 namespace ACJPN::Collider {
 

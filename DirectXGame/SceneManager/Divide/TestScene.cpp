@@ -2,7 +2,15 @@
 
 #include "TitleScene.h"
 
+using namespace ACJPN;
+using namespace ACJPN::Collider;
+using namespace ACJPN::Math;
+
 void TestScene::Init() {
+
+	collisionManager_ = CollisionManager::GetInstance();
+	collisionManager_->Init();
+
 	time = 60;
 
 	// カメラ初期化
@@ -28,6 +36,15 @@ void TestScene::Init() {
 	eastTransform_.Initialize();
 	eastTransform_.translation_.x = 10.0f;
 	eastTransform_.UpdateMatrix();
+	//　球の当たり判定
+	sphere_.center = { 0.0f,0.0f,0.0f };
+	sphere_.radius = 1.0f;
+	colSphere = std::make_shared<ShapeCollider<Sphere>>(&sphere_);
+	Sphere* ptrSphere = colSphere->GetShape<Sphere>(colSphere.get());
+	if (ptrSphere) {
+
+	}
+
 }
 
 void TestScene::Update() {
