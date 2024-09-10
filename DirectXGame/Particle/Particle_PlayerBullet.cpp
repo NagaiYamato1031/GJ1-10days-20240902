@@ -22,7 +22,7 @@ void Particle_PlayerBullet::Init( float time,Model *model,const Vector3& positio
 	
 	//速さ速度変換
 	velocity_ = Vector3{
-		scalar * sinf(rotate_), 
+		-scalar * sinf(rotate_), 
 		scalar * cosf(rotate_),
 		0
 	};
@@ -46,7 +46,7 @@ void Particle_PlayerBullet::Update() {
 	worldTransform_.translation_ += velocity_;
 
 	//なんか書いてあった奴をまねて書いた奴ら
-	ImGui::Begin("ParticleWindow");
+	ImGui::Begin("PlayerBulletParticleWindow");
 
 	ImGui::DragFloat3("translate", &worldTransform_.translation_.x, 0.1f);
 	ImGui::Checkbox(" isBreak", &isBreak_);

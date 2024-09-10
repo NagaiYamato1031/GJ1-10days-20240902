@@ -15,7 +15,7 @@ void ParticleEffects::Init() {
 	time_ = 60;
 	scalar_PlayerBullet_ = 1.0f;
 	scale_PlayerBullet_ = Vector3(0.5f, 0.5f, 0.5f);
-	rotate_PlayerBullet_ = 90.0f;
+	rotate_PlayerBullet_ = 0.0f;
 	model_ = Model::Create();
 }
 
@@ -30,6 +30,13 @@ void ParticleEffects::CreateParticle_PlayerBullet(const Vector3& position) {
 }
 
 void ParticleEffects::UpdateParticle() {
+
+	ImGui::Begin("ParticleWindow");
+	ImGui::DragFloat("Scalar", &scalar_PlayerBullet_, 0.1f);
+	ImGui::DragFloat("Rotate", &rotate_PlayerBullet_,0.1f);
+	ImGui::DragFloat3("Scale", &scale_PlayerBullet_.x, 0.1f);
+	ImGui::End();
+
 	for (auto it = particle_PlayerBullets_.begin(); it != particle_PlayerBullets_.end();) {
 		Particle_PlayerBullet* particle_PlayerBullet = *it;
 		particle_PlayerBullet->Update();
