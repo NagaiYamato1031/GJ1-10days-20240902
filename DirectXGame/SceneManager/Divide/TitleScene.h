@@ -2,9 +2,15 @@
 
 #include "SceneManager/IScene.h"
 
+#include "DirectXCommon.h"
+#include "Sprite.h"
+
 // IScene クラスを継承したタイトルシーン
 class TitleScene : public ACJPN::Scene::IScene {
 public: //** パブリック関数 **//
+
+	TitleScene();
+	~TitleScene();
 
 	/// <summary>
 	/// 初期化
@@ -35,6 +41,15 @@ public: //** パブリック関数 **//
 	void DebugWindow() override;
 private: //** メンバ変数 **//
 
+	DirectXCommon* dxCommon_ = nullptr;
+
+	//タイトル背景画像
+	uint32_t textureHandle_ = 0;
+	Sprite* sprite_ = nullptr;
+
+	//タイトル文字
+	uint32_t textureHandleMozi_ = 0;
+	Sprite* spriteMozi_ = nullptr;
 
 private: //** メンバ関数 **//
 };
