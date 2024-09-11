@@ -73,7 +73,16 @@ public: // パブリック関数 **//
 	/// </summary>
 	void DebugWindow();
 
+	bool GetIsActive() const { return isActive_; }
+
 private: //** メンバ変数 **//
+
+	// このクラスが動いているかどうか
+	bool isActive_ = true;
+
+	// 死んでしまったかどうか
+	bool isDead_ = false;
+
 	// 一度に変更する角度
 	float kSpeed_ = 0.01f;
 
@@ -108,6 +117,9 @@ private: //** メンバ変数 **//
 
 	// 経過時間
 	int elapsedFrame_ = 0;
+
+	// 体力
+	int hp_ = 10;
 
 	// 横移動は完全に別原理で動かさなければいけないのでは...?
 
@@ -157,5 +169,11 @@ private: //** メンバ関数 **//
 	/// 撃つ弾を生成していろいろ登録する
 	/// </summary>
 	void CreateBullet();
+
+	/// <summary>
+	/// HP を減らす
+	/// </summary>
+	void DecreaseHP(int damage);
+
 };
 

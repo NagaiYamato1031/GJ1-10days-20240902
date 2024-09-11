@@ -23,6 +23,12 @@ void Player::Init() {
 	// 値を初期化
 	distance_ = 0.0f;
 	latestDistance_ = kPaddingCenter_;
+	isActive_ = true;
+	isDead_ = false;
+
+	// 体力を設定
+	hp_ = 10;
+
 
 	// メンバ関数ポインタ配列を初期化
 	InitFunctionArray();
@@ -37,6 +43,11 @@ void Player::Init() {
 void Player::Update() {
 	// デバッグ情報表示
 	DebugWindow();
+
+	// 死んでしまったら更新しない
+	if (isDead_) {
+		return;
+	}
 
 	// 行動の更新があった時
 	if (reqBehavior_) {
@@ -75,6 +86,9 @@ void Player::DrawModel(ViewProjection* view) {
 void Player::DebugWindow() {
 #ifdef _DEBUG
 	ImGui::Begin("PlayerWindow");
+
+	ImGui::Text("HP : %d", hp_);
+	ImGui::Text("IsDead : %s", isDead_ ? "TRUE" : "FALSE");
 
 	ImGui::Text("Behavior : ");	ImGui::SameLine();
 	switch (behavior_) {
@@ -241,12 +255,19 @@ void Player::InitCollision() {
 	collider_->enterLambda = [=](int mask) {
 		// ボスの弾に当たった時
 		if (mask == MBossBullet()) {
-
+			DecreaseHP(1);
 		}
 		};
 
 	// コリジョンマネージャーに登録
 	CollisionManager::GetInstance()->RegistCollider(collider_);
+}
+
+void Player::DecreaseHP(int damage) {
+	hp_ -= damage;
+	if (hp_ <= 0) {
+		isDead_ = true;
+	}
 }
 
 void Player::CreateBullet() {
