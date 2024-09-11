@@ -103,6 +103,10 @@ private: //** プライベート変数 **//
 
 private:
 
+	/// <summary>
+	/// まっすぐ飛ばす弾を生成する
+	/// </summary>
+	void CreateBulletSimple();
 
 	/// <summary>
 	/// HP を減らす

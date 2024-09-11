@@ -147,6 +147,15 @@ private: //** メンバ関数 **//
 	void UpdateFall();
 	void UpdateDrop();
 
+
+	/// <summary>
+	/// 当たり判定の初期設定
+	/// </summary>
+	void InitCollision();
+
+	/// <summary>
+	/// 撃つ弾を生成していろいろ登録する
+	/// </summary>
 	void CreateBullet();
 };
 

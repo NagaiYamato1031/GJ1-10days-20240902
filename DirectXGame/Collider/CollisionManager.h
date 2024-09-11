@@ -57,7 +57,11 @@ namespace ACJPN::Collider {
 
 	private: //** プライベート関数 **//
 
-		void CheckCollisionBoss();
+		/// <summary>
+		/// プレイヤーの当たり判定
+		/// </summary>
+		void CheckPlayer();
+		void CheckBoss();
 
 	};
 	template<typename T>

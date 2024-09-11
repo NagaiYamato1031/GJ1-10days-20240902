@@ -29,13 +29,9 @@ void Player::Init() {
 
 	// 弾管理クラスの初期化
 	bulletManager_.Init();
-	//　球の当たり判定
-	colSphere_.center = { 0.0f,0.0f,0.0f };
-	colSphere_.radius = 1.0f;
-	collider_ = std::make_shared<ShapeCollider<Sphere>>(&colSphere_);
-	collider_->mask = MPlayer();
-	// コリジョンマネージャーに登録
-	CollisionManager::GetInstance()->RegistCollider(collider_);
+
+	//当たり判定の初期化
+	InitCollision();
 }
 
 void Player::Update() {
@@ -230,6 +226,27 @@ void Player::UpdateDrop() {
 		flag_.isGround_ = true;
 		reqBehavior_ = Behavior::None;
 	}
+}
+
+void Player::InitCollision() {
+	//　球の当たり判定
+	colSphere_.center = { 0.0f,0.0f,0.0f };
+	colSphere_.radius = 1.0f;
+	collider_ = std::make_shared<ShapeCollider<Sphere>>(&colSphere_);
+	// マスクを登録
+	collider_->mask = MPlayer();
+
+	//** 当たった時の処理を設定 **//
+
+	collider_->enterLambda = [=](int mask) {
+		// ボスの弾に当たった時
+		if (mask == MBossBullet()) {
+
+		}
+		};
+
+	// コリジョンマネージャーに登録
+	CollisionManager::GetInstance()->RegistCollider(collider_);
 }
 
 void Player::CreateBullet() {

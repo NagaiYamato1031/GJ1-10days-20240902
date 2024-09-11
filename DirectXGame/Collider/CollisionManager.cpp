@@ -33,13 +33,29 @@ void CollisionManager::CheckCollision() {
 
 	//** 完全に手動でマスク処理を分ける **//
 
-	// プレイヤーと敵の弾
-
+	// プレイヤーとボスの弾
+	CheckPlayer();
 	// ボスとプレイヤーの弾
-	CheckCollisionBoss();
+	CheckBoss();
 }
 
-void ACJPN::Collider::CollisionManager::CheckCollisionBoss() {
+void ACJPN::Collider::CollisionManager::CheckPlayer() {
+	// プレイヤーの当たり判定
+	std::weak_ptr<ShapeColliderBase>& player = colliderMap_[MPlayer()].front();
+	// 中身が無かったら処理しない
+	if (player.expired()) {
+		return;
+	}
+	// ボスの弾の当たり判定
+	if (std::shared_ptr<ShapeColliderBase> ptr = player.lock()) {
+		for (auto listItr = colliderMap_[MBossBullet()].begin(); listItr != colliderMap_[MBossBullet()].end(); ++listItr) {
+			ptr->CheckCollision(listItr->lock().get());
+			listItr->lock().get()->CheckCollision(ptr.get());
+		}
+	}
+}
+
+void ACJPN::Collider::CollisionManager::CheckBoss() {
 	// ボスの当たり判定
 	std::weak_ptr<ShapeColliderBase>& boss = colliderMap_[MBoss()].front();
 	// 中身が無かったら処理しない
