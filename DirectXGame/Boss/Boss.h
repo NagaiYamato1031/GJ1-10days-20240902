@@ -98,10 +98,16 @@ private: //** プライベート変数 **//
 	//現在の行動
 	Phase phase_ = Phase::p1;
 
+	// 球の当たり判定
 	ACJPN::Math::Sphere colSphere_;
 	std::shared_ptr<ACJPN::Collider::ShapeCollider<ACJPN::Math::Sphere>> collider_;
 
-private:
+private: //** プライベート関数 **//
+
+	/// <summary>
+	/// 当たり判定を初期化
+	/// </summary>
+	void InitCollision();
 
 	/// <summary>
 	/// まっすぐ飛ばす弾を生成する

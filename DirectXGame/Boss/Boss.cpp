@@ -19,22 +19,8 @@ void Boss::Init() {
 	HP_ = 40;
 	isDead_ = false;
 	phase_ = p1;
-	//　球の当たり判定
-	colSphere_.center = { 0.0f,0.0f,0.0f };
-	colSphere_.radius = 5.0f;
-	collider_ = std::make_shared<ShapeCollider<Sphere>>(&colSphere_);
-	// マスク設定
-	collider_->mask = MBoss();
-	// 当たった時の処理
-	collider_->enterLambda = [=](int mask) {
-		// プレイヤーの弾の時
-		if (mask == MPlayerBullet()) {
-			DecreasHP(1);
-		}
-		};
-
-	// コリジョンマネージャーに登録
-	CollisionManager::GetInstance()->RegistCollider(collider_);
+	// 当たり判定を初期化
+	InitCollision();
 }
 
 void Boss::Update() {
@@ -85,6 +71,98 @@ void Boss::DebugWindow() {
 	ImGui::End();
 #endif // _DEBUG
 }
+
+void Boss::InitCollision() {
+	//　球の当たり判定
+	colSphere_.center = { 0.0f,0.0f,0.0f };
+	colSphere_.radius = 5.0f;
+	collider_ = std::make_shared<ShapeCollider<Sphere>>(&colSphere_);
+	// マスク設定
+	collider_->mask = MBoss();
+
+	// 当たった時の処理
+	collider_->enterLambda = [=](int mask) {
+		// プレイヤーの弾の時
+		if (mask == MPlayerBullet()) {
+			DecreasHP(1);
+		}
+		};
+
+	// コリジョンマネージャーに登録
+	CollisionManager::GetInstance()->RegistCollider(collider_);
+}
+
+void Boss::CreateBulletSimple() {
+	// 弾を生成する
+	SimpleBullet* data = new SimpleBullet;
+	data->Init();
+	data->transform_.translation_ = transform_.translation_;
+	// 座標
+	Vector3 pos = player_->GetTransform()->translation_;
+	Vector3 norm = Normalize(pos);
+	// 弾とプレイヤーの距離を計算する
+	data->velocity_.x = norm.x * 1.0f;
+	data->velocity_.y = norm.y * 1.0f;
+
+	//　球の当たり判定
+	data->colSphere_.center = { 0.0f,0.0f,0.0f };
+	data->colSphere_.radius = 1.0f;
+	data->collider_ = std::make_shared<ShapeCollider<Sphere>>(&data->colSphere_);
+	// マスク
+	data->collider_->mask = MBossBullet();
+
+	// ヒット時処理
+	data->collider_->enterLambda = [=](int mask) {
+		mask;
+		data->isActive = false;
+		data->collider_->isActive = false;
+		};
+
+	// コリジョンマネージャーに登録
+	CollisionManager::GetInstance()->RegistCollider(data->collider_);
+	// 登録
+	bulletManager_.Regist(data);
+}
+
+void Boss::DecreasHP(int damage) {
+	HP_ -= damage;
+	if (HP_ <= 0) {
+		isDead_ = true;
+	}
+}
+
+// エネミー攻撃処理
+void Boss::EnemyAttack_1() {
+	// プレイヤーを狙って飛んでくる弾
+	CreateBulletSimple();
+}
+
+void Boss::EnemyAttack_2() {
+
+	// プレイヤーの周りを狙って飛んでくる弾
+	SimpleBullet* data = new SimpleBullet;
+	data->Init();
+	data->transform_.translation_ = transform_.translation_;
+	// 弾をプレイヤーの方向に向ける
+	data->velocity_.x;
+	data->velocity_.y;
+	// 登録
+	bulletManager_.Regist(data);
+}
+
+void Boss::EnemyAttack_3() {
+
+	// 円に向かって飛び、波を発生させる弾
+	SimpleBullet* data = new SimpleBullet;
+	data->Init();
+	data->transform_.translation_ = transform_.translation_;
+	// 弾をプレイヤーの方向に向ける
+	data->velocity_.x;
+	data->velocity_.y;
+	// 登録
+	bulletManager_.Regist(data);
+}
+
 
 //エネミーフェーズ処理
 void Boss::Phase_01() {
@@ -166,75 +244,4 @@ void Boss::Phase_04() {
 
 		EnemyAttack_3();
 	}
-}
-
-void Boss::CreateBulletSimple() {
-	// 弾を生成する
-	SimpleBullet* data = new SimpleBullet;
-	data->Init();
-	data->transform_.translation_ = transform_.translation_;
-	// 座標
-	Vector3 pos = player_->GetTransform()->translation_;
-	Vector3 norm = Normalize(pos);
-	// 弾とプレイヤーの距離を計算する
-	data->velocity_.x = norm.x * 1.0f;
-	data->velocity_.y = norm.y * 1.0f;
-
-	//　球の当たり判定
-	data->colSphere_.center = { 0.0f,0.0f,0.0f };
-	data->colSphere_.radius = 1.0f;
-	data->collider_ = std::make_shared<ShapeCollider<Sphere>>(&data->colSphere_);
-	// マスク
-	data->collider_->mask = MBossBullet();
-
-	// ヒット時処理
-	data->collider_->enterLambda = [=](int mask) {
-		mask;
-		data->isActive = false;
-		data->collider_->isActive = false;
-		};
-
-	// コリジョンマネージャーに登録
-	CollisionManager::GetInstance()->RegistCollider(data->collider_);
-	// 登録
-	bulletManager_.Regist(data);
-}
-
-void Boss::DecreasHP(int damage) {
-	HP_ -= damage;
-	if (HP_ <= 0) {
-		isDead_ = true;
-	}
-}
-
-// エネミー攻撃処理
-void Boss::EnemyAttack_1() {
-	// プレイヤーを狙って飛んでくる弾
-	CreateBulletSimple();
-}
-
-void Boss::EnemyAttack_2() {
-
-	// プレイヤーの周りを狙って飛んでくる弾
-	SimpleBullet* data = new SimpleBullet;
-	data->Init();
-	data->transform_.translation_ = transform_.translation_;
-	// 弾をプレイヤーの方向に向ける
-	data->velocity_.x;
-	data->velocity_.y;
-	// 登録
-	bulletManager_.Regist(data);
-}
-
-void Boss::EnemyAttack_3() {
-
-	// 円に向かって飛び、波を発生させる弾
-	SimpleBullet* data = new SimpleBullet;
-	data->Init();
-	data->transform_.translation_ = transform_.translation_;
-	// 弾をプレイヤーの方向に向ける
-	data->velocity_.x;
-	data->velocity_.y;
-	// 登録
-	bulletManager_.Regist(data);
 }
