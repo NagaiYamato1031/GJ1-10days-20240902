@@ -7,6 +7,7 @@
 #include "Particle_PlayerBullet.h"
 #include "Particle_EnemyBullet.h"
 #include "Particle_Wave.h"
+#include "Particle_Conflict.h"
 #include "list"
 
 struct Particle {
@@ -46,6 +47,7 @@ public: /*パブリック関数*/
 	void CreateParticle_BBBullet(const Vector3& position, const float& rotationDeg);
 
 	void CreateParticle_Wave(const Vector3& position, const float& rotationDeg);
+	void CreateParticle_Conflict(const Vector3& position, const float& rotationDeg);
 
 
 	void UpdateParticle();//生成したパーティクルを動かす
@@ -70,8 +72,8 @@ private: /*メンバ変数*/
 	Particle footpaceBullet_;//持続弾
 	Particle boundBullet_;//バウンド弾
 	Particle bbBullet_; //大玉
-	Particle wave_;
-
+	Particle wave_;//波攻撃
+	Particle conflict_;//弾と弾がぶつかった時のやつ
 
 	//パーティクルのリスト
 	std::list<Particle_PlayerBullet*> particle_PlayerBullets_;//プレイヤーの弾
@@ -82,6 +84,6 @@ private: /*メンバ変数*/
 	std::list<Particle_EnemyBullet*> particle_BBBullets_;//大玉
 
 	std::list<Particle_Wave*> particle_Waves_; // 波
-
+	std::list<Particle_Conflict*> particle_Conflicts_;//衝突
 
 };

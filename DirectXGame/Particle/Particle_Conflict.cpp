@@ -1,4 +1,4 @@
-#include "Particle_Wave.h"
+#include "Particle_Conflict.h"
 
 #include <ImGuiManager.h>
 #include <TextureManager.h>
@@ -8,9 +8,9 @@
 using namespace ACJPN;
 using namespace ACJPN::Math;
 
-void Particle_Wave::Init(float time, Model* model, const Vector3& position, const float& scalar, const Vector3& scale, const float& rotate, const int& randomRange, const float& randomFar) {
+void Particle_Conflict::Init(float time, Model* model, const Vector3& position, const float& scalar, const Vector3& scale, const float& rotate, const int& randomRange, const float& randomFar) {
 	// ファイル名を指定してテクスチャを読み込む
-	textureHandle_ = TextureManager::Load("wave.png");
+	textureHandle_ = TextureManager::Load("player_Bullet.png");
 
 	// 生存時間受け取り
 	time_ = time;
@@ -38,7 +38,7 @@ void Particle_Wave::Init(float time, Model* model, const Vector3& position, cons
 	worldTransform_.scale_ = scale;
 	worldTransform_.rotation_ = Vector3(0, 0, rotate_);
 }
-void Particle_Wave::Update() {
+void Particle_Conflict::Update() {
 	// 速度加算
 	worldTransform_.translation_ += velocity_;
 
@@ -51,18 +51,17 @@ void Particle_Wave::Update() {
 	// ワールドマトリックス更新
 	worldTransform_.UpdateMatrix();
 }
-void Particle_Wave::Draw(const ViewProjection* viewProjection) {
+void Particle_Conflict::Draw(const ViewProjection* viewProjection) { 
 	model_->Draw(worldTransform_, *viewProjection, textureHandle_); 
-
 }
-bool Particle_Wave::IsBreak() { 
+
+bool Particle_Conflict::IsBreak() { 
 	if (isBreak_) {
 		return true;
 	} else {
 		return false;
 	}
 }
-
-float Particle_Wave::ToRadian(float angle) { 
-	return angle * 3.14159265359f / 180.0f; 
+float Particle_Conflict::ToRadian(float angle) {
+	return angle * 3.14159265359f / 180.0f;
 }
