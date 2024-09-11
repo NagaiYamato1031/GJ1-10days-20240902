@@ -216,11 +216,12 @@ void ParticleEffects::CreateParticle_Wave(const Vector3& position, const float& 
 		for (int i = 0; i < wave_.createCount; i++) {
 			Particle_Wave* newParticle = new Particle_Wave();
 			Vector3 createPos = Vector3(((position.x + (wave_.scale.x * i * 2)) - (wave_.scale.x * 2.0f * (wave_.createCount - 1.0f) / 2.0f)), position.y, position.z);
+			createPos = Vector3(-createPos.x * cosf(-rotationDeg), -createPos.x * sinf(-rotationDeg), 0);
 			newParticle->Init(wave_.lifeTime, model_, createPos, wave_.scalar, wave_.scale, rotationDeg, wave_.randomRenge, wave_.randomFar);
 			particle_Waves_.push_back(newParticle);
 		}
 	}
-	bbBullet_.intervalBuff--;
+	wave_.intervalBuff--;
 }
 void ParticleEffects::CreateParticle_Conflict(const Vector3& position, const float& rotationDeg) {
 	for (int i = 0; i < conflict_.createCount; i++) {
