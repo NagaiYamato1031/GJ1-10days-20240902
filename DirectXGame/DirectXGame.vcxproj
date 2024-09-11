@@ -113,6 +113,8 @@
     <ClCompile Include="Boss\Boss.cpp" />
     <ClCompile Include="BulletManager\BulletManager.cpp" />
     <ClCompile Include="BulletManager\Divide\SimpleBullet.cpp" />
+    <ClCompile Include="Collider\CollisionManager.cpp" />
+    <ClCompile Include="Collider\ShapeCollider.cpp" />
     <ClCompile Include="FollowCamera\FollowCamera.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Particle\ParticleEffects.cpp" />
@@ -157,6 +159,9 @@
     <ClInclude Include="BulletManager\BulletManager.h" />
     <ClInclude Include="BulletManager\Divide\BulletList.h" />
     <ClInclude Include="BulletManager\Divide\SimpleBullet.h" />
+    <ClInclude Include="Collider\CollisionManager.h" />
+    <ClInclude Include="Collider\MaskCollision.h" />
+    <ClInclude Include="Collider\ShapeCollider.h" />
     <ClInclude Include="FollowCamera\FollowCamera.h" />
     <ClInclude Include="BulletManager\IBullet.h" />
     <ClInclude Include="input\Input.h" />
