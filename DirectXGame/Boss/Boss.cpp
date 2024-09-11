@@ -103,7 +103,7 @@ void Boss::CreateBulletSimple() {
 	// 弾とプレイヤーの距離を計算する
 	data->velocity_.x = norm.x * 1.0f;
 	data->velocity_.y = norm.y * 1.0f;
-
+	data->aliveFrame_ = 50;
 	//　球の当たり判定
 	data->colSphere_.center = { 0.0f,0.0f,0.0f };
 	data->colSphere_.radius = 1.0f;
@@ -114,8 +114,92 @@ void Boss::CreateBulletSimple() {
 	// ヒット時処理
 	data->collider_->enterLambda = [=](int mask) {
 		mask;
-		data->isActive = false;
-		data->collider_->isActive = false;
+		// プレイヤーに当たった時
+		if (mask == MPlayer()) {
+			data->isActive = false;
+			data->collider_->isActive = false;
+		}
+		};
+	// 応急措置として呼び出す
+	data->collider_->exitLambda = [=](int mask) {
+		// ステージに当たったら
+		if (mask == MStage()) {
+			data->isActive = false;
+			data->collider_->isActive = false;
+			Vector3 norm = Normalize(data->transform_.translation_);
+			// 波を発生させる
+			CreateBulletWave(std::atan2(norm.y,norm.x), 3.0f);
+		}
+		};
+
+	// コリジョンマネージャーに登録
+	CollisionManager::GetInstance()->RegistCollider(data->collider_);
+	// 登録
+	bulletManager_.Regist(data);
+}
+
+void Boss::CreateBulletWave(float theta, float power) {
+	// 座標
+	Vector3 pos = { std::cosf(theta),std::sinf(theta),0.0f };
+	// ステージに合わせる
+	pos *= 50.0f;
+	// 一つ目
+	// 弾を生成する
+	WaveBullet* data = new WaveBullet;
+	data->Init();
+	data->transform_.translation_ = pos;
+	// 進む方向を設定
+	data->theta_ = theta;
+	data->power_ = power;
+	data->omega_ = power * 0.001f;
+	
+	//　球の当たり判定
+	data->colSphere_.center = { 0.0f,0.0f,0.0f };
+	data->colSphere_.radius = 1.0f;
+	data->collider_ = std::make_shared<ShapeCollider<Sphere>>(&data->colSphere_);
+	// マスク
+	data->collider_->mask = MWave();
+
+	// ヒット時処理
+	data->collider_->enterLambda = [=](int mask) {
+		mask;
+		// プレイヤーに当たった時
+		if (mask == MPlayer()) {
+			data->isActive = false;
+			data->collider_->isActive = false;
+		}
+		};
+
+	// コリジョンマネージャーに登録
+	CollisionManager::GetInstance()->RegistCollider(data->collider_);
+	// 登録
+	bulletManager_.Regist(data);
+
+	// 二つ目
+	// 弾を生成する
+	data = new WaveBullet;
+	data->Init();
+	data->transform_.translation_ = pos;
+	// 進む方向を逆方向へ
+	data->theta_ = theta;
+	data->power_ = power;
+	data->omega_ = power * 0.001f * -1;
+
+	//　球の当たり判定
+	data->colSphere_.center = { 0.0f,0.0f,0.0f };
+	data->colSphere_.radius = 1.0f;
+	data->collider_ = std::make_shared<ShapeCollider<Sphere>>(&data->colSphere_);
+	// マスク
+	data->collider_->mask = MWave();
+
+	// ヒット時処理
+	data->collider_->enterLambda = [=](int mask) {
+		mask;
+		// プレイヤーに当たった時
+		if (mask == MPlayer()) {
+			data->isActive = false;
+			data->collider_->isActive = false;
+		}
 		};
 
 	// コリジョンマネージャーに登録

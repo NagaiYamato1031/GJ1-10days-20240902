@@ -57,6 +57,10 @@ void Player::Update() {
 	}
 	// 行動の更新
 	(this->*updateFunc[behavior_])();
+	// 角度制限
+	if (theta_ < -3.14f * 2) {
+		theta_ += 3.14f * 2;
+	}
 
 	// 弾管理クラス更新
 	bulletManager_.Update();
@@ -86,6 +90,12 @@ void Player::DrawModel(ViewProjection* view) {
 void Player::DebugWindow() {
 #ifdef _DEBUG
 	ImGui::Begin("PlayerWindow");
+
+	if (ImGui::Button("Reset") || input_->TriggerKey(DIK_0)) {
+		hp_ = 10;
+		isDead_ = false;
+		isActive_ = true;
+	}
 
 	ImGui::Text("HP : %d", hp_);
 	ImGui::Text("IsDead : %s", isDead_ ? "TRUE" : "FALSE");
@@ -255,6 +265,10 @@ void Player::InitCollision() {
 	collider_->enterLambda = [=](int mask) {
 		// ボスの弾に当たった時
 		if (mask == MBossBullet()) {
+			DecreaseHP(1);
+		}
+		// 波攻撃に当たった時
+		if (mask == MWave()) {
 			DecreaseHP(1);
 		}
 		};

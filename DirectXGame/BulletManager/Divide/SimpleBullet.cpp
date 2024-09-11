@@ -12,8 +12,10 @@ void SimpleBullet::Init() {
 
 void SimpleBullet::Update() {
 	elapsedFrame++;
-	if (60 <= elapsedFrame) {
+	if (aliveFrame_ <= elapsedFrame) {
 		isActive = false;
+		// 緊急の措置として関数を呼ぶ
+		collider_->exitLambda(MStage());
 		return;
 	}
 	transform_.translation_ += velocity_;

@@ -4,13 +4,13 @@
 #include <Collider/CollisionManager.h>
 
 /// <summary>
-/// ただまっすぐに飛んでいく
+/// ステージに沿うように原点から一定の範囲離れたところを回転する
 /// </summary>
-class SimpleBullet : public IBullet {
+class WaveBullet : public IBullet {
 public: //** コンストラクタ **//
 
-	SimpleBullet() = default;
-	~SimpleBullet() override = default;
+	WaveBullet() = default;
+	~WaveBullet() override = default;
 
 public: //** パブリック関数 **//
 
@@ -31,10 +31,13 @@ public: //** パブリック関数 **//
 
 public: //** パブリック関数 **//
 
-	int aliveFrame_ = 60;
+	// 円状の角度
+	float theta_ = 0.0f;
+	// 進む角度
+	float omega_ = 0.001f;
 
-	// 進む速度
-	Vector3 velocity_ = { 0.0f,0.0f,0.0f };
+	// 波の強さ
+	float power_ = 1.0f;
 
 	// 当たり判定
 	ACJPN::Math::Sphere colSphere_;

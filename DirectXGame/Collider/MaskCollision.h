@@ -11,5 +11,6 @@ namespace ACJPN::Collider {
 	constexpr int MBoss() { return MaskCollision2; }
 	constexpr int MBossBullet() { return MaskCollision3; }
 	constexpr int MWave() { return MaskCollision4; }
+	constexpr int MStage() { return MaskCollision5; }
 
 }

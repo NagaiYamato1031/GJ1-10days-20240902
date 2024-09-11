@@ -46,12 +46,21 @@ void ACJPN::Collider::CollisionManager::CheckPlayer() {
 	if (player.expired()) {
 		return;
 	}
-	// ボスの弾の当たり判定
+	// スコープで制限する
 	if (std::shared_ptr<ShapeColliderBase> ptr = player.lock()) {
+		// ボスの弾の当たり判定
 		for (auto listItr = colliderMap_[MBossBullet()].begin(); listItr != colliderMap_[MBossBullet()].end(); ++listItr) {
 			ptr->CheckCollision(listItr->lock().get());
 			listItr->lock().get()->CheckCollision(ptr.get());
+
 		}
+
+		// 波との判定
+		for (auto listItr = colliderMap_[MWave()].begin(); listItr != colliderMap_[MWave()].end(); ++listItr) {
+			ptr->CheckCollision(listItr->lock().get());
+			listItr->lock().get()->CheckCollision(ptr.get());
+		}
+
 	}
 }
 

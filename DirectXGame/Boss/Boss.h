@@ -113,6 +113,10 @@ private: //** プライベート関数 **//
 	/// まっすぐ飛ばす弾を生成する
 	/// </summary>
 	void CreateBulletSimple();
+	/// <summary>
+	/// 角度から波を生成する
+	/// </summary>
+	void CreateBulletWave(float theta, float power);
 
 	/// <summary>
 	/// HP を減らす
