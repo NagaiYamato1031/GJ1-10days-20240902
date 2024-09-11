@@ -14,6 +14,7 @@ using namespace ACJPN::Scene;
 
 void ACJPN::Scene::SceneManager::Init() {
 	// 機能を取得
+	winApp_ = WinApp::GetInstance();
 	dxCommon_ = DirectXCommon::GetInstance();
 
 	// 最初のシーンを設定し初期化
@@ -28,6 +29,9 @@ void ACJPN::Scene::SceneManager::Init() {
 	
 	// null にしておく
 	nextScene_ = nullptr;
+
+	// サイズをアスペクト比固定
+	winApp_->SetSizeChangeMode(WinApp::SizeChangeMode::kNone);
 }
 
 void ACJPN::Scene::SceneManager::Update() {

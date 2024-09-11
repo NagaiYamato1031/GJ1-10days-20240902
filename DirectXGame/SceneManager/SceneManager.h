@@ -2,6 +2,7 @@
 
 #include "IScene.h"
 
+class WinApp;
 class DirectXCommon;
 
 namespace ACJPN {
@@ -26,6 +27,8 @@ namespace ACJPN {
 			/// </summary>
 			void Draw();
 		private:
+			// ウィンドウ機能
+			WinApp* winApp_ = nullptr;
 			// 描画用の機能
 			DirectXCommon* dxCommon_ = nullptr;
 

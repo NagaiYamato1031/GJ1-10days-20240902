@@ -24,6 +24,7 @@ void TestScene::Init() {
 
 	// ボス初期化
 	boss_.Init();
+	boss_.SetPlayer(&player_);
 
 	// ターゲットに設定
 	camera_.SetTarget(player_.GetTransform());
