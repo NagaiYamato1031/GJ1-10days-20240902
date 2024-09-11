@@ -1,6 +1,7 @@
 #pragma once
 
 #include <BulletManager/IBullet.h>
+#include <Collider/CollisionManager.h>
 
 /// <summary>
 /// ただまっすぐに飛んでいく
@@ -33,4 +34,7 @@ public: //** パブリック関数 **//
 	// 進む速度
 	Vector3 velocity_ = { 0.0f,0.0f,0.0f };
 
+	// 当たり判定
+	ACJPN::Math::Sphere colSphere_;
+	std::shared_ptr < ACJPN::Collider::ShapeCollider<ACJPN::Math::Sphere>> collider_;
 };

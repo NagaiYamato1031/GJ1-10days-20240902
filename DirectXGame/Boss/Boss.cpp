@@ -1,6 +1,7 @@
 #include "Boss.h"
 #include <BulletManager/Divide/BulletList.h>
 #include <Player/Player.h>
+#include <ImGuiManager.h>
 
 using namespace ACJPN;
 using namespace ACJPN::Math;
@@ -15,18 +16,31 @@ void Boss::Init() {
 	bulletManager_.Init();
 
 	//ＨＰ・フラグ・フェーズ初期化
-	EnemyHP_ = 40;
+	HP_ = 40;
 	isDead_ = false;
 	phase_ = p1;
 	//　球の当たり判定
 	colSphere_.center = { 0.0f,0.0f,0.0f };
-	colSphere_.radius = 10.0f;
+	colSphere_.radius = 5.0f;
 	collider_ = std::make_shared<ShapeCollider<Sphere>>(&colSphere_);
+	// マスク設定
+	collider_->mask = MBoss();
+	// 当たった時の処理
+	collider_->enterLambda = [=](int mask) {
+		// プレイヤーの弾の時
+		if (mask == MPlayerBullet()) {
+			DecreasHP(1);
+		}
+		};
+
 	// コリジョンマネージャーに登録
-	CollisionManager::GetInstance()->RegistCollider(MBoss(), collider_);
+	CollisionManager::GetInstance()->RegistCollider(collider_);
 }
 
 void Boss::Update() {
+
+	// デバッグ表示
+	DebugWindow();
 
 	switch (phase_) {
 	case Boss::p1:
@@ -61,6 +75,17 @@ void Boss::DrawModel(ViewProjection* view) {
 	model_->Draw(transform_, *view);
 }
 
+void Boss::DebugWindow() {
+#ifdef _DEBUG
+	ImGui::Begin("BossWindow");
+
+	ImGui::Text("HP : %d", HP_);
+	ImGui::Text("IsDead : %s", isDead_ ? "TRUE" : "FALSE");
+
+	ImGui::End();
+#endif // _DEBUG
+}
+
 //エネミーフェーズ処理
 void Boss::Phase_01() {
 
@@ -76,7 +101,7 @@ void Boss::Phase_01() {
 	}
 
 	// フェーズ２へ移行
-	if (EnemyHP_ >= 29 && EnemyHP_ <= 30) {
+	if (HP_ >= 29 && HP_ <= 30) {
 		phase_ = p2;
 	}
 }
@@ -100,7 +125,7 @@ void Boss::Phase_02() {
 	}
 
 	//フェーズ３へ移行
-	if (EnemyHP_ >= 19 && EnemyHP_ <= 28) {
+	if (HP_ >= 19 && HP_ <= 28) {
 		phase_ = p3;
 	}
 }
@@ -119,7 +144,7 @@ void Boss::Phase_03() {
 	}
 
 	// フェーズ４へ移行
-	if (EnemyHP_ >= 9 && EnemyHP_ <= 18) {
+	if (HP_ >= 9 && HP_ <= 18) {
 		phase_ = p4;
 	}
 }
@@ -141,19 +166,10 @@ void Boss::Phase_04() {
 
 		EnemyAttack_3();
 	}
-
-	//エネミーのHPが０以下になったらEndSceneに移行
-	if (EnemyHP_ >= 0 && EnemyHP_ <= 9) {
-
-		//フラグをTrueにする
-		isDead_ = true;
-	}
 }
 
-// エネミー攻撃処理
-void Boss::EnemyAttack_1() {
-
-	// プレイヤーを狙って飛んでくる弾
+void Boss::CreateBulletSimple() {
+	// 弾を生成する
 	SimpleBullet* data = new SimpleBullet;
 	data->Init();
 	data->transform_.translation_ = transform_.translation_;
@@ -163,8 +179,38 @@ void Boss::EnemyAttack_1() {
 	// 弾とプレイヤーの距離を計算する
 	data->velocity_.x = norm.x * 1.0f;
 	data->velocity_.y = norm.y * 1.0f;
+
+	//　球の当たり判定
+	data->colSphere_.center = { 0.0f,0.0f,0.0f };
+	data->colSphere_.radius = 1.0f;
+	data->collider_ = std::make_shared<ShapeCollider<Sphere>>(&data->colSphere_);
+	// マスク
+	data->collider_->mask = MBossBullet();
+
+	// ヒット時処理
+	data->collider_->enterLambda = [=](int mask) {
+		mask;
+		data->isActive = false;
+		data->collider_->isActive = false;
+		};
+
+	// コリジョンマネージャーに登録
+	CollisionManager::GetInstance()->RegistCollider(data->collider_);
 	// 登録
 	bulletManager_.Regist(data);
+}
+
+void Boss::DecreasHP(int damage) {
+	HP_ -= damage;
+	if (HP_ <= 0) {
+		isDead_ = true;
+	}
+}
+
+// エネミー攻撃処理
+void Boss::EnemyAttack_1() {
+	// プレイヤーを狙って飛んでくる弾
+	CreateBulletSimple();
 }
 
 void Boss::EnemyAttack_2() {

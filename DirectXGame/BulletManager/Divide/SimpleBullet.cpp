@@ -2,6 +2,7 @@
 
 using namespace ACJPN;
 using namespace ACJPN::Math;
+using namespace ACJPN::Collider;
 
 void SimpleBullet::Init() {
 	model_.reset(Model::Create());
@@ -16,6 +17,11 @@ void SimpleBullet::Update() {
 		return;
 	}
 	transform_.translation_ += velocity_;
+
+	// 当たり判定移動
+	colSphere_.center = transform_.translation_;
+
+	// 行列更新
 	transform_.UpdateMatrix();
 }
 

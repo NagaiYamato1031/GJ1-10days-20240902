@@ -81,6 +81,11 @@ namespace ACJPN::Collider {
 		/// <param name="c"></param>
 		void Hit(ShapeColliderBase* c) override;
 
+		/// <summary>
+		/// ヒットしていない時
+		/// </summary>
+		void NoHit();
+
 	public: //** パブリック変数 **//
 
 		// 稼働状態か
@@ -119,19 +124,18 @@ namespace ACJPN::Collider {
 		if (auto sphere = dynamic_cast<ShapeCollider<Math::Sphere>*>(c)) {
 			if (Math::IsCollision(*GetShape(), *sphere->GetShape())) {
 				Hit(c);
+				return;
 			}
 		}
 		else if (auto aabb = dynamic_cast<ShapeCollider<Math::AABB>*>(c)) {
 			if (Math::IsCollision(*GetShape(), *aabb->GetShape())) {
 				Hit(c);
+				return;
 			}
 		}
 		// 当たっていないとき
 		// 前フレームに当たっていたら
-		else if (hit_) {
-			enterLambda(hit_->mask);
-			hit_ = nullptr;
-		}
+		NoHit();
 	}
 
 	template<typename T>
@@ -152,6 +156,13 @@ namespace ACJPN::Collider {
 		// 違うものに当たっている時
 		else {
 			hit_ = c;
+		}
+	}
+	template<typename T>
+	inline void ShapeCollider<T>::NoHit() {
+		if (hit_) {
+			exitLambda(hit_->mask);
+			hit_ = nullptr;
 		}
 	}
 }

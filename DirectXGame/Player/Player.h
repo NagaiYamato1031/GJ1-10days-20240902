@@ -11,6 +11,7 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include <BulletManager/BulletManager.h>
+#include <Collider/CollisionManager.h>
 
 /// <summary>
 /// 操作するプレイヤー
@@ -72,7 +73,16 @@ public: // パブリック関数 **//
 	/// </summary>
 	void DebugWindow();
 
+	bool GetIsActive() const { return isActive_; }
+
 private: //** メンバ変数 **//
+
+	// このクラスが動いているかどうか
+	bool isActive_ = true;
+
+	// 死んでしまったかどうか
+	bool isDead_ = false;
+
 	// 一度に変更する角度
 	float kSpeed_ = 0.01f;
 
@@ -108,6 +118,9 @@ private: //** メンバ変数 **//
 	// 経過時間
 	int elapsedFrame_ = 0;
 
+	// 体力
+	int hp_ = 10;
+
 	// 横移動は完全に別原理で動かさなければいけないのでは...?
 
 	// 現在の行動
@@ -121,6 +134,9 @@ private: //** メンバ変数 **//
 	// 行動更新関数配列
 	std::vector<void(Player::*)()> updateFunc;
 
+	// 当たり判定
+	ACJPN::Math::Sphere colSphere_;
+	std::shared_ptr < ACJPN::Collider::ShapeCollider<ACJPN::Math::Sphere>> collider_;
 
 private: //** メンバ関数 **//
 
@@ -142,5 +158,22 @@ private: //** メンバ関数 **//
 	void UpdateJump();
 	void UpdateFall();
 	void UpdateDrop();
+
+
+	/// <summary>
+	/// 当たり判定の初期設定
+	/// </summary>
+	void InitCollision();
+
+	/// <summary>
+	/// 撃つ弾を生成していろいろ登録する
+	/// </summary>
+	void CreateBullet();
+
+	/// <summary>
+	/// HP を減らす
+	/// </summary>
+	void DecreaseHP(int damage);
+
 };
 

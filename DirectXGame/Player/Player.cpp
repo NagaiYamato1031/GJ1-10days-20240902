@@ -5,6 +5,7 @@
 
 using namespace ACJPN;
 using namespace ACJPN::Math;
+using namespace ACJPN::Collider;
 
 void Player::Init() {
 	// 入力取得
@@ -22,17 +23,31 @@ void Player::Init() {
 	// 値を初期化
 	distance_ = 0.0f;
 	latestDistance_ = kPaddingCenter_;
+	isActive_ = true;
+	isDead_ = false;
+
+	// 体力を設定
+	hp_ = 10;
+
 
 	// メンバ関数ポインタ配列を初期化
 	InitFunctionArray();
 
 	// 弾管理クラスの初期化
 	bulletManager_.Init();
+
+	//当たり判定の初期化
+	InitCollision();
 }
 
 void Player::Update() {
 	// デバッグ情報表示
 	DebugWindow();
+
+	// 死んでしまったら更新しない
+	if (isDead_) {
+		return;
+	}
 
 	// 行動の更新があった時
 	if (reqBehavior_) {
@@ -56,6 +71,9 @@ void Player::Update() {
 	// 回転を合わせて中心に経っているようにする
 	transform_.rotation_.z = theta_;
 
+	// 当たり判定を移動
+	colSphere_.center = transform_.translation_;
+
 	// 行列更新
 	transform_.UpdateMatrix();
 }
@@ -68,6 +86,9 @@ void Player::DrawModel(ViewProjection* view) {
 void Player::DebugWindow() {
 #ifdef _DEBUG
 	ImGui::Begin("PlayerWindow");
+
+	ImGui::Text("HP : %d", hp_);
+	ImGui::Text("IsDead : %s", isDead_ ? "TRUE" : "FALSE");
 
 	ImGui::Text("Behavior : ");	ImGui::SameLine();
 	switch (behavior_) {
@@ -90,9 +111,10 @@ void Player::DebugWindow() {
 	ImGui::Text("Bullet : %d", bulletManager_.GetList().size());
 
 	ImGui::DragFloat("theta", &theta_, 0.001f);
-	if (theta_ < -3.14f * 2){
+	if (theta_ < -3.14f * 2) {
 		theta_ += 3.14f * 2;
-	}else if (3.14f * 2 < theta_){
+	}
+	else if (3.14f * 2 < theta_) {
 		theta_ -= 3.14f * 2;
 	}
 	if (ImGui::TreeNode("Transform")) {
@@ -213,18 +235,65 @@ void Player::UpdateDrop() {
 	fineAir_ -= 0.01f;
 	distance_ += fineAir_;
 	if (distance_ <= 0.0f) {
-		// 弾を生成する
-		SimpleBullet* data = new SimpleBullet;
-		data->Init();
-		data->transform_.translation_ = transform_.translation_;
-		// 速度を向いている方向に向ける
-		data->velocity_.x = std::cosf(theta_) * -1.5f;
-		data->velocity_.y = std::sinf(theta_) * -1.5f;
-		// 登録
-		bulletManager_.Regist(data);
-
+		CreateBullet();
 		distance_ = 0.0f;
 		flag_.isGround_ = true;
 		reqBehavior_ = Behavior::None;
 	}
+}
+
+void Player::InitCollision() {
+	//　球の当たり判定
+	colSphere_.center = { 0.0f,0.0f,0.0f };
+	colSphere_.radius = 1.0f;
+	collider_ = std::make_shared<ShapeCollider<Sphere>>(&colSphere_);
+	// マスクを登録
+	collider_->mask = MPlayer();
+
+	//** 当たった時の処理を設定 **//
+
+	collider_->enterLambda = [=](int mask) {
+		// ボスの弾に当たった時
+		if (mask == MBossBullet()) {
+			DecreaseHP(1);
+		}
+		};
+
+	// コリジョンマネージャーに登録
+	CollisionManager::GetInstance()->RegistCollider(collider_);
+}
+
+void Player::DecreaseHP(int damage) {
+	hp_ -= damage;
+	if (hp_ <= 0) {
+		isDead_ = true;
+	}
+}
+
+void Player::CreateBullet() {
+	// 弾を生成する
+	SimpleBullet* data = new SimpleBullet;
+	data->Init();
+	data->transform_.translation_ = transform_.translation_;
+	// 速度を向いている方向に向ける
+	data->velocity_.x = std::cosf(theta_) * -1.5f;
+	data->velocity_.y = std::sinf(theta_) * -1.5f;
+	//　球の当たり判定
+	data->colSphere_.center = { 0.0f,0.0f,0.0f };
+	data->colSphere_.radius = 1.0f;
+	data->collider_ = std::make_shared<ShapeCollider<Sphere>>(&data->colSphere_);
+	// マスク
+	data->collider_->mask = MPlayerBullet();
+
+	// ヒット時処理
+	data->collider_->enterLambda = [=](int mask) {
+		mask;
+		data->isActive = false;
+		data->collider_->isActive = false;
+		};
+
+	// コリジョンマネージャーに登録
+	CollisionManager::GetInstance()->RegistCollider(data->collider_);
+	// 登録
+	bulletManager_.Regist(data);
 }

@@ -54,6 +54,11 @@ public: //** パブリック関数 **//
 
 	void SetPlayer(Player* p) { player_ = p; }
 
+	/// <summary>
+	/// デバッグ表示
+	/// </summary>
+	void DebugWindow();
+
 private: //** プライベート変数 **//
 
 	// 3D モデル
@@ -69,7 +74,7 @@ private: //** プライベート変数 **//
 	Player* player_ = nullptr;
 
 	//エネミー体力
-	int EnemyHP_ = 40;
+	int HP_ = 40;
 
 	//エネミー攻撃遷移フレーム
 	int AttackFrame01 = 180;
@@ -97,6 +102,16 @@ private: //** プライベート変数 **//
 	std::shared_ptr<ACJPN::Collider::ShapeCollider<ACJPN::Math::Sphere>> collider_;
 
 private:
+
+	/// <summary>
+	/// まっすぐ飛ばす弾を生成する
+	/// </summary>
+	void CreateBulletSimple();
+
+	/// <summary>
+	/// HP を減らす
+	/// </summary>
+	void DecreasHP(int damage);
 
 	//エネミー攻撃手段
 	void EnemyAttack_1(); //自機狙い
