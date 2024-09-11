@@ -10,7 +10,7 @@ public: /*コンストラクタ*/
 public: /*パブリック関数*/
 
 	void Init(float time, Model* model, const Vector3& position, const float& velocity, const Vector3& scale, const float& rotate, const int& randomRange, const float& randomFar); // 初期化
-	void Update();// 更新
+	void Update(const Vector3& shrinkScale);                                                                                                                                          // 更新
 	void Draw( const ViewProjection* viewProjection);//描画
 
 	bool IsBreak();//フラグ管理

@@ -24,6 +24,7 @@ void ParticleEffects::Init() {
 		4,//ランダム範囲（正方向のみ
 		0.5f,//ランダムでずらす距離
 	    1, //  一度に生成する数(波とぶつかった時のエフェクトで使用するよ～
+	    {0,0,0}, //  小さくするときにいじるやつ
 	};
 	//通常弾
 	standardBullet_ = {
@@ -36,6 +37,7 @@ void ParticleEffects::Init() {
 	    4, //  ランダム範囲（正方向のみ
 	    0.5f,  //  ランダムでずらす距離
 	    1, //  一度に生成する数(波とぶつかった時のエフェクトで使用するよ～
+	    {0,0,0}, //  小さくするときにいじるやつ
 	};
 	//追跡弾
 	chaserBullet_ = {
@@ -48,6 +50,7 @@ void ParticleEffects::Init() {
 	    4, //  ランダム範囲（正方向のみ
 	    0.5f,  //  ランダムでずらす距離
 	    1, //  一度に生成する数(波とぶつかった時のエフェクトで使用するよ～
+	    {0,0,0 }, //  小さくするときにいじるやつ
 	};
 	//持続弾
 	footpaceBullet_ = {
@@ -60,6 +63,7 @@ void ParticleEffects::Init() {
 	    4, //  ランダム範囲（正方向のみ
 	    0.5f,  //  ランダムでずらす距離
 	    1, //  一度に生成する数(波とぶつかった時のエフェクトで使用するよ～
+	    {0,    0,    0   }, //  小さくするときにいじるやつ
 	};
 	//バウンド弾
 	boundBullet_ = {
@@ -72,6 +76,7 @@ void ParticleEffects::Init() {
 	    4, //  ランダム範囲（正方向のみ
 	    0.5f,  //  ランダムでずらす距離
 	    1, //  一度に生成する数(波とぶつかった時のエフェクトで使用するよ～
+	    {0,    0,    0   }, //  小さくするときにいじるやつ
 	};
 	//大玉
 	bbBullet_ = {
@@ -84,6 +89,7 @@ void ParticleEffects::Init() {
 	    4, //  ランダム範囲（正方向のみ
 	    0.5f,  //  ランダムでずらす距離
 	    1, //  一度に生成する数(波とぶつかった時のエフェクトで使用するよ～
+	    {0,    0,    0   }, //  小さくするときにいじるやつ
 	};
 
 #pragma endregion
@@ -98,10 +104,11 @@ void ParticleEffects::Init() {
 	    0, //  ランダム範囲（正方向のみ
 	    0.0f,  //  ランダムでずらす距離
 		3,//一度に生成する数(波とぶつかった時のエフェクトで使用するよ～
+	    {0,    0,    0   }, //  小さくするときにいじるやつ
 	};
 
 	conflict_ = {
-	    0.3f, // 速さ
+	    0.6f, // 速さ
 	    {1.0f, 1.0f, 1.0f}, // サイズ
 	    0.0f, // 回転角
 	    30, //  生存時間
@@ -109,7 +116,8 @@ void ParticleEffects::Init() {
 	    0.0f, //  生成間隔バッファ
 	    0, //  ランダム範囲（正方向のみ
 	    0.0f, //  ランダムでずらす距離
-	    3, //  一度に生成する数(波とぶつかった時のエフェクトで使用するよ～
+	    20, //  一度に生成する数(波とぶつかった時のエフェクトで使用するよ～
+	    {0.08f,    0.08f,    0.08f   }, //  小さくするときにいじるやつ
 	};
 
 
@@ -240,6 +248,7 @@ void ParticleEffects::UpdateParticle() {
 	ImGui::DragInt("RandomRenge_PlayerBullet", &playerBullet_.randomRenge, 0.1f);
 	ImGui::DragFloat("RandomFar_PlayerBullet", &playerBullet_.randomFar, 0.1f);
 	ImGui::DragInt("CreateCount_PlayerBullet", &playerBullet_.createCount, 1);
+	ImGui::DragFloat3("ShrinkScale_PlayerBullet", &playerBullet_.shrinkScale.x, 0.01f);
 
 	//通常弾
 	ImGui::Text("StandardBullet");
@@ -251,6 +260,7 @@ void ParticleEffects::UpdateParticle() {
 	ImGui::DragInt("RandomRenge_StandardBullet", &standardBullet_.randomRenge, 0.1f);
 	ImGui::DragFloat("RandomFar_StandardBullet", &standardBullet_.randomFar, 0.1f);
 	ImGui::DragInt("CreateCount_StandardBullet", &standardBullet_.createCount, 1);
+	ImGui::DragFloat3("ShrinkScale_StandardBullet", &standardBullet_.shrinkScale.x, 0.01f);
 
 	// 追跡弾
 	ImGui::Text("ChaserBullet");
@@ -261,7 +271,8 @@ void ParticleEffects::UpdateParticle() {
 	ImGui::DragFloat("LifeTime_ChaserBullet", &chaserBullet_.lifeTime, 0.1f);
 	ImGui::DragInt("RandomRenge_ChaserBullet", &chaserBullet_.randomRenge, 0.1f);
 	ImGui::DragFloat("RandomFar_ChaserBullet", &chaserBullet_.randomFar, 0.1f);
-	ImGui::DragInt("CreateCount_RandomRenge", &chaserBullet_.createCount, 1);
+	ImGui::DragInt("CreateCount_ChaserBullet", &chaserBullet_.createCount, 1);
+	ImGui::DragFloat3("ShrinkScale_ChaserBullet", &chaserBullet_.shrinkScale.x, 0.01f);
 
 	//持続弾 
 	ImGui::Text("FootpaceBullet");
@@ -273,6 +284,7 @@ void ParticleEffects::UpdateParticle() {
 	ImGui::DragInt("RandomRenge_FootpaceBullet", &footpaceBullet_.randomRenge, 0.1f);
 	ImGui::DragFloat("RandomFar_FootpaceBullet", &footpaceBullet_.randomFar, 0.1f);
 	ImGui::DragInt("CreateCount_FootpaceBullet", &footpaceBullet_.createCount, 1);
+	ImGui::DragFloat3("ShrinkScale_FootpaceBullet", &footpaceBullet_.shrinkScale.x, 0.01f);
 
 	// バウンド弾
 	ImGui::Text("BoundBullet");
@@ -284,6 +296,7 @@ void ParticleEffects::UpdateParticle() {
 	ImGui::DragInt("RandomRenge_BoundBullet", &boundBullet_.randomRenge, 0.1f);
 	ImGui::DragFloat("RandomFar_BoundBullet", &boundBullet_.randomFar, 0.1f);
 	ImGui::DragInt("CreateCount_BoundBullet", &boundBullet_.createCount, 1);
+	ImGui::DragFloat3("ShrinkScale_BoundBullet", &boundBullet_.shrinkScale.x, 0.01f);
 
 	// 大玉
 	ImGui::Text("BBBullet");
@@ -295,6 +308,7 @@ void ParticleEffects::UpdateParticle() {
 	ImGui::DragInt("RandomRenge_BBBullet", &bbBullet_.randomRenge, 0.1f);
 	ImGui::DragFloat("RandomFar_BBBullet", &bbBullet_.randomFar, 0.1f);
 	ImGui::DragInt("CreateCount_BBBullet", &bbBullet_.createCount, 1);
+	ImGui::DragFloat3("ShrinkScale_BBBullet", &bbBullet_.shrinkScale.x, 0.01f);
 
 #pragma endregion
 
@@ -308,13 +322,30 @@ void ParticleEffects::UpdateParticle() {
 	ImGui::DragInt("RandomRenge_Wave", &wave_.randomRenge, 0.1f);
 	ImGui::DragFloat("RandomFar_Wave", &wave_.randomFar, 0.1f);
 	ImGui::DragInt("CreateCount_Wave", &wave_.createCount, 1);
+	ImGui::DragFloat3("ShrinkScale_Wave", &wave_.shrinkScale.x, 0.01f);
+
+	//衝突
+	ImGui::Text("Conflict_");
+	ImGui::DragFloat("Scalar_Conflict", &conflict_.scalar, 0.1f);
+	ImGui::DragFloat("Rotate_Conflict", &conflict_.rotation, 0.1f);
+	ImGui::DragFloat3("Scale_Conflict", &conflict_.scale.x, 0.1f);
+	ImGui::DragFloat("Intervall_Conflict", &conflict_.interval, 0.1f);
+	ImGui::DragFloat("LifeTime_Conflict", &conflict_.lifeTime, 0.1f);
+	ImGui::DragInt("RandomRenge_Conflict", &conflict_.randomRenge, 0.1f);
+	ImGui::DragFloat("RandomFar_Conflict", &conflict_.randomFar, 0.1f);
+	ImGui::DragInt("CreateCount_Conflict", &conflict_.createCount, 1);
+	ImGui::DragFloat3("ShrinkScale_Conflict", &conflict_.shrinkScale.x, 0.01f);
+
+
+
 	ImGui::End();
+
 #endif // _DEBUG
 
 
 	for (auto it = particle_PlayerBullets_.begin(); it != particle_PlayerBullets_.end();) {
 		Particle_PlayerBullet* particle_PlayerBullet = *it;
-		particle_PlayerBullet->Update();
+		particle_PlayerBullet->Update(playerBullet_.shrinkScale);
 
 		if (particle_PlayerBullet->IsBreak()) {
 			delete particle_PlayerBullet;
@@ -326,7 +357,7 @@ void ParticleEffects::UpdateParticle() {
 	}
 	for (auto it = particle_StandardBullets_.begin(); it != particle_StandardBullets_.end();) {
 		Particle_EnemyBullet* particle_StandardBullet = *it;
-		particle_StandardBullet->Update_Standard();
+		particle_StandardBullet->Update_Standard(standardBullet_.shrinkScale);
 
 		if (particle_StandardBullet->IsBreak()) {
 			delete particle_StandardBullet;
@@ -338,7 +369,7 @@ void ParticleEffects::UpdateParticle() {
 	}
 	for (auto it = particle_ChaserBullets_.begin(); it != particle_ChaserBullets_.end();) {
 		Particle_EnemyBullet* particle_ChaserBullet = *it;
-		particle_ChaserBullet->Update_Chaser();
+		particle_ChaserBullet->Update_Chaser(chaserBullet_.shrinkScale);
 
 		if (particle_ChaserBullet->IsBreak()) {
 			delete particle_ChaserBullet;
@@ -350,7 +381,7 @@ void ParticleEffects::UpdateParticle() {
 	}
 	for (auto it = particle_FootpaceBullets_.begin(); it != particle_FootpaceBullets_.end();) {
 		Particle_EnemyBullet* particle_FootpaceBullet = *it;
-		particle_FootpaceBullet->Update_Footpace();
+		particle_FootpaceBullet->Update_Footpace(footpaceBullet_.shrinkScale);
 
 		if (particle_FootpaceBullet->IsBreak()) {
 			delete particle_FootpaceBullet;
@@ -362,7 +393,7 @@ void ParticleEffects::UpdateParticle() {
 	}
 	for (auto it = particle_BoundBullets_.begin(); it != particle_BoundBullets_.end();) {
 		Particle_EnemyBullet* particle_BoundBullet = *it;
-		particle_BoundBullet->Update_Bound();
+		particle_BoundBullet->Update_Bound(boundBullet_.shrinkScale);
 
 		if (particle_BoundBullet->IsBreak()) {
 			delete particle_BoundBullet;
@@ -374,7 +405,7 @@ void ParticleEffects::UpdateParticle() {
 	}
 	for (auto it = particle_BBBullets_.begin(); it != particle_BBBullets_.end();) {
 		Particle_EnemyBullet* particle_BBBullet = *it;
-		particle_BBBullet->Update_Bound();
+		particle_BBBullet->Update_Bound(bbBullet_.shrinkScale);
 
 		if (particle_BBBullet->IsBreak()) {
 			delete particle_BBBullet;
@@ -387,7 +418,7 @@ void ParticleEffects::UpdateParticle() {
 
 	for (auto it = particle_Waves_.begin(); it != particle_Waves_.end();) {
 		Particle_Wave* particle_Wave = *it;
-		particle_Wave->Update();
+		particle_Wave->Update(wave_.shrinkScale);
 
 		if (particle_Wave->IsBreak()) {
 			delete particle_Wave;
@@ -399,7 +430,7 @@ void ParticleEffects::UpdateParticle() {
 	}
 	for (auto it = particle_Conflicts_.begin(); it != particle_Conflicts_.end();) {
 		Particle_Conflict* particle_Conflict = *it;
-		particle_Conflict->Update();
+		particle_Conflict->Update(conflict_.shrinkScale);
 
 		if (particle_Conflict->IsBreak()) {
 			delete particle_Conflict;

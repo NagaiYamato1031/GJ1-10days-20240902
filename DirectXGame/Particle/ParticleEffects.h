@@ -20,6 +20,7 @@ struct Particle {
 	int randomRenge;// 生成ランダム範囲
 	float randomFar;// ランダムでずらす距離
 	int createCount;//一度に生成する数(波とぶつかった時のエフェクトで使用するよ～
+	Vector3 shrinkScale;//小さくするやつ
 };
 
 
@@ -74,6 +75,7 @@ private: /*メンバ変数*/
 	Particle bbBullet_; //大玉
 	Particle wave_;//波攻撃
 	Particle conflict_;//弾と弾がぶつかった時のやつ
+
 
 	//パーティクルのリスト
 	std::list<Particle_PlayerBullet*> particle_PlayerBullets_;//プレイヤーの弾

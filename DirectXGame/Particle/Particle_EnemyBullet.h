@@ -11,35 +11,35 @@ public:
 	//通常弾
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	void Init_Standard(float time, Model* model, const Vector3& position, const float& scalar, const Vector3& scale, const float& rotate, const int& randomRange, const float& randomFar);//初期化生成
-	void Update_Standard();//更新
+	void Update_Standard(const Vector3& shrinkScale);                                                                                                                                        // 更新
 	void Draw_Standard(const ViewProjection* viewProjection);//描画
 
 
 	//追跡弾
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	void Init_Chaser(float time, Model* model, const Vector3& position, const float& scalar, const Vector3& scale, const float& rotate, const int& randomRange, const float& randomFar); // 初期化生成
-	void Update_Chaser();// 更新
+	void Update_Chaser(const Vector3& shrinkScale);                                                                                                                                        // 更新
 	void Draw_Chaser(const ViewProjection* viewProjection);// 描画
 
 
 	// 持続弾
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	void Init_Footpace(float time, Model* model, const Vector3& position, const float& scalar, const Vector3& scale, const float& rotate, const int& randomRange, const float& randomFar); // 初期化生成
-	void Update_Footpace();// 更新
+	void Update_Footpace(const Vector3& shrinkScale);                                                                                                                                        // 更新
 	void Draw_Footpace(const ViewProjection* viewProjection);// 描画
 
 
 	// バウンド弾
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	void Init_Bound(float time, Model* model, const Vector3& position, const float& scalar, const Vector3& scale, const float& rotate, const int& randomRange, const float& randomFar); // 初期化生成
-	void Update_Bound();// 更新
+	void Update_Bound(const Vector3& shrinkScale);                                                                                                                                        // 更新
 	void Draw_Bound(const ViewProjection* viewProjection);// 描画
 	
 
 	//大玉
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	void Init_BB(float time, Model* model, const Vector3& position, const float& scalar, const Vector3& scale, const float& rotate, const int& randomRange, const float& randomFar); // 初期化生成
-	void Update_BB();// 更新
+	void Update_BB(const Vector3& shrinkScale);                                                                                                                                        // 更新
 	void Draw_BB(const ViewProjection* viewProjection);// 描画
 
 

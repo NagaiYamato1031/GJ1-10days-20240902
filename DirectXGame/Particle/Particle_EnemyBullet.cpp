@@ -40,10 +40,16 @@ void Particle_EnemyBullet::Init_Standard(float time, Model* model, const Vector3
 	worldTransform_.scale_ = scale;
 	worldTransform_.rotation_ = Vector3(0, 0, rotate_);
 }
-void Particle_EnemyBullet::Update_Standard() {
+void Particle_EnemyBullet::Update_Standard(const Vector3& shrinkScale) {
 	// 速度加算
 	worldTransform_.translation_ += velocity_;
-
+	// サイズ減算
+	if (worldTransform_.scale_.x > 0) {
+		worldTransform_.scale_ -= shrinkScale;
+		if (worldTransform_.scale_.x < 0) {
+			worldTransform_.scale_ = Vector3(0.0f, 0.0f, 0.0f);
+		}
+	}
 	// 壊れるまでの時間計算
 	time_--;
 	if (time_ <= 0) {
@@ -89,10 +95,16 @@ void Particle_EnemyBullet::Init_Chaser(float time, Model* model, const Vector3& 
 	worldTransform_.scale_ = scale;
 	worldTransform_.rotation_ = Vector3(0, 0, rotate_);
 }
-void Particle_EnemyBullet::Update_Chaser() {
+void Particle_EnemyBullet::Update_Chaser(const Vector3& shrinkScale) {
 	// 速度加算
 	worldTransform_.translation_ += velocity_;
-
+	// サイズ減算
+	if (worldTransform_.scale_.x > 0) {
+		worldTransform_.scale_ -= shrinkScale;
+		if (worldTransform_.scale_.x < 0) {
+			worldTransform_.scale_ = Vector3(0.0f, 0.0f, 0.0f);
+		}
+	}
 	// 壊れるまでの時間計算
 	time_--;
 	if (time_ <= 0) {
@@ -138,10 +150,16 @@ void Particle_EnemyBullet::Init_Footpace(float time, Model* model, const Vector3
 	worldTransform_.scale_ = scale;
 	worldTransform_.rotation_ = Vector3(0, 0, rotate_);
 }
-void Particle_EnemyBullet::Update_Footpace() {
+void Particle_EnemyBullet::Update_Footpace(const Vector3& shrinkScale) {
 	// 速度加算
 	worldTransform_.translation_ += velocity_;
-
+	// サイズ減算
+	if (worldTransform_.scale_.x > 0) {
+		worldTransform_.scale_ -= shrinkScale;
+		if (worldTransform_.scale_.x < 0) {
+			worldTransform_.scale_ = Vector3(0.0f, 0.0f, 0.0f);
+		}
+	}
 	// 壊れるまでの時間計算
 	time_--;
 	if (time_ <= 0) {
@@ -187,10 +205,16 @@ void Particle_EnemyBullet::Init_Bound(float time, Model* model, const Vector3& p
 	worldTransform_.scale_ = scale;
 	worldTransform_.rotation_ = Vector3(0, 0, rotate_);
 }
-void Particle_EnemyBullet::Update_Bound() {
+void Particle_EnemyBullet::Update_Bound(const Vector3& shrinkScale) {
 	// 速度加算
 	worldTransform_.translation_ += velocity_;
-
+		//サイズ減算
+	if (worldTransform_.scale_.x > 0){
+		worldTransform_.scale_ -= shrinkScale;
+		if (worldTransform_.scale_.x < 0) {
+			worldTransform_.scale_ = Vector3(0.0f, 0.0f, 0.0f);
+		}
+	}
 	// 壊れるまでの時間計算
 	time_--;
 	if (time_ <= 0) {
@@ -236,10 +260,16 @@ void Particle_EnemyBullet::Init_BB(float time, Model* model, const Vector3& posi
 	worldTransform_.scale_ = scale;
 	worldTransform_.rotation_ = Vector3(0, 0, rotate_);
 }
-void Particle_EnemyBullet::Update_BB() {
+void Particle_EnemyBullet::Update_BB(const Vector3& shrinkScale) {
 	// 速度加算
 	worldTransform_.translation_ += velocity_;
-
+	// サイズ減算
+	if (worldTransform_.scale_.x > 0) {
+		worldTransform_.scale_ -= shrinkScale;
+		if (worldTransform_.scale_.x < 0) {
+			worldTransform_.scale_ = Vector3(0.0f, 0.0f, 0.0f);
+		}
+	}
 	// 壊れるまでの時間計算
 	time_--;
 	if (time_ <= 0) {

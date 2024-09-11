@@ -38,10 +38,16 @@ void Particle_Wave::Init(float time, Model* model, const Vector3& position, cons
 	worldTransform_.scale_ = scale;
 	worldTransform_.rotation_ = Vector3(0, 0, rotate_);
 }
-void Particle_Wave::Update() {
+void Particle_Wave::Update(const Vector3& shrinkScale) {
 	// 速度加算
 	worldTransform_.translation_ += velocity_;
-
+	// サイズ減算
+	if (worldTransform_.scale_.x > 0) {
+		worldTransform_.scale_ -= shrinkScale;
+		if (worldTransform_.scale_.x < 0) {
+			worldTransform_.scale_ = Vector3(0.0f, 0.0f, 0.0f);
+		}
+	}
 	// 壊れるまでの時間計算
 	time_--;
 	if (time_ <= 0) {
