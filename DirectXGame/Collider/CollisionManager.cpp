@@ -50,6 +50,7 @@ void ACJPN::Collider::CollisionManager::CheckCollisionBoss() {
 	if (std::shared_ptr<ShapeColliderBase> ptr = boss.lock()) {
 		for (auto listItr = colliderMap_[MPlayerBullet()].begin(); listItr != colliderMap_[MPlayerBullet()].end(); ++listItr) {
 			ptr->CheckCollision(listItr->lock().get());
+			listItr->lock().get()->CheckCollision(ptr.get());
 		}
 	}
 

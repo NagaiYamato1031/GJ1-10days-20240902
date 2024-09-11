@@ -38,11 +38,11 @@ namespace ACJPN::Collider {
 
 		/// <summary>
 		/// コライダーを追加する
+		/// <param>※マスクは設定しておく事</param>
 		/// </summary>
-		/// <typeparam name="T">型名</typeparam>
 		/// <param name="collider">アドレス</param>
 		template <typename T>
-		void RegistCollider(int mask, std::shared_ptr<ShapeCollider<T>>& collider);
+		void RegistCollider(std::shared_ptr<ShapeCollider<T>>& collider);
 
 		/// <summary>
 		/// 当たり判定を検知する
@@ -61,7 +61,7 @@ namespace ACJPN::Collider {
 
 	};
 	template<typename T>
-	inline void CollisionManager::RegistCollider(int mask, std::shared_ptr<ShapeCollider<T>>& collider) {
-		colliderMap_[mask].emplace_back(collider);
+	inline void CollisionManager::RegistCollider(std::shared_ptr<ShapeCollider<T>>& collider) {
+		colliderMap_[collider->mask].emplace_back(collider);
 	}
 }

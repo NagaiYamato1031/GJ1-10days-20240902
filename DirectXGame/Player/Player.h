@@ -11,6 +11,7 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include <BulletManager/BulletManager.h>
+#include <Collider/CollisionManager.h>
 
 /// <summary>
 /// 操作するプレイヤー
@@ -121,6 +122,9 @@ private: //** メンバ変数 **//
 	// 行動更新関数配列
 	std::vector<void(Player::*)()> updateFunc;
 
+	// 当たり判定
+	ACJPN::Math::Sphere colSphere_;
+	std::shared_ptr < ACJPN::Collider::ShapeCollider<ACJPN::Math::Sphere>> collider_;
 
 private: //** メンバ関数 **//
 
@@ -142,5 +146,7 @@ private: //** メンバ関数 **//
 	void UpdateJump();
 	void UpdateFall();
 	void UpdateDrop();
+
+	void CreateBullet();
 };
 

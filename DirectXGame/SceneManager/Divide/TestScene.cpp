@@ -41,11 +41,6 @@ void TestScene::Init() {
 	sphere_.center = { 0.0f,0.0f,0.0f };
 	sphere_.radius = 1.0f;
 	colSphere = std::make_shared<ShapeCollider<Sphere>>(&sphere_);
-	Sphere* ptrSphere = colSphere->GetShape();
-	if (ptrSphere) {
-
-	}
-
 }
 
 void TestScene::Update() {
@@ -75,6 +70,9 @@ void TestScene::Update() {
 
 	// フォローカメラ更新
 	camera_.Update();
+
+	collisionManager_->Update();
+	collisionManager_->CheckCollision();
 }
 
 void TestScene::DrawBackdrop() {
