@@ -9,6 +9,7 @@
 #include "WorldTransform.h"
 #include <Utility/Mymath.h>
 #include <BulletManager/BulletManager.h>
+#include <Collider/CollisionManager.h>
 
 // 前方宣言
 class Player;
@@ -91,6 +92,9 @@ private: //** プライベート変数 **//
 
 	//現在の行動
 	Phase phase_ = Phase::p1;
+
+	ACJPN::Math::Sphere colSphere_;
+	std::shared_ptr<ACJPN::Collider::ShapeCollider<ACJPN::Math::Sphere>> collider_;
 
 private:
 

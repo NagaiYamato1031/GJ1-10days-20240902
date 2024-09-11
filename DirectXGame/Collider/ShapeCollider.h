@@ -20,10 +20,10 @@ namespace ACJPN::Collider {
 	public: //** デストラクタ **//
 		virtual ~ShapeColliderBase() = default;
 	public: //** パブリック関数 **//
-		virtual void Update() = 0;
 		virtual void CheckCollision(ShapeColliderBase* other) = 0;
+		virtual void Hit(ShapeColliderBase* c) = 0;
 	public: //** パブリック変数 **//
-		int mask;
+		int mask = MaskCollision0;
 	};
 
 	/// <summary>
@@ -40,6 +40,7 @@ namespace ACJPN::Collider {
 
 		/// <summary>
 		/// コンストラクタ
+		/// mask は必ず設定すること
 		/// </summary>
 		ShapeCollider(T* data);
 
@@ -63,16 +64,6 @@ namespace ACJPN::Collider {
 	public: //** パブリック関数 **//
 
 		/// <summary>
-		/// 初期化
-		/// </summary>
-		void Init();
-
-		/// <summary>
-		/// 更新
-		/// </summary>
-		void Update() override;
-
-		/// <summary>
 		/// 対応した形状までのポインタを返す
 		/// </summary>
 		/// <typeparam name="U">?</typeparam>
@@ -84,6 +75,11 @@ namespace ACJPN::Collider {
 		/// </summary>
 		void CheckCollision(ShapeColliderBase* other) override;
 
+		/// <summary>
+		/// ヒットしているポインタ
+		/// </summary>
+		/// <param name="c"></param>
+		void Hit(ShapeColliderBase* c) override;
 
 	public: //** パブリック変数 **//
 
@@ -96,6 +92,10 @@ namespace ACJPN::Collider {
 		// 形状 (球 or AABB)
 		// 参照する
 		ShapeData data;
+
+		// ヒット対象
+		// Enter と Exit の判別
+		ShapeColliderBase* hit_ = nullptr;
 	};
 
 	template<typename T>
@@ -108,9 +108,6 @@ namespace ACJPN::Collider {
 		//	type = ShapeType::tAABB;
 		//}
 	}
-	template<typename T>
-	void ShapeCollider<T>::Update() {
-	}
 
 	template<typename T>
 	T* ShapeCollider<T>::GetShape() {
@@ -121,17 +118,40 @@ namespace ACJPN::Collider {
 	void ShapeCollider<T>::CheckCollision(ShapeColliderBase* c) {
 		if (auto sphere = dynamic_cast<ShapeCollider<Math::Sphere>*>(c)) {
 			if (Math::IsCollision(*GetShape(), *sphere->GetShape())) {
-				stayLambda(sphere->mask);
+				Hit(c);
 			}
 		}
 		else if (auto aabb = dynamic_cast<ShapeCollider<Math::AABB>*>(c)) {
 			if (Math::IsCollision(*GetShape(), *aabb->GetShape())) {
-				stayLambda(aabb->mask);
+				Hit(c);
 			}
 		}
-		/*if (Math::IsCollision(*GetShape<T>(this), *GetShape<T>(c))) {
+		// 当たっていないとき
+		// 前フレームに当たっていたら
+		else if (hit_) {
+			enterLambda(hit_->mask);
+			hit_ = nullptr;
+		}
+	}
+
+	template<typename T>
+	void ShapeCollider<T>::Hit(ShapeColliderBase* c) {
+		// nullptr なら処理しない
+		if (!c) {
+			return;
+		}
+		// 当たっていなかったとき
+		if (hit_ == nullptr) {
+			enterLambda(c->mask);
+			hit_ = c;
+		}
+		// 同じものに当たっている時
+		else if (hit_ == c) {
 			stayLambda(c->mask);
-		}*/
-		c;
+		}
+		// 違うものに当たっている時
+		else {
+			hit_ = c;
+		}
 	}
 }

@@ -4,9 +4,10 @@
 
 using namespace ACJPN;
 using namespace ACJPN::Math;
+using namespace ACJPN::Collider;
 
 void Boss::Init() {
-	model_.reset(Model::Create());
+	model_.reset(Model::CreateSphere());
 	transform_.Initialize();
 	transform_.scale_ = { 10.0f,10.0f,1.0f };
 
@@ -17,6 +18,12 @@ void Boss::Init() {
 	EnemyHP_ = 40;
 	isDead_ = false;
 	phase_ = p1;
+	//　球の当たり判定
+	colSphere_.center = { 0.0f,0.0f,0.0f };
+	colSphere_.radius = 10.0f;
+	collider_ = std::make_shared<ShapeCollider<Sphere>>(&colSphere_);
+	// コリジョンマネージャーに登録
+	CollisionManager::GetInstance()->RegistCollider(MBoss(), collider_);
 }
 
 void Boss::Update() {
@@ -39,6 +46,10 @@ void Boss::Update() {
 	// 弾管理クラス更新
 	bulletManager_.Update();
 
+	// 当たり判定も更新
+	colSphere_.center = transform_.translation_;
+
+	// 行列の更新
 	transform_.UpdateMatrix();
 }
 
@@ -47,7 +58,7 @@ void Boss::DrawModel(ViewProjection* view) {
 	//弾管理クラス描画
 	bulletManager_.DrawModel(view);
 
-	model_->Draw(transform_, *view); 
+	model_->Draw(transform_, *view);
 }
 
 //エネミーフェーズ処理
@@ -124,7 +135,7 @@ void Boss::Phase_04() {
 	else if (false) {
 
 		EnemyAttack_2();
-	} 
+	}
 	// 攻撃処理呼び出し
 	else if (false) {
 
@@ -133,7 +144,7 @@ void Boss::Phase_04() {
 
 	//エネミーのHPが０以下になったらEndSceneに移行
 	if (EnemyHP_ >= 0 && EnemyHP_ <= 9) {
-		
+
 		//フラグをTrueにする
 		isDead_ = true;
 	}

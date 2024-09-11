@@ -3,6 +3,7 @@
 #include <map>
 #include <list>
 #include <memory>
+#include <Collider/MaskCollision.h>
 #include "ShapeCollider.h"
 
 namespace ACJPN::Collider {
@@ -25,7 +26,7 @@ namespace ACJPN::Collider {
 		/// インスタンス取得
 		/// </summary>
 		static CollisionManager* GetInstance();
-		
+
 		/// <summary>
 		/// 初期化
 		/// </summary>
@@ -41,7 +42,7 @@ namespace ACJPN::Collider {
 		/// <typeparam name="T">型名</typeparam>
 		/// <param name="collider">アドレス</param>
 		template <typename T>
-		void RegistCollider(int mask, std::shared_ptr<ShapeCollider<T>> collider);
+		void RegistCollider(int mask, std::shared_ptr<ShapeCollider<T>>& collider);
 
 		/// <summary>
 		/// 当たり判定を検知する
@@ -54,5 +55,13 @@ namespace ACJPN::Collider {
 		// 各マスクごとにリストを持つ
 		std::map<int, std::list<std::weak_ptr<ShapeColliderBase>>> colliderMap_;
 
+	private: //** プライベート関数 **//
+
+		void CheckCollisionBoss();
+
 	};
+	template<typename T>
+	inline void CollisionManager::RegistCollider(int mask, std::shared_ptr<ShapeCollider<T>>& collider) {
+		colliderMap_[mask].emplace_back(collider);
+	}
 }
