@@ -69,6 +69,11 @@ public: // パブリック関数 **//
 	WorldTransform* GetTransform() { return &transform_; }
 
 	/// <summary>
+	/// 角度を取得
+	/// </summary>
+	float GetTheta() const { return theta_; }
+
+	/// <summary>
 	/// デバッグ情報
 	/// </summary>
 	void DebugWindow();

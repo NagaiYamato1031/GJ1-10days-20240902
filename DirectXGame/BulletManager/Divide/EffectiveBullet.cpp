@@ -1,18 +1,20 @@
-#include "SimpleBullet.h"
+#include "EffectiveBullet.h"
 
 using namespace ACJPN;
 using namespace ACJPN::Math;
 using namespace ACJPN::Collider;
 
-void SimpleBullet::Init() {
+void EffectiveBullet::Init() {
 	model_.reset(Model::Create());
 	transform_.Initialize();
 	velocity_.y = -1.0f;
 }
 
-void SimpleBullet::Update() {
+void EffectiveBullet::Update() {
 	elapsedFrame++;
-	if (aliveFrame_ <= elapsedFrame) {
+	if (aliveLength_ <= Length(transform_.translation_)) {
+		// プレイヤーの弾に当たらなかったとき波発生
+		endFunction();
 		isActive = false;
 		return;
 	}
@@ -25,6 +27,6 @@ void SimpleBullet::Update() {
 	transform_.UpdateMatrix();
 }
 
-void SimpleBullet::DrawModel(ViewProjection* view) {
+void EffectiveBullet::DrawModel(ViewProjection* view) {
 	model_->Draw(transform_, *view);
 }

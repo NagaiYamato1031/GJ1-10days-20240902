@@ -77,9 +77,18 @@ private: //** プライベート変数 **//
 	int HP_ = 40;
 
 	//エネミー攻撃遷移フレーム
-	int AttackFrame01 = 180;
+	int AttackFrame01 = 80;
 	int AttackFrame02 = 180;
 	int AttackFrame03 = 360;
+
+#ifdef _DEBUG
+
+	// 最初に何フレームか表示するための変数
+	int DebugFrame01 = 180;
+	int DebugFrame02 = 180;
+	int DebugFrame03 = 360;
+
+#endif // _DEBUG
 
 	// 中心からの回転角
 	float theta_ = 0.0f;
@@ -110,9 +119,27 @@ private: //** プライベート関数 **//
 	void InitCollision();
 
 	/// <summary>
+	/// 弾の共通ヒット時処理
+	/// <param>打ち返せる弾には使わない</param>
+	/// </summary>
+	/// <param name="mask">マスク</param>
+	/// <param name="data">データ</param>
+	void EnterBulletFunction(int mask, IBullet* data);
+
+	/// <summary>
 	/// まっすぐ飛ばす弾を生成する
 	/// </summary>
 	void CreateBulletSimple();
+	/// <summary>
+	/// 波を発生させる弾を生成する
+	/// </summary>
+	/// <param name="speed">速度 : 1.0f 以下がいい感じ</param>
+	void CreateBulletEffective(float speed = 1.0f);
+	/// <summary>
+	/// 弾を角度分開いて、二方向に撃ち出す
+	/// </summary>
+	/// <param name="speed"></param>
+	void CreateBulletEffective2Way(float theta, float speed = 1.0f);
 	/// <summary>
 	/// 角度から波を生成する
 	/// </summary>
@@ -129,6 +156,8 @@ private: //** プライベート関数 **//
 	void EnemyAttack_2(); //自機周辺狙い
 
 	void EnemyAttack_3(); //波発生
+
+	void EnemyAttack_4(); // 自機 + 周辺
 
 	//エネミーフェーズ
 	void Phase_01(); //第一段階

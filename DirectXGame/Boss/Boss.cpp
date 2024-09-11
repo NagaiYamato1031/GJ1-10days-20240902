@@ -2,6 +2,8 @@
 #include <BulletManager/Divide/BulletList.h>
 #include <Player/Player.h>
 #include <ImGuiManager.h>
+#include <random>
+#include <time.h>
 
 using namespace ACJPN;
 using namespace ACJPN::Math;
@@ -21,6 +23,9 @@ void Boss::Init() {
 	phase_ = p1;
 	// 当たり判定を初期化
 	InitCollision();
+
+	// ランダムを初期化
+	srand((unsigned)time(nullptr));
 }
 
 void Boss::Update() {
@@ -65,8 +70,18 @@ void Boss::DebugWindow() {
 #ifdef _DEBUG
 	ImGui::Begin("BossWindow");
 
+	ImGui::Text("Phase : %d", (int)phase_);
 	ImGui::Text("HP : %d", HP_);
 	ImGui::Text("IsDead : %s", isDead_ ? "TRUE" : "FALSE");
+
+	ImGui::Separator();
+
+	if (ImGui::TreeNode("Frames")) {
+		ImGui::Text("1 : %d (%d)", AttackFrame01, DebugFrame01);
+		ImGui::Text("2 : %d (%d)", AttackFrame02, DebugFrame02);
+		ImGui::Text("3 : %d (%d)", AttackFrame03, DebugFrame03);
+		ImGui::TreePop();
+	}
 
 	ImGui::End();
 #endif // _DEBUG
@@ -92,6 +107,19 @@ void Boss::InitCollision() {
 	CollisionManager::GetInstance()->RegistCollider(collider_);
 }
 
+void Boss::EnterBulletFunction(int mask, IBullet* data) {
+	// プレイヤーに当たった時
+	if (mask == MPlayer()) {
+		data->isActive = false;
+		// 当たり判定消えないのがバグになりそう
+		//data->collider_->isActive = false;
+	}
+	// プレイヤーの弾
+	if (mask == MPlayerBullet()) {
+		data->isActive = false;
+	}
+}
+
 void Boss::CreateBulletSimple() {
 	// 弾を生成する
 	SimpleBullet* data = new SimpleBullet;
@@ -103,7 +131,7 @@ void Boss::CreateBulletSimple() {
 	// 弾とプレイヤーの距離を計算する
 	data->velocity_.x = norm.x * 1.0f;
 	data->velocity_.y = norm.y * 1.0f;
-	data->aliveFrame_ = 50;
+	data->aliveFrame_ = 70;
 	//　球の当たり判定
 	data->colSphere_.center = { 0.0f,0.0f,0.0f };
 	data->colSphere_.radius = 1.0f;
@@ -113,23 +141,124 @@ void Boss::CreateBulletSimple() {
 
 	// ヒット時処理
 	data->collider_->enterLambda = [=](int mask) {
-		mask;
-		// プレイヤーに当たった時
-		if (mask == MPlayer()) {
-			data->isActive = false;
-			data->collider_->isActive = false;
-		}
+		EnterBulletFunction(mask, data);
 		};
-	// 応急措置として呼び出す
-	data->collider_->exitLambda = [=](int mask) {
-		// ステージに当たったら
-		if (mask == MStage()) {
-			data->isActive = false;
-			data->collider_->isActive = false;
-			Vector3 norm = Normalize(data->transform_.translation_);
-			// 波を発生させる
-			CreateBulletWave(std::atan2(norm.y,norm.x), 3.0f);
-		}
+
+	// コリジョンマネージャーに登録
+	CollisionManager::GetInstance()->RegistCollider(data->collider_);
+	// 登録
+	bulletManager_.Regist(data);
+}
+
+void Boss::CreateBulletEffective(float speed) {
+	// 弾を生成する
+	EffectiveBullet* data = new EffectiveBullet;
+	data->Init();
+	data->transform_.translation_ = transform_.translation_;
+	// 座標
+	Vector3 pos = player_->GetTransform()->translation_;
+	// 座標にランダムに足す
+	pos.x += rand() % 20 - 10.0f;
+	pos.y += rand() % 20 - 10.0f;
+	Vector3 norm = Normalize(pos);
+	// 弾とプレイヤーの距離を計算する
+	data->velocity_.x = norm.x * speed;
+	data->velocity_.y = norm.y * speed;
+	data->aliveLength_ = 50;
+	//　球の当たり判定
+	data->colSphere_.center = { 0.0f,0.0f,0.0f };
+	data->colSphere_.radius = 1.0f;
+	data->collider_ = std::make_shared<ShapeCollider<Sphere>>(&data->colSphere_);
+	// マスク
+	data->collider_->mask = MBossBullet();
+
+	// ヒット時処理
+	data->collider_->enterLambda = [=](int mask) {
+		EnterBulletFunction(mask, data);
+		};
+	// 終了時の関数
+	data->endFunction = [=]() {
+		// 弾がどこにも当たらずに終了したら呼ばれる
+		// 場所を正規化
+		Vector3 norm = Normalize(data->transform_.translation_);
+		// 波を発生させる
+		CreateBulletWave(std::atan2(norm.y, norm.x), 5.0f);
+		};
+
+	// コリジョンマネージャーに登録
+	CollisionManager::GetInstance()->RegistCollider(data->collider_);
+	// 登録
+	bulletManager_.Regist(data);
+}
+
+void Boss::CreateBulletEffective2Way(float theta, float speed) {
+	// 一つ目
+	// 弾を生成する
+	EffectiveBullet* data = new EffectiveBullet;
+	data->Init();
+	data->transform_.translation_ = transform_.translation_;
+	// 角度を出す
+	float pTheta = player_->GetTheta();
+	// 座標
+	Vector3 pos = { std::cosf(pTheta + theta),std::sinf(pTheta + theta),0.0f };
+	// 弾とプレイヤーの距離を計算する
+	data->velocity_.x = pos.x * speed;
+	data->velocity_.y = pos.y * speed;
+	data->aliveLength_ = 50;
+	//　球の当たり判定
+	data->colSphere_.center = { 0.0f,0.0f,0.0f };
+	data->colSphere_.radius = 1.0f;
+	data->collider_ = std::make_shared<ShapeCollider<Sphere>>(&data->colSphere_);
+	// マスク
+	data->collider_->mask = MBossBullet();
+
+	// ヒット時処理
+	data->collider_->enterLambda = [=](int mask) {
+		EnterBulletFunction(mask, data);
+		};
+	// 終了時の関数
+	data->endFunction = [=]() {
+		// 弾がどこにも当たらずに終了したら呼ばれる
+		// 場所を正規化
+		Vector3 norm = Normalize(data->transform_.translation_);
+		// 波を発生させる
+		CreateBulletWave(std::atan2(norm.y, norm.x), 3.0f);
+		};
+
+	// コリジョンマネージャーに登録
+	CollisionManager::GetInstance()->RegistCollider(data->collider_);
+	// 登録
+	bulletManager_.Regist(data);
+
+	// 二つ目
+	// 弾を生成する
+	data = new EffectiveBullet;
+	data->Init();
+	data->transform_.translation_ = transform_.translation_;
+	// 座標
+	pos = { std::cosf(pTheta - theta),std::sinf(pTheta - theta),0.0f };
+	// 弾とプレイヤーの距離を計算する
+	data->velocity_.x = pos.x * speed;
+	data->velocity_.y = pos.y * speed;
+	data->aliveLength_ = 50;
+	//　球の当たり判定
+	data->colSphere_.center = { 0.0f,0.0f,0.0f };
+	data->colSphere_.radius = 1.0f;
+	data->collider_ = std::make_shared<ShapeCollider<Sphere>>(&data->colSphere_);
+	// マスク
+	data->collider_->mask = MBossBullet();
+
+	// ヒット時処理
+	data->collider_->enterLambda = [=](int mask) {
+		EnterBulletFunction(mask, data);
+		};
+	// 終了時の関数
+	data->endFunction = [=]() {
+		// 弾がどこにも当たらずに終了したら呼ばれる
+		// 場所を正規化
+		Vector3 norm = Normalize(data->transform_.translation_);
+		// 波を発生させる
+		CreateBulletWave(std::atan2(norm.y, norm.x), 3.0f);
 		};
 
 	// コリジョンマネージャーに登録
@@ -152,7 +281,7 @@ void Boss::CreateBulletWave(float theta, float power) {
 	data->theta_ = theta;
 	data->power_ = power;
 	data->omega_ = power * 0.001f;
-	
+
 	//　球の当たり判定
 	data->colSphere_.center = { 0.0f,0.0f,0.0f };
 	data->colSphere_.radius = 1.0f;
@@ -162,12 +291,7 @@ void Boss::CreateBulletWave(float theta, float power) {
 
 	// ヒット時処理
 	data->collider_->enterLambda = [=](int mask) {
-		mask;
-		// プレイヤーに当たった時
-		if (mask == MPlayer()) {
-			data->isActive = false;
-			data->collider_->isActive = false;
-		}
+		EnterBulletFunction(mask, data);
 		};
 
 	// コリジョンマネージャーに登録
@@ -194,12 +318,7 @@ void Boss::CreateBulletWave(float theta, float power) {
 
 	// ヒット時処理
 	data->collider_->enterLambda = [=](int mask) {
-		mask;
-		// プレイヤーに当たった時
-		if (mask == MPlayer()) {
-			data->isActive = false;
-			data->collider_->isActive = false;
-		}
+		EnterBulletFunction(mask, data);
 		};
 
 	// コリジョンマネージャーに登録
@@ -222,16 +341,8 @@ void Boss::EnemyAttack_1() {
 }
 
 void Boss::EnemyAttack_2() {
-
 	// プレイヤーの周りを狙って飛んでくる弾
-	SimpleBullet* data = new SimpleBullet;
-	data->Init();
-	data->transform_.translation_ = transform_.translation_;
-	// 弾をプレイヤーの方向に向ける
-	data->velocity_.x;
-	data->velocity_.y;
-	// 登録
-	bulletManager_.Regist(data);
+	CreateBulletEffective(0.8f);
 }
 
 void Boss::EnemyAttack_3() {
@@ -247,6 +358,13 @@ void Boss::EnemyAttack_3() {
 	bulletManager_.Regist(data);
 }
 
+void Boss::EnemyAttack_4() {
+	// プレイヤーを狙って飛んでくる弾
+	CreateBulletSimple();
+	// プレイヤーの周りを狙って飛んでくる弾
+	CreateBulletEffective(0.5f);
+}
+
 
 //エネミーフェーズ処理
 void Boss::Phase_01() {
@@ -255,15 +373,17 @@ void Boss::Phase_01() {
 
 	//攻撃処理呼び出し
 	if (AttackFrame01 <= 0) {
-
 		EnemyAttack_1();
-
 		//フレーム初期化
-		AttackFrame01 = 180;
+		AttackFrame01 = 80 + rand() % 20 - 10;
+
+#ifdef _DEBUG
+		DebugFrame01 = AttackFrame01;
+#endif // _DEBUG
 	}
 
 	// フェーズ２へ移行
-	if (HP_ >= 29 && HP_ <= 30) {
+	if (HP_ <= 37) {
 		phase_ = p2;
 	}
 }
@@ -275,38 +395,57 @@ void Boss::Phase_02() {
 
 	// 攻撃処理呼び出し
 	if (AttackFrame01 <= 0) {
-
 		EnemyAttack_1();
-		AttackFrame01 = 180;
+		AttackFrame01 = 80 + rand() % 30 - 15;
+
+#ifdef _DEBUG
+		DebugFrame01 = AttackFrame01;
+#endif // _DEBUG
 	}
 	// 攻撃処理呼び出し
-	else if (AttackFrame02 <= 0) {
-
+	if (AttackFrame02 <= 0) {
 		EnemyAttack_2();
-		AttackFrame02 = 180;
+		AttackFrame02 = 100 + rand() % 10;
+
+#ifdef _DEBUG
+		DebugFrame02 = AttackFrame02;
+#endif // _DEBUG
 	}
 
 	//フェーズ３へ移行
-	if (HP_ >= 19 && HP_ <= 28) {
+	if (HP_ <= 28) {
 		phase_ = p3;
 	}
 }
 
 void Boss::Phase_03() {
 
-	// 攻撃処理呼び出し
-	if (false) {
+	AttackFrame01--;
+	AttackFrame03--;
 
+	// 攻撃処理呼び出し
+	if (AttackFrame01 <= 0) {
 		EnemyAttack_1();
+		AttackFrame01 = 100 + rand() % 20 - 15;
+
+#ifdef _DEBUG
+		DebugFrame01 = AttackFrame01;
+#endif // _DEBUG
 	}
 	// 攻撃処理呼び出し
-	else if (false) {
+	if (AttackFrame03 <= 0) {
+		EnemyAttack_2();
+		//EnemyAttack_3();
+		CreateBulletEffective2Way(0.6f, 0.75f);
+		AttackFrame03 = 180 + rand() % 20 - 15;
 
-		EnemyAttack_3();
+#ifdef _DEBUG
+		DebugFrame03 = AttackFrame03;
+#endif // _DEBUG
 	}
 
 	// フェーズ４へ移行
-	if (HP_ >= 9 && HP_ <= 18) {
+	if (HP_ <= 18) {
 		phase_ = p4;
 	}
 }
