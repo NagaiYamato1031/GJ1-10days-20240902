@@ -321,7 +321,7 @@ void Boss::CreateBulletEffective2Way(float theta, float speed) {
 		Vector3 norm = Normalize(data->transform_.translation_);
 		// 波を発生させる
 		// 2 Way の真ん中まで届かせたい
-		CreateBulletWave(std::atan2(norm.y, norm.x), 3.0f);
+		CreateBulletWave(std::atan2(norm.y, norm.x), 10.0f);
 		};
 
 	// コリジョンマネージャーに登録
@@ -358,7 +358,7 @@ void Boss::CreateBulletEffective2Way(float theta, float speed) {
 		// 場所を正規化
 		Vector3 norm = Normalize(data->transform_.translation_);
 		// 波を発生させる
-		CreateBulletWave(std::atan2(norm.y, norm.x), 3.0f);
+		CreateBulletWave(std::atan2(norm.y, norm.x), 10.0f);
 		};
 
 	// コリジョンマネージャーに登録
@@ -461,7 +461,7 @@ void Boss::EnemyAttack_4() {
 	// プレイヤーを狙って飛んでくる弾
 	CreateBulletEffective();
 	// 2 Way を撃つ
-	CreateBulletEffective2Way(0.8f, 0.45f);
+	CreateBulletEffective2Way(3.14f, 1.0f);
 }
 
 
@@ -518,7 +518,7 @@ void Boss::Phase_2() {
 
 	// 攻撃処理呼び出し
 	if (AttackFrame01 <= 0) {
-		EnemyAttack_1();
+		EnemyAttack_4();
 		AttackFrame01 = 200 + rand() % 15;
 
 #ifdef _DEBUG
@@ -561,7 +561,7 @@ void Boss::Phase_3() {
 
 	// 攻撃処理呼び出し
 	if (AttackFrame01 <= 0) {
-		EnemyAttack_1();
+		EnemyAttack_4();
 		AttackFrame01 = 100 + rand() % 20 - 15;
 
 #ifdef _DEBUG
