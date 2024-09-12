@@ -64,6 +64,11 @@ private: //** メンバ変数 **//
 	// カメラ
 	FollowCamera camera_;
 
+	// ボスのモデルだけ表示する
+	std::unique_ptr<Model> bossModel_;
+	WorldTransform bossTransform_;
+	ObjectColor bossObjColor_;
+
 	// 当たり判定を作る
 	ACJPN::Math::Sphere colSphere_;
 	std::shared_ptr < ACJPN::Collider::ShapeCollider<ACJPN::Math::Sphere>> collider_;

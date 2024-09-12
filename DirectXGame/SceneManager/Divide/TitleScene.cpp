@@ -34,6 +34,15 @@ void TitleScene::Init() {
 	camera_.Init();
 	camera_.SetTarget(player_.GetTransform());
 
+	// ボスのモデル
+	bossModel_.reset(Model::CreateFromOBJ("BossEnemy"));
+	bossTransform_.Initialize();
+	bossTransform_.scale_ = { 10.0f,10.0f,1.0f };
+	bossTransform_.UpdateMatrix();
+	bossObjColor_.Initialize();
+	bossObjColor_.SetColor({ 0.0f, 0.75f, 0.0f, 1.0f });
+	bossObjColor_.TransferMatrix();
+
 	// 当たり判定を初期化
 	colSphere_.center = { 0.0f,0.0f,0.0f };
 	colSphere_.radius = 20.0f;
@@ -92,6 +101,7 @@ void TitleScene::Draw3D() {
 	skydome_.DrawModel(camera_.GetView());
 	stage_.DrawModel(camera_.GetView());
 	player_.DrawModel(camera_.GetView());
+	bossModel_->Draw(bossTransform_, *camera_.GetView(), &bossObjColor_);
 }
 
 void TitleScene::DrawOverlay() {
