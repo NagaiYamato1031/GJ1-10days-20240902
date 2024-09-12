@@ -6,12 +6,16 @@ using namespace ACJPN;
 using namespace ACJPN::Collider;
 using namespace ACJPN::Math;
 
+TestScene::TestScene() {}
+
+TestScene::~TestScene() {}
+
 void TestScene::Init() {
 
 	collisionManager_ = CollisionManager::GetInstance();
 	collisionManager_->Init();
 
-	time = 60;
+	time = kTransitionFrame_;
 
 	// カメラ初期化
 	camera_.Init();
@@ -41,6 +45,11 @@ void TestScene::Init() {
 	sphere_.center = { 0.0f,0.0f,0.0f };
 	sphere_.radius = 1.0f;
 	colSphere = std::make_shared<ShapeCollider<Sphere>>(&sphere_);
+
+	//画像処理
+	textureHandle_ = TextureManager::Load("white1x1.png");
+	transitionSprite_.reset(Sprite::Create(textureHandle_, { 1280,0 }));
+	transitionSprite_->SetSize({ 1280,720 });
 }
 
 void TestScene::Update() {
@@ -88,6 +97,9 @@ void TestScene::Draw3D() {
 }
 
 void TestScene::DrawOverlay() {
+	if (IsTransition()) {
+		transitionSprite_->Draw();
+	}
 }
 
 void TestScene::DebugWindow() {
@@ -108,4 +120,9 @@ void TestScene::TransitionUpdate() {
 		return;
 	}
 	// 遷移中の処理
+	transitionPosition_.x = 1500.0f * ((time - 10) / (float)kTransitionFrame_);
+	transitionPosition_.x = transitionPosition_.x <= 0 ? 0 : transitionPosition_.x;
+
+	// 値を入れる
+	transitionSprite_->SetPosition(transitionPosition_);
 }
