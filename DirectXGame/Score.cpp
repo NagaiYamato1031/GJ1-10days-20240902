@@ -12,5 +12,9 @@ void Score::Update() {}
 void Score::Draw() {
 
 	char str[100];
-	sprintf_s(str, "SCORE %d", GameScore_);
+
+	for (int i = 0; i < GameScore_; i++) {
+		 
+		sprintf_s(str, "GameScore   %d", GameScore_);
+	}
 }
