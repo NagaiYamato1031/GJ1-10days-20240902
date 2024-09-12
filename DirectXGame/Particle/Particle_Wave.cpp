@@ -10,7 +10,7 @@ using namespace ACJPN::Math;
 
 void Particle_Wave::Init(float time, Model* model, const Vector3& position, const float& scalar, const Vector3& scale, const float& rotate, const int& randomRange, const float& randomFar) {
 	// ファイル名を指定してテクスチャを読み込む
-	textureHandle_ = TextureManager::Load("wave.png");
+	textureHandle_ = TextureManager::Load("Particle/wave.png");
 
 	// 生存時間受け取り
 	time_ = time;
