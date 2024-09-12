@@ -39,6 +39,9 @@ private: //** サブクラス **//
 		bool isGround_ = true;
 		// ジャンプしているフラグ
 		bool isJumping_ = false;
+		// 先行入力
+		bool isDrop_ = false;
+
 	};
 
 public: //** コンストラクタ **//
@@ -94,6 +97,8 @@ private: //** メンバ変数 **//
 
 	// 中心からの距離
 	float kPaddingCenter_ = 50.0f;
+	// 急降下ができる距離
+	float kPaddingDrop_ = 10.0f;
 
 	// 入力管理
 	Input* input_ = nullptr;

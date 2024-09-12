@@ -62,6 +62,13 @@ void Player::Update() {
 		theta_ += 3.14f * 2;
 	}
 
+	// 入力があった時
+	// 一定以上の距離か判別
+	if (flag_.isDrop_ && kPaddingDrop_ <= distance_) {
+		flag_.isDrop_ = false;
+		reqBehavior_ = Behavior::Drop;
+	}
+
 	// 弾管理クラス更新
 	bulletManager_.Update();
 
@@ -209,7 +216,7 @@ void Player::UpdateJump() {
 	}
 	// 追加入力で急降下
 	if (input_->TriggerKey(DIK_SPACE)) {
-		reqBehavior_ = Behavior::Drop;
+		flag_.isDrop_ = true;
 	}
 	fineAir_ -= 0.01f;
 	distance_ += fineAir_;
@@ -248,6 +255,7 @@ void Player::UpdateDrop() {
 		CreateBullet();
 		distance_ = 0.0f;
 		flag_.isGround_ = true;
+		flag_.isDrop_ = false;
 		reqBehavior_ = Behavior::None;
 	}
 }
