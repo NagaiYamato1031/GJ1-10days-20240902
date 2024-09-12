@@ -55,12 +55,17 @@ public: //** パブリック関数 **//
 	/// フラグ取得
 	/// </summary>
 	bool IsDead() const { return isDead_; }
+	/// <summary>
+	/// フェーズを取得
+	/// </summary>
+	int GetPhase() const { return phase_; }
 
 	/// <summary>
 	/// プレイヤーのポインタ
 	/// </summary>
 	/// <param name="p"></param>
 	void SetPlayer(Player* p) { player_ = p; }
+
 
 	/// <summary>
 	/// デバッグ表示

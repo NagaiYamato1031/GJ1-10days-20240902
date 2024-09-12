@@ -2,6 +2,9 @@
 
 #include <ImGuiManager.h>
 
+using namespace ACJPN;
+using namespace ACJPN::Math;
+
 void Stage::Init() {
 	// モデル読み込み
 	model_.reset(Model::CreateFromOBJ("stage"));
@@ -15,15 +18,16 @@ void Stage::Init() {
 
 void Stage::Update() {
 
+	// デバッグ表示
 	DebugWindow();
-
 
 	// 行列更新
 	transform_.UpdateMatrix();
 }
 
 void Stage::DrawModel(ViewProjection* view) {
-	model_->Draw(transform_, *view); }
+	model_->Draw(transform_, *view);
+}
 
 void Stage::DebugWindow() {
 #ifdef _DEBUG
