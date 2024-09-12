@@ -91,6 +91,16 @@ void Player::Update() {
 
 	// 行列更新
 	transform_.UpdateMatrix();
+
+	// フラグを更新
+	if (flag_.isInvincible_) {
+		// 判定を無くすと弾が消えなくなる
+		//collider_->isEnable = false;
+		invincibleFrame_--;
+		if (invincibleFrame_ <= 0) {
+			flag_.isInvincible_ = false;
+		}
+	}
 }
 
 void Player::DrawModel(ViewProjection* view) {
@@ -110,6 +120,7 @@ void Player::DebugWindow() {
 
 	ImGui::Text("HP : %d", hp_);
 	ImGui::Text("IsDead : %s", isDead_ ? "TRUE" : "FALSE");
+	ImGui::Text("IsInvincible : %s", flag_.isInvincible_ ? "TRUE" : "FALSE");
 
 	ImGui::Text("Behavior : ");	ImGui::SameLine();
 	switch (behavior_) {
@@ -276,6 +287,9 @@ void Player::InitCollision() {
 	//** 当たった時の処理を設定 **//
 
 	collider_->enterLambda = [=](int mask) {
+		if (flag_.isInvincible_) {
+			return;
+		}
 		// ボスの弾に当たった時
 		if (mask == MBossBullet()) {
 			DecreaseHP(1);
@@ -292,6 +306,9 @@ void Player::InitCollision() {
 
 void Player::DecreaseHP(int damage) {
 	hp_ -= damage;
+	// 無敵になる
+	flag_.isInvincible_ = true;
+	invincibleFrame_ = kInvincibleFrame_;
 	if (hp_ <= 0) {
 		isDead_ = true;
 	}

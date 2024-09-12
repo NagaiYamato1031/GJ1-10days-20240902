@@ -108,7 +108,13 @@ void Boss::DebugWindow() {
 #ifdef _DEBUG
 	ImGui::Begin("BossWindow");
 
-	ImGui::Text("Phase : %d", (int)phase_);
+	if (ImGui::SliderInt("Phase", (int*)&phase_, 0, Phase::p4)) {
+		colorIndex_ = phase_;
+	}
+	if (ImGui::Button("Reset")) {
+		hp_ = 10;
+		isDead_ = false;
+	}
 	ImGui::Text("HP : %d", hp_);
 	ImGui::Text("IsDead : %s", isDead_ ? "TRUE" : "FALSE");
 
@@ -562,7 +568,7 @@ void Boss::Phase_3() {
 	// 攻撃処理呼び出し
 	if (AttackFrame01 <= 0) {
 		EnemyAttack_4();
-		AttackFrame01 = 100 + rand() % 20 - 15;
+		AttackFrame01 = 150 + rand() % 20 - 15;
 
 #ifdef _DEBUG
 		DebugFrame01 = AttackFrame01;
