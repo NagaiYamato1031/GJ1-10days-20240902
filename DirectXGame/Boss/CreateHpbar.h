@@ -11,8 +11,11 @@ public: /*パブリック関数*/
 	void Init(const Vector3& pos, Model* model_,const float &deg ,const float &far_);
 	void Update();
 	void Draw(const ViewProjection *viewProjection);
-
+	void NeedReturn();
 	float ToRadian(float angle);
+
+public:  /*パブリック変数*/
+	bool isActive = true;
 
 private: /*メンバ変数*/
 	//3Dモデル

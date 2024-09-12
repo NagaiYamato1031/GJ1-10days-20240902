@@ -13,7 +13,9 @@ public: /*パブリック関数*/
 	void Init();
 	void Create(const Vector3&position,const int &hp);
 	void Update();
-	void DrawModel();
+	void DrawModel(const ViewProjection* viewProjection);
+	void DamageBreak();
+
 
 private: /*メンバ変数*/
 	//3Dモデル

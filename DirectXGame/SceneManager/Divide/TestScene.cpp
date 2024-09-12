@@ -2,6 +2,7 @@
 
 #include "TitleScene.h"
 
+
 using namespace ACJPN;
 using namespace ACJPN::Collider;
 using namespace ACJPN::Math;
@@ -34,6 +35,9 @@ void TestScene::Init() {
 	boss_.Init();
 	boss_.SetPlayer(&player_);
 
+	//Hpばー初期化
+	displayHp_.Init();
+
 	// ターゲットに設定
 	camera_.SetTarget(player_.GetTransform());
 
@@ -58,6 +62,15 @@ void TestScene::Update() {
 		nextScene_ = new TitleScene;
 		sceneFlag_.isTransition_ = true;
 	}
+
+	//テストで体力表示
+	if (input_->TriggerKey(DIK_W)) {
+		displayHp_.Create(Vector3(0, 0, 0), 3);
+	}
+	if (input_->TriggerKey(DIK_S)) {
+		displayHp_.DamageBreak();
+	}
+	displayHp_.Update();
 
 	// プレイヤー更新
 	player_.Update();
@@ -85,12 +98,15 @@ void TestScene::Draw3D() {
 	stage_.DrawModel(camera_.GetView());
 	player_.DrawModel(camera_.GetView());
 	boss_.DrawModel(camera_.GetView());
+
+	displayHp_.DrawModel(camera_.GetView());
 }
 
 void TestScene::DrawOverlay() {
 	if (IsTransition()) {
 		transitionSprite_->Draw();
 	}
+
 }
 
 void TestScene::DebugWindow() {

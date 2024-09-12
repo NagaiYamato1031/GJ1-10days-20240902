@@ -126,6 +126,9 @@ void ParticleEffects::Init() {
 }
 
 
+#pragma region CreateParticle
+
+
 
 void ParticleEffects::CreateParticle_PlayerBullet(const Vector3& position,const float& rotationDeg) { 
 
@@ -233,6 +236,8 @@ void ParticleEffects::CreateParticle_Conflict(const Vector3& position, const flo
 		particle_Conflicts_.push_back(newParticle);
 	}
 }
+
+#pragma endregion
 
 void ParticleEffects::UpdateParticle() {
 
