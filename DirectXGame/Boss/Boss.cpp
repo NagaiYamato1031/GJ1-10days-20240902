@@ -206,7 +206,7 @@ void Boss::CreateBulletSimple(float speed) {
 
 void Boss::CreateBulletEffective(float speed) {
 	// 弾を生成する
-	EffectiveBullet* data = new EffectiveBullet;
+	HomingBullet* data = new HomingBullet;
 	data->Init();
 	data->transform_.translation_ = transform_.translation_;
 	// 座標
@@ -219,6 +219,7 @@ void Boss::CreateBulletEffective(float speed) {
 	data->velocity_.x = norm.x * speed;
 	data->velocity_.y = norm.y * speed;
 	data->aliveLength_ = 50;
+	data->player_ = player_;
 	//　球の当たり判定
 	data->colSphere_.center = { 0.0f,0.0f,0.0f };
 	data->colSphere_.radius = 1.0f;
@@ -398,20 +399,20 @@ void Boss::EnemyAttack_1() {
 
 void Boss::EnemyAttack_2() {
 	// プレイヤーの周りを狙って飛んでくる弾
-	CreateBulletEffective(0.8f);
+	CreateBulletEffective(0.75f);
 }
 
 void Boss::EnemyAttack_3() {
 
-	// 円に向かって飛び、波を発生させる弾
-	SimpleBullet* data = new SimpleBullet;
-	data->Init();
-	data->transform_.translation_ = transform_.translation_;
-	// 弾をプレイヤーの方向に向ける
-	data->velocity_.x;
-	data->velocity_.y;
-	// 登録
-	bulletManager_.Regist(data);
+	//// 円に向かって飛び、波を発生させる弾
+	//SimpleBullet* data = new SimpleBullet;
+	//data->Init();
+	//data->transform_.translation_ = transform_.translation_;
+	//// 弾をプレイヤーの方向に向ける
+	//data->velocity_.x;
+	//data->velocity_.y;
+	//// 登録
+	//bulletManager_.Regist(data);
 }
 
 void Boss::EnemyAttack_4() {

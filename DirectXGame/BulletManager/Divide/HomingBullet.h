@@ -1,16 +1,19 @@
 #pragma once
 
+#include <functional>
 #include <BulletManager/IBullet.h>
 #include <Collider/CollisionManager.h>
 
+class Player;
+
 /// <summary>
-/// ただまっすぐに飛んでいく
+/// 波を起こす機能を持った弾
 /// </summary>
-class SimpleBullet : public IBullet {
+class HomingBullet : public IBullet {
 public: //** コンストラクタ **//
 
-	SimpleBullet() = default;
-	~SimpleBullet() override = default;
+	HomingBullet() = default;
+	~HomingBullet() override = default;
 
 public: //** パブリック関数 **//
 
@@ -31,11 +34,14 @@ public: //** パブリック関数 **//
 
 public: //** パブリック関数 **//
 
-	// 生存時間
-	int aliveFrame_ = 60;
+	// 生存する距離
+	int aliveLength_ = 50;
 
-	// 弾の体力
-	int hp_;
+	// 弾が消えるときに呼ばれる関数を入れる
+	std::function<void()> endFunction = []() {};
+
+	// プレイヤーの座標を取得する
+	Player* player_ = nullptr;
 
 	// 進む速度
 	Vector3 velocity_ = { 0.0f,0.0f,0.0f };

@@ -113,6 +113,7 @@
     <ClCompile Include="Boss\Boss.cpp" />
     <ClCompile Include="BulletManager\BulletManager.cpp" />
     <ClCompile Include="BulletManager\Divide\EffectiveBullet.cpp" />
+    <ClCompile Include="BulletManager\Divide\HomingBullet.cpp" />
     <ClCompile Include="BulletManager\Divide\SimpleBullet.cpp" />
     <ClCompile Include="BulletManager\Divide\SpecialBullet.cpp" />
     <ClCompile Include="BulletManager\Divide\WaveBullet.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="BulletManager\BulletManager.h" />
     <ClInclude Include="BulletManager\Divide\BulletList.h" />
     <ClInclude Include="BulletManager\Divide\EffectiveBullet.h" />
+    <ClInclude Include="BulletManager\Divide\HomingBullet.h" />
     <ClInclude Include="BulletManager\Divide\SimpleBullet.h" />
     <ClInclude Include="BulletManager\Divide\SpecialBullet.h" />
     <ClInclude Include="BulletManager\Divide\WaveBullet.h" />

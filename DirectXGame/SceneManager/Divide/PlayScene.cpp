@@ -28,15 +28,6 @@ void PlayScene::Init() {
 
 	// ターゲットに設定
 	camera_.SetTarget(player_.GetTransform());
-
-	// 原点のオブジェクト
-	origin_.reset(Model::CreateSphere());
-	originTransform_.Initialize();
-	// 東側のオブジェクト
-	east_.reset(Model::Create());
-	eastTransform_.Initialize();
-	eastTransform_.translation_.x = 10.0f;
-	eastTransform_.UpdateMatrix();
 }
 
 void PlayScene::Update() {
@@ -78,8 +69,6 @@ void PlayScene::DrawBackdrop() {
 
 
 void PlayScene::Draw3D() {
-	origin_->Draw(originTransform_, *camera_.GetView());
-	east_->Draw(eastTransform_, *camera_.GetView());
 	boss_.DrawModel(camera_.GetView());
 	stage_.DrawModel(camera_.GetView());
 	player_.DrawModel(camera_.GetView());

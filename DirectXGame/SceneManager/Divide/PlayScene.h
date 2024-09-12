@@ -53,13 +53,5 @@ private: //** メンバ変数 **//
 	// ボス
 	Boss boss_;
 
-	// 原点のわかるオブジェクト
-	std::unique_ptr<Model> origin_;
-	WorldTransform originTransform_;
-
-	// 原点から東にあるオブジェクト
-	std::unique_ptr<Model> east_;
-	WorldTransform eastTransform_;
-
 private: //** メンバ関数 **//
 };

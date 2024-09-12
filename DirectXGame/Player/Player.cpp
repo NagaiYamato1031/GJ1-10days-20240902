@@ -300,6 +300,8 @@ void Player::CreateBullet() {
 	// 速度を向いている方向に向ける
 	data->velocity_.x = std::cosf(theta_) * -1.5f;
 	data->velocity_.y = std::sinf(theta_) * -1.5f;
+	// 体力設定
+	data->hp_ = 1;
 	//　球の当たり判定
 	data->colSphere_.center = { 0.0f,0.0f,0.0f };
 	data->colSphere_.radius = 1.0f;
@@ -317,8 +319,13 @@ void Player::CreateBullet() {
 		}
 		// プレイヤーの弾
 		if (mask == MBossBullet()) {
-			data->isActive = false;
-			data->collider_->isEnable = false;
+			// 体力を減らす
+			data->hp_--;
+			if (data->hp_ <= 0) {
+				data->isActive = false;
+				// 当たり判定消えないのがバグになりそう
+				data->collider_->isEnable = false;
+			}
 		}
 		};
 

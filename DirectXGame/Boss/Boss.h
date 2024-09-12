@@ -138,7 +138,7 @@ private: //** プライベート関数 **//
 	void EnterBulletFunction(int mask, IBullet* data);
 
 	/// <summary>
-	/// まっすぐ飛ばして波を波も出る弾を生成する
+	/// まっすぐ飛ばして波も出る弾を生成する
 	/// </summary>
 	void CreateBulletSimple(float speed = 1.0f);
 	/// <summary>
