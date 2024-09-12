@@ -49,12 +49,8 @@ void DisplayHp::DrawModel(const ViewProjection*viewProjection) {
 }
 
 void DisplayHp::DamageBreak() { 
-	int life = 0;
-	for (CreateHpbar* createhpBar:hpBars_) {
-		    life++;
-		    createhpBar->NeedReturn();
-	}
-	if (life > 0) {
+	if (!hpBars_.empty()) {
+		    delete hpBars_.back();
 		    hpBars_.pop_back();
 	}
 	
