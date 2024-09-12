@@ -21,6 +21,8 @@ void TestScene::Init() {
 
 	// ステージ初期化
 	stage_.Init();
+	//スカイドーム初期化
+	skydome_.Init();
 
 	// ボス初期化
 	boss_.Init();
@@ -54,7 +56,7 @@ void TestScene::Update() {
 		return;
 	}
 	// スペースを押すとタイトルへ
-	if (input_->TriggerKey(DIK_RETURN)) {
+	if (input_->TriggerKey(DIK_M)) {
 		nextScene_ = new TitleScene;
 		sceneFlag_.isTransition_ = true;
 	}
@@ -67,6 +69,8 @@ void TestScene::Update() {
 
 	// ステージ更新
 	stage_.Update();
+	//スカイドーム更新
+	skydome_.Update();
 
 	// フォローカメラ更新
 	camera_.Update();
@@ -83,6 +87,7 @@ void TestScene::Draw3D() {
 	east_->Draw(eastTransform_, *camera_.GetView());
 
 	stage_.DrawModel(camera_.GetView());
+	skydome_.DrawModel(camera_.GetView());
 	player_.DrawModel(camera_.GetView());
 	boss_.DrawModel(camera_.GetView());
 }

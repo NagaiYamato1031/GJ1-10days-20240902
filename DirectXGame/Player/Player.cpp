@@ -12,7 +12,7 @@ void Player::Init() {
 	input_ = Input::GetInstance();
 
 	// モデル読み込み
-	model_.reset(Model::CreateFromOBJ("cube"));
+	model_.reset(Model::CreateFromOBJ("player"));
 	// 初期化
 	transform_.Initialize();
 	// 北側から始まる
@@ -23,6 +23,7 @@ void Player::Init() {
 	// 値を初期化
 	distance_ = 0.0f;
 	latestDistance_ = kPaddingCenter_;
+	transform_.scale_ = {2.0f, 2.0f, 2.0f};
 	isActive_ = true;
 	isDead_ = false;
 
@@ -128,6 +129,7 @@ void Player::DebugWindow() {
 		theta_ -= 3.14f * 2;
 	}
 	if (ImGui::TreeNode("Transform")) {
+		ImGui::DragFloat3("scale", &transform_.scale_.x, 0.01f);
 		ImGui::DragFloat3("rotation", &transform_.rotation_.x, 0.01f);
 		ImGui::DragFloat3("translate", &transform_.translation_.x, 0.01f);
 

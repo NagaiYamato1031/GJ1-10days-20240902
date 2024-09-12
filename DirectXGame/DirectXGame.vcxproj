@@ -122,6 +122,7 @@
     <ClCompile Include="Particle\ParticleEffects.cpp" />
     <ClCompile Include="Particle\Particle_EnemyBullet.cpp" />
     <ClCompile Include="Particle\Particle_PlayerBullet.cpp" />
+    <ClCompile Include="Skydome\Skydome.cpp" />
     <ClCompile Include="Utility\Mymath.cpp" />
     <ClCompile Include="SceneManager\Divide\EndScene.cpp" />
     <ClCompile Include="Stage\Stage.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="Particle\Particle_EnemyBullet.h" />
     <ClInclude Include="Particle\Particle_PlayerBullet.h" />
     <ClInclude Include="SceneManager\Divide\EndScene.h" />
+    <ClInclude Include="Skydome\Skydome.h" />
     <ClInclude Include="Stage\Stage.h" />
     <ClInclude Include="Utility\MyConst.h" />
     <ClInclude Include="Utility\Mymath.h" />

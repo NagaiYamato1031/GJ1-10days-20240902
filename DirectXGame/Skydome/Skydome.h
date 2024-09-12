@@ -9,20 +9,19 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 
-class Stage {
-public: //** コンストラクタ **//
 
+class Skydome {
+public:/*コンストラクタ*/
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	Stage() = default;
+	Skydome() = default;
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~Stage() = default;
+	~Skydome() = default;
 
-public: //** パブリック関数 **//
-
+	public: //** パブリック関数 **//
 	/// <summary>
 	/// 初期化
 	/// </summary>
@@ -44,11 +43,9 @@ public: //** パブリック関数 **//
 	void DebugWindow();
 
 private:
-
-	// 3D モデル
+		// 3D モデル
 	std::unique_ptr<Model> model_;
 
 	// ワールド座標
 	WorldTransform transform_;
-
 };
