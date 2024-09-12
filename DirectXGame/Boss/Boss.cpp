@@ -10,7 +10,7 @@ using namespace ACJPN::Math;
 using namespace ACJPN::Collider;
 
 void Boss::Init() {
-	model_.reset(Model::CreateSphere());
+	model_.reset(Model::CreateFromOBJ("BossEnemy"));
 	transform_.Initialize();
 	transform_.scale_ = { 10.0f,10.0f,1.0f };
 

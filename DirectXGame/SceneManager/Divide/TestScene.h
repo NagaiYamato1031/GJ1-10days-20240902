@@ -3,6 +3,7 @@
 #include <FollowCamera/FollowCamera.h>
 #include <Player/Player.h>
 #include <Stage/Stage.h>
+#include <Skydome/Skydome.h>
 #include <Boss/Boss.h>
 #include <Collider/CollisionManager.h>
 
@@ -64,6 +65,8 @@ private: //** メンバ変数 **//
 	Player player_;
 	// ステージ
 	Stage stage_;
+	//スカイドーム
+	Skydome skydome_;
 	// ボス
 	Boss boss_;
 
