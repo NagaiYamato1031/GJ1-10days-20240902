@@ -12,9 +12,11 @@ TestScene::~TestScene() {}
 
 void TestScene::Init() {
 
+	// 当たり判定初期化
 	collisionManager_ = CollisionManager::GetInstance();
 	collisionManager_->Init();
 
+	// 時間を設定
 	time = kTransitionFrame_;
 
 	// カメラ初期化
@@ -51,7 +53,7 @@ void TestScene::Update() {
 		TransitionUpdate();
 		return;
 	}
-	// スペースを押すとタイトルへ
+	// M を押すとタイトルへ
 	if (input_->TriggerKey(DIK_M)) {
 		nextScene_ = new TitleScene;
 		sceneFlag_.isTransition_ = true;
@@ -79,8 +81,8 @@ void TestScene::DrawBackdrop() {
 }
 
 void TestScene::Draw3D() {
-	stage_.DrawModel(camera_.GetView());
 	skydome_.DrawModel(camera_.GetView());
+	stage_.DrawModel(camera_.GetView());
 	player_.DrawModel(camera_.GetView());
 	boss_.DrawModel(camera_.GetView());
 }

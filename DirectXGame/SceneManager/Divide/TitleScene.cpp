@@ -2,6 +2,12 @@
 
 #include "PlayScene.h"
 
+TitleScene::TitleScene() {
+}
+
+TitleScene::~TitleScene() {
+}
+
 void TitleScene::Init() {
 
 	//MoziPos = {100, 100, 0};
@@ -10,11 +16,11 @@ void TitleScene::Init() {
 }
 
 void TitleScene::Update() {
-	// �f�o�b�O���
+	// デバッグ表示
 	DebugWindow();
 
-	// �X�y�[�X������ƃv���C�V�[����
-	if (input_->TriggerKey(DIK_RETURN)) {
+	// キー入力で次のシーンへ
+	if (input_->TriggerKey(DIK_SPACE)) {
 		nextScene_ = new PlayScene;
 		sceneFlag_.isTransition_ = true;
 		sceneFlag_.allEnd_ = true;

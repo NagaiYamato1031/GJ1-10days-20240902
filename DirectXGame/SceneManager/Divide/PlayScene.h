@@ -2,8 +2,10 @@
 
 #include "SceneManager/IScene.h"
 
+#include <TextureManager.h>
 #include <FollowCamera/FollowCamera.h>
 #include <Player/Player.h>
+#include <Skydome/Skydome.h>
 #include <Stage/Stage.h>
 #include <Boss/Boss.h>
 #include <Collider/CollisionManager.h>
@@ -44,14 +46,32 @@ private: //** メンバ変数 **//
 	// 当たり判定マネージャ
 	ACJPN::Collider::CollisionManager* collisionManager_ = nullptr;
 
+	//スカイドーム
+	Skydome skydome_;
+	// ステージ
+	Stage stage_;
 	// カメラ
 	FollowCamera camera_;
 	// プレイヤー
 	Player player_;
-	// ステージ
-	Stage stage_;
 	// ボス
 	Boss boss_;
 
+	// 遷移するフレーム
+	int kTransitionFrame_ = 60;
+
+	// 時間を測る
+	int time = 0;
+
+	// 画面遷移用の画像
+	uint32_t textureHandle_ = 0u;
+	std::unique_ptr<Sprite> transitionSprite_;
+	Vector2 transitionPosition_ = { 1280,0 };
+
 private: //** メンバ関数 **//
+
+	/// <summary>
+	/// 遷移中の更新
+	/// </summary>
+	void TransitionUpdate();
 };

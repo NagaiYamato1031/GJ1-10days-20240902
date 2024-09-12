@@ -1,5 +1,5 @@
 #pragma once
-#include <Mymath/Mymath.h>
+#include <Utility/Mymath.h>
 
 #include "DirectXCommon.h"
 #include "Sprite.h"

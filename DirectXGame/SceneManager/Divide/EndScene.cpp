@@ -16,14 +16,16 @@ EndScene::~EndScene() {
 
 void EndScene::Init() {
 
-	SelectFrag_T = false;
-	SelectFrag_P = false;
+	selectTitle_ = true;
 
-	TMoziPos = {640, 500, 0};
-	PMoziPos = {640, 600, 0};
+	toTitlePosition_ = { 640, 500, 0 };
+	toPlayPosition_ = { 640, 600, 0 };
 
-	spriteT_ = Sprite::Create(textureHandle_T, {TMoziPos.x, TMoziPos.y});
-	spriteP_ = Sprite::Create(textureHandle_P, {PMoziPos.x, PMoziPos.y});
+	//textHandleTitle_ = TextureManager::GetInstance()->Load("");
+	//textHandlePlay_ = TextureManager::GetInstance()->Load("");
+
+	spriteT_ = Sprite::Create(textHandleTitle_, { toTitlePosition_.x, toTitlePosition_.y });
+	spriteP_ = Sprite::Create(textHandlePlay_, { toPlayPosition_.x, toPlayPosition_.y });
 
 }
 
@@ -31,34 +33,28 @@ void EndScene::Update() {
 	// デバッグ情報
 	DebugWindow();
 
+	// 左はタイトル
+	// 上下に変えるかも
 	if (input_->TriggerKey(DIK_A)) {
-
-		SelectFrag_T = true;
-	} 
+		selectTitle_ = true;
+	}
 	else if (input_->TriggerKey(DIK_D)) {
+		selectTitle_ = false;
+	}
 
-		SelectFrag_P = true;
-	} 
-
-	if (SelectFrag_T == true) {
-		// スペースを押すとタイトルシーンへ
-		if (input_->TriggerKey(DIK_SPACE)) {
+	// スペースを押す
+	if (input_->TriggerKey(DIK_SPACE)) {
+		// タイトルへ
+		if (selectTitle_ == true) {
 			nextScene_ = new TitleScene;
 			sceneFlag_.isTransition_ = true;
 			sceneFlag_.allEnd_ = true;
-
-			SelectFrag_T = false;
 		}
-	}
-
-	else if (SelectFrag_P == true) {
-		// スペースを押すとプレイシーンへ
-		if (input_->TriggerKey(DIK_SPACE)) {
+		// プレイシーンへ
+		else {
 			nextScene_ = new PlayScene;
 			sceneFlag_.isTransition_ = true;
 			sceneFlag_.allEnd_ = true;
-
-			SelectFrag_P = false;
 		}
 	}
 }
@@ -71,16 +67,10 @@ void EndScene::Draw3D() {
 }
 
 void EndScene::DrawOverlay() {
-
-	if (SelectFrag_T == true) {
-
-		spriteT_->Draw();
-	}
-
-	if (SelectFrag_P == true) {
-
-		spriteP_->Draw();
-	}
+	// タイトルへ向かう画像
+	spriteT_->Draw();
+	// プレイシーンへ向かう画像
+	spriteP_->Draw();
 }
 
 void EndScene::DebugWindow() {

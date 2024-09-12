@@ -8,9 +8,9 @@ void Stage::Init() {
 	// 行列初期化
 	transform_.Initialize();
 
-	transform_.translation_.z = 2.5f;
+	//transform_.translation_.z = 2.5f;
 	transform_.translation_.y = 0.0f;
-	transform_.scale_ = { 16.4f,16.4f,5.0f };
+	transform_.scale_ = { 16.0f,16.0f,5.0f };
 }
 
 void Stage::Update() {

@@ -47,6 +47,7 @@ void Player::Update() {
 
 	// 死んでしまったら更新しない
 	if (isDead_) {
+		bulletManager_.Update();
 		return;
 	}
 

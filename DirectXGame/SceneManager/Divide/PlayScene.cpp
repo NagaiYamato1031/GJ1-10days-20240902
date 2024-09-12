@@ -12,14 +12,16 @@ void PlayScene::Init() {
 	collisionManager_ = CollisionManager::GetInstance();
 	collisionManager_->Init();
 
+	//スカイドーム初期化
+	skydome_.Init();
+	// ステージ初期化
+	stage_.Init();
+
 	// カメラ初期化
 	camera_.Init();
 
 	// プレイヤーを初期化
 	player_.Init();
-
-	// ステージ初期化
-	stage_.Init();
 
 	// ボス
 	boss_.Init();
@@ -28,25 +30,41 @@ void PlayScene::Init() {
 
 	// ターゲットに設定
 	camera_.SetTarget(player_.GetTransform());
+
+	// 時間を設定
+	time = kTransitionFrame_;
+
+	//画像処理
+	textureHandle_ = TextureManager::Load("white1x1.png");
+	transitionSprite_.reset(Sprite::Create(textureHandle_, { 1280,0 }));
+	transitionSprite_->SetSize({ 1280,720 });
 }
 
 void PlayScene::Update() {
 	// デバッグ情報
 	DebugWindow();
 
+
+	// 遷移中はほかのことをしない
+	if (sceneFlag_.isTransition_) {
+		TransitionUpdate();
+		return;
+	}
+
 	// フラグを検知してシーンを切り替える
 	// プレイヤー死亡時
 	if (player_.IsDead()) {
 		nextScene_ = new EndScene;
 		sceneFlag_.isTransition_ = true;
-		sceneFlag_.allEnd_ = true;
+		//sceneFlag_.allEnd_ = true;
 	}
 	// ボス死亡時
 	else if (boss_.IsDead()) {
 		nextScene_ = new EndScene;
 		sceneFlag_.isTransition_ = true;
-		sceneFlag_.allEnd_ = true;
+		//sceneFlag_.allEnd_ = true;
 	}
+
 	// プレイヤー更新
 	player_.Update();
 
@@ -55,6 +73,8 @@ void PlayScene::Update() {
 
 	// ステージ更新
 	stage_.Update();
+	//スカイドーム更新
+	skydome_.Update();
 
 	// フォローカメラ更新
 	camera_.Update();
@@ -69,12 +89,16 @@ void PlayScene::DrawBackdrop() {
 
 
 void PlayScene::Draw3D() {
+	skydome_.DrawModel(camera_.GetView());
 	boss_.DrawModel(camera_.GetView());
-	stage_.DrawModel(camera_.GetView());
 	player_.DrawModel(camera_.GetView());
+	stage_.DrawModel(camera_.GetView());
 }
 
 void PlayScene::DrawOverlay() {
+	if (IsTransition()) {
+		transitionSprite_->Draw();
+	}
 }
 
 void PlayScene::DebugWindow() {
@@ -83,4 +107,21 @@ void PlayScene::DebugWindow() {
 	ImGui::Text("Play");
 	ImGui::End();
 #endif // _DEBUG
+}
+
+void PlayScene::TransitionUpdate() {
+	// 時間で終了時間を決めることもできる
+	time--;
+	// フラグで管理していれば終了がわかる
+	if (time <= 0) {
+		sceneFlag_.allEnd_ = true;
+		// これ以上処理しない
+		return;
+	}
+	// 遷移中の処理
+	transitionPosition_.x = 1500.0f * ((time - 10) / (float)kTransitionFrame_);
+	transitionPosition_.x = transitionPosition_.x <= 0 ? 0 : transitionPosition_.x;
+
+	// 値を入れる
+	transitionSprite_->SetPosition(transitionPosition_);
 }

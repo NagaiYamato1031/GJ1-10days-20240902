@@ -131,7 +131,6 @@
     <ClCompile Include="SceneManager\Divide\EndScene.cpp" />
     <ClCompile Include="Stage\Stage.cpp" />
     <ClCompile Include="Mozi.cpp" />
-    <ClCompile Include="Mymath\Mymath.cpp" />
     <ClCompile Include="Player\Player.cpp" />
     <ClCompile Include="SceneManager\Divide\PlayScene.cpp" />
     <ClCompile Include="SceneManager\Divide\TestScene.cpp" />

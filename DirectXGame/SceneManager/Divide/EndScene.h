@@ -43,14 +43,13 @@ private: //** メンバ変数 **//
 
 	DirectXCommon* dxCommon_ = nullptr;
 
-	bool SelectFrag_T = false;
-	bool SelectFrag_P = false;
+	bool selectTitle_ = true;
 
-	Vector3 TMoziPos = {0, 0, 0};
-	Vector3 PMoziPos = {0, 0, 0};
+	Vector3 toTitlePosition_ = {0, 0, 0};
+	Vector3 toPlayPosition_ = {0, 0, 0};
 
-	uint32_t textureHandle_T = 0;
-	uint32_t textureHandle_P = 0;
+	uint32_t textHandleTitle_ = 0;
+	uint32_t textHandlePlay_ = 0;
 
 	Sprite* spriteT_ = nullptr;
 	Sprite* spriteP_ = nullptr;
