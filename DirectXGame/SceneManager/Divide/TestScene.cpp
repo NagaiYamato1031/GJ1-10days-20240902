@@ -8,18 +8,14 @@ using namespace ACJPN::Math;
 
 TestScene::TestScene() {}
 
-TestScene::~TestScene() {
-
-	delete fadeSpriteGC_;
-	delete fadeSpriteGO_;
-}
+TestScene::~TestScene() {}
 
 void TestScene::Init() {
 
 	collisionManager_ = CollisionManager::GetInstance();
 	collisionManager_->Init();
 
-	time = 60;
+	time = kTransitionFrame_;
 
 	// カメラ初期化
 	camera_.Init();
@@ -51,11 +47,9 @@ void TestScene::Init() {
 	colSphere = std::make_shared<ShapeCollider<Sphere>>(&sphere_);
 
 	//画像処理
-	textureHandleFadeGC_ = TextureManager::Load("Fade_GC.png");
-	fadeSpriteGC_ = Sprite::Create(textureHandleFadeGC_, {0, 0});
-
-	textureHandleFadeGO_ = TextureManager::Load("Fade_GO.png");
-	fadeSpriteGO_ = Sprite::Create(textureHandleFadeGO_, {0, 0});
+	textureHandle_ = TextureManager::Load("white1x1.png");
+	transitionSprite_.reset(Sprite::Create(textureHandle_, { 1280,0 }));
+	transitionSprite_->SetSize({ 1280,720 });
 }
 
 void TestScene::Update() {
@@ -103,14 +97,8 @@ void TestScene::Draw3D() {
 }
 
 void TestScene::DrawOverlay() {
-	if (FadeGC == true) {
-		
-		fadeSpriteGC_->Draw();
-	}
-
-	if (FadeGO == true) {
-
-		fadeSpriteGO_->Draw();
+	if (IsTransition()) {
+		transitionSprite_->Draw();
 	}
 }
 
@@ -132,31 +120,9 @@ void TestScene::TransitionUpdate() {
 		return;
 	}
 	// 遷移中の処理
-	
-	//ゲームクリア
-	if (boss_.IsDead() == true) {
+	transitionPosition_.x = 1500.0f * ((time - 10) / (float)kTransitionFrame_);
+	transitionPosition_.x = transitionPosition_.x <= 0 ? 0 : transitionPosition_.x;
 
-		FadeGC = true;
-		if (FadeGC == true) {
-			FadeColorGC_.w += 0.005f;
-			fadeSpriteGC_->SetColor(FadeColorGC_);
-
-			if (FadeColorGC_.w >= 1.0f) {
-				FadeGC = false;
-			}
-		}
-	}
-	//ゲームオーバー
-	if (player_.IsDead() == true) {
-
-		FadeGO = true;
-		if (FadeGO == true) {
-			FadeColorGO_.w += 0.005f;
-			fadeSpriteGO_->SetColor(FadeColorGO_);
-
-			if (FadeColorGO_.w >= 1.0f) {
-				FadeGO = false;
-			}
-		}
-	}
+	// 値を入れる
+	transitionSprite_->SetPosition(transitionPosition_);
 }

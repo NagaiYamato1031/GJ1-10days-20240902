@@ -52,6 +52,9 @@ private: //** メンバ変数 **//
 	// 当たり判定マネージャ
 	ACJPN::Collider::CollisionManager* collisionManager_ = nullptr;
 
+	// 遷移するフレーム
+	int kTransitionFrame_ = 60;
+
 	// 時間を測る
 	int time = 0;
 
@@ -76,17 +79,10 @@ private: //** メンバ変数 **//
 	ACJPN::Math::Sphere sphere_;
 	std::shared_ptr<ACJPN::Collider::ShapeCollider<ACJPN::Math::Sphere>> colSphere;
 
-	//ゲームクリア
-	uint32_t textureHandleFadeGC_ = 0;
-	Sprite* fadeSpriteGC_ = nullptr;
-	Vector4 FadeColorGC_ = {1.0f, 1.0f, 1.0f, 0.0};
-	bool FadeGC = false;
-
-	//ゲームオーバー
-	uint32_t textureHandleFadeGO_ = 0;
-	Sprite* fadeSpriteGO_ = nullptr;
-	Vector4 FadeColorGO_ = {1.0f, 1.0f, 1.0f, 0.0};
-	bool FadeGO = false;
+	// 画面遷移用の画像
+	uint32_t textureHandle_ = 0u;
+	std::unique_ptr<Sprite> transitionSprite_;
+	Vector2 transitionPosition_ = { 1280,0 };
 
 private: //** メンバ関数 **//
 
