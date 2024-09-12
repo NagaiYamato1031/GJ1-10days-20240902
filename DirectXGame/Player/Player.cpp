@@ -319,6 +319,7 @@ void Player::CreateBullet() {
 	SimpleBullet* data = new SimpleBullet;
 	data->Init();
 	data->transform_.translation_ = transform_.translation_;
+	data->transform_.scale_ = { 2.0f,2.0f,1.0f };
 	// 速度を向いている方向に向ける
 	data->velocity_.x = std::cosf(theta_) * -1.5f;
 	data->velocity_.y = std::sinf(theta_) * -1.5f;
