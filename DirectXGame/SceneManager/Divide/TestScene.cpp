@@ -47,6 +47,12 @@ void TestScene::Update() {
 	// デバッグ情報
 	DebugWindow();
 
+	if (boss_.GetPhase() == 3) {
+		skydome_.DirectionRed();
+	}
+	else if (boss_.IsDead()) {
+		skydome_.DirectionTurnOff();
+	}
 
 	// 遷移中はほかのことをしない
 	if (sceneFlag_.isTransition_) {

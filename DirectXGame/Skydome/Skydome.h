@@ -42,10 +42,40 @@ public:/*コンストラクタ*/
 	/// </summary>
 	void DebugWindow();
 
+
+	/// <summary>
+	/// チカチカする演出
+	/// </summary>
+	void DirectionTwinkle();
+
+	/// <summary>
+	/// 赤くなったりする演出
+	/// </summary>
+	void DirectionRed();
+
+	/// <summary>
+	/// 暗くなる演出
+	/// </summary>
+	void DirectionTurnOff();
+
 private:
 		// 3D モデル
 	std::unique_ptr<Model> model_;
 
 	// ワールド座標
 	WorldTransform transform_;
+	// 色変更
+	ObjectColor objColor_;
+
+
+	// 色の固定値
+	int kColorRange1_ = 10;
+	int kColorRange2_ = 100;
+	int kColorRange3_ = 200;
+
+	// 時間で変える変数
+	int t = 0;
+	// フラグでプラスマイナスを変える
+	bool isToggle_ = false;
+
 };
