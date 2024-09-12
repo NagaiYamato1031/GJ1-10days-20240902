@@ -135,14 +135,14 @@ private: //** プライベート関数 **//
 	void EnterBulletFunction(int mask, IBullet* data);
 
 	/// <summary>
-	/// まっすぐ飛ばす弾を生成する
+	/// まっすぐ飛ばして波を波も出る弾を生成する
 	/// </summary>
-	void CreateBulletSimple();
+	void CreateBulletSimple(float speed = 1.0f);
 	/// <summary>
-	/// 波を発生させる弾を生成する
+	/// 少し外れたところに波を発生させる弾を生成する
 	/// </summary>
 	/// <param name="speed">速度 : 1.0f 以下がいい感じ</param>
-	void CreateBulletEffective(float speed = 1.0f);
+	void CreateBulletEffective(float speed = 0.7f);
 	/// <summary>
 	/// 弾を角度分開いて、二方向に撃ち出す
 	/// </summary>

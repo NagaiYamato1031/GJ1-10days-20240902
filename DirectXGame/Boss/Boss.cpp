@@ -133,18 +133,18 @@ void Boss::EnterBulletFunction(int mask, IBullet* data) {
 	}
 }
 
-void Boss::CreateBulletSimple() {
+void Boss::CreateBulletSimple(float speed) {
 	// 弾を生成する
-	SimpleBullet* data = new SimpleBullet;
+	EffectiveBullet* data = new EffectiveBullet;
 	data->Init();
 	data->transform_.translation_ = transform_.translation_;
 	// 座標
 	Vector3 pos = player_->GetTransform()->translation_;
 	Vector3 norm = Normalize(pos);
 	// 弾とプレイヤーの距離を計算する
-	data->velocity_.x = norm.x * 1.0f;
-	data->velocity_.y = norm.y * 1.0f;
-	data->aliveFrame_ = 70;
+	data->velocity_.x = norm.x * speed;
+	data->velocity_.y = norm.y * speed;
+	data->aliveLength_ = 50;
 	//　球の当たり判定
 	data->colSphere_.center = { 0.0f,0.0f,0.0f };
 	data->colSphere_.radius = 1.0f;
@@ -156,6 +156,15 @@ void Boss::CreateBulletSimple() {
 	data->collider_->enterLambda = [=](int mask) {
 		EnterBulletFunction(mask, data);
 		data->collider_->isEnable = data->isActive;
+		};
+
+	// 終了時の関数
+	data->endFunction = [=]() {
+		// 弾がどこにも当たらずに終了したら呼ばれる
+		// 場所を正規化
+		Vector3 norm = Normalize(data->transform_.translation_);
+		// 波を発生させる
+		CreateBulletWave(std::atan2(norm.y, norm.x), 10.0f);
 		};
 
 	// コリジョンマネージャーに登録

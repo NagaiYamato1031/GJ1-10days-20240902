@@ -31,6 +31,12 @@ public: //** パブリック関数 **//
 
 public: //** パブリック関数 **//
 
+	// 値は 1 の時を考えている
+	// 最大サイズ
+	float kMaxSize = 5.0f;
+	// 最小サイズ
+	float kMinSize = 0.5f;
+
 	// 円状の角度
 	float theta_ = 0.0f;
 	// 進む角度
