@@ -34,6 +34,9 @@ void TestScene::Init() {
 	boss_.Init();
 	boss_.SetPlayer(&player_);
 
+	//文字初期化
+	mozi_.Init();
+
 	// ターゲットに設定
 	camera_.SetTarget(player_.GetTransform());
 
@@ -65,6 +68,33 @@ void TestScene::Update() {
 	// ボス初期化
 	boss_.Update();
 
+	//文字更新
+	if (input_->TriggerKey(DIK_1)) {
+		if (sflag == false) {
+			sflag = true;
+		} else {
+			sflag = false;
+		}
+	}
+	if (input_->TriggerKey(DIK_2)) {
+		if (jflag == false) {
+			jflag = true;
+		} else {
+			jflag = false;
+		}
+	}
+	if (input_->TriggerKey(DIK_3)) {
+		if (hflag == false) {
+			hflag = true;
+		} else {
+			hflag = false;
+		}
+	}
+	mozi_.SetActiveSMozi(sflag);
+	mozi_.SetActiveJMozi(jflag);
+	mozi_.SetActiveHMozi(hflag);
+	mozi_.Update();
+
 	// ステージ更新
 	stage_.Update();
 	//スカイドーム更新
@@ -91,6 +121,7 @@ void TestScene::DrawOverlay() {
 	if (IsTransition()) {
 		transitionSprite_->Draw();
 	}
+	mozi_.DrawM();
 }
 
 void TestScene::DebugWindow() {
