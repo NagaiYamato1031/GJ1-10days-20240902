@@ -61,8 +61,14 @@ namespace ACJPN::Collider {
 		/// プレイヤーの当たり判定
 		/// </summary>
 		void CheckPlayer();
+		/// <summary>
+		/// ボスの当たり判定
+		/// </summary>
 		void CheckBoss();
-
+		/// <summary>
+		/// 弾同士の当たり判定
+		/// </summary>
+		void CheckBullets();
 	};
 	template<typename T>
 	inline void CollisionManager::RegistCollider(std::shared_ptr<ShapeCollider<T>>& collider) {

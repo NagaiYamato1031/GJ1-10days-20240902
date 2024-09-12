@@ -301,9 +301,17 @@ void Player::CreateBullet() {
 
 	// ヒット時処理
 	data->collider_->enterLambda = [=](int mask) {
-		mask;
-		data->isActive = false;
-		data->collider_->isActive = false;
+		// プレイヤーに当たった時
+		if (mask == MBoss()) {
+			data->isActive = false;
+			// 当たり判定消えないのがバグになりそう
+			data->collider_->isEnable = false;
+		}
+		// プレイヤーの弾
+		if (mask == MBossBullet()) {
+			data->isActive = false;
+			data->collider_->isEnable = false;
+		}
 		};
 
 	// コリジョンマネージャーに登録

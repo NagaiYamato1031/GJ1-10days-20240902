@@ -23,6 +23,9 @@ namespace ACJPN::Collider {
 		virtual void CheckCollision(ShapeColliderBase* other) = 0;
 		virtual void Hit(ShapeColliderBase* c) = 0;
 	public: //** パブリック変数 **//
+		// 判定を使うか
+		bool isEnable = true;
+		// マスク
 		int mask = MaskCollision0;
 	};
 
@@ -87,12 +90,6 @@ namespace ACJPN::Collider {
 		void NoHit();
 
 	public: //** パブリック変数 **//
-
-		// 稼働状態か
-		bool isActive = true;
-
-		// 判定を使うか
-		bool isEnable = true;
 
 		// 形状 (球 or AABB)
 		// 参照する

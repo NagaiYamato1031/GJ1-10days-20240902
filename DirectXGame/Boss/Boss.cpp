@@ -20,7 +20,9 @@ void Boss::Init() {
 	//ＨＰ・フラグ・フェーズ初期化
 	hp_ = 1;
 	isDead_ = false;
-	phase_ = p1;
+	phase_ = p0;
+	nextPhase_ = p1;
+
 	// 当たり判定を初期化
 	InitCollision();
 
@@ -39,17 +41,23 @@ void Boss::Update() {
 	}
 
 	switch (phase_) {
+	case Boss::p0:
+		Phase_0();
+		break;
 	case Boss::p1:
-		Phase_01();
+		Phase_1();
 		break;
 	case Boss::p2:
-		Phase_02();
+		Phase_2();
 		break;
 	case Boss::p3:
-		Phase_03();
+		Phase_3();
 		break;
 	case Boss::p4:
-		Phase_04();
+		Phase_4();
+		break;
+	case Boss::transition:
+		Phase_Transition();
 		break;
 	}
 
@@ -147,6 +155,7 @@ void Boss::CreateBulletSimple() {
 	// ヒット時処理
 	data->collider_->enterLambda = [=](int mask) {
 		EnterBulletFunction(mask, data);
+		data->collider_->isEnable = data->isActive;
 		};
 
 	// コリジョンマネージャーに登録
@@ -180,6 +189,7 @@ void Boss::CreateBulletEffective(float speed) {
 	// ヒット時処理
 	data->collider_->enterLambda = [=](int mask) {
 		EnterBulletFunction(mask, data);
+		data->collider_->isEnable = data->isActive;
 		};
 	// 終了時の関数
 	data->endFunction = [=]() {
@@ -220,6 +230,7 @@ void Boss::CreateBulletEffective2Way(float theta, float speed) {
 	// ヒット時処理
 	data->collider_->enterLambda = [=](int mask) {
 		EnterBulletFunction(mask, data);
+		data->collider_->isEnable = data->isActive;
 		};
 	// 終了時の関数
 	data->endFunction = [=]() {
@@ -256,6 +267,7 @@ void Boss::CreateBulletEffective2Way(float theta, float speed) {
 	// ヒット時処理
 	data->collider_->enterLambda = [=](int mask) {
 		EnterBulletFunction(mask, data);
+		data->collider_->isEnable = data->isActive;
 		};
 	// 終了時の関数
 	data->endFunction = [=]() {
@@ -297,6 +309,7 @@ void Boss::CreateBulletWave(float theta, float power) {
 	// ヒット時処理
 	data->collider_->enterLambda = [=](int mask) {
 		EnterBulletFunction(mask, data);
+		data->collider_->isEnable = data->isActive;
 		};
 
 	// コリジョンマネージャーに登録
@@ -324,6 +337,7 @@ void Boss::CreateBulletWave(float theta, float power) {
 	// ヒット時処理
 	data->collider_->enterLambda = [=](int mask) {
 		EnterBulletFunction(mask, data);
+		data->collider_->isEnable = data->isActive;
 		};
 
 	// コリジョンマネージャーに登録
@@ -368,8 +382,17 @@ void Boss::EnemyAttack_4() {
 }
 
 
+void Boss::Phase_0() {
+	// フェーズ1へ移行
+	if (hp_ <= 0) {
+		phase_ = transition;
+		nextPhase_ = p1;
+		hp_ = 10;
+	}
+}
+
 //エネミーフェーズ処理
-void Boss::Phase_01() {
+void Boss::Phase_1() {
 
 	AttackFrame01--;
 
@@ -386,12 +409,13 @@ void Boss::Phase_01() {
 
 	// フェーズ２へ移行
 	if (hp_ <= 0) {
-		phase_ = p2;
+		phase_ = transition;
+		nextPhase_ = p2;
 		hp_ = 10;
 	}
 }
 
-void Boss::Phase_02() {
+void Boss::Phase_2() {
 
 	AttackFrame01--;
 	AttackFrame02--;
@@ -417,12 +441,13 @@ void Boss::Phase_02() {
 
 	//フェーズ３へ移行
 	if (hp_ <= 0) {
-		phase_ = p3;
+		phase_ = transition;
+		nextPhase_ = p3;
 		hp_ = 15;
 	}
 }
 
-void Boss::Phase_03() {
+void Boss::Phase_3() {
 
 	AttackFrame01--;
 	AttackFrame03--;
@@ -450,14 +475,25 @@ void Boss::Phase_03() {
 
 	// フェーズ４へ移行
 	if (hp_ <= 0) {
-		phase_ = p4;
+		phase_ = transition;
+		nextPhase_ = p4;
 	}
 }
 
-void Boss::Phase_04() {
+void Boss::Phase_4() {
 	// 死亡時の演出
 	hp_--;
 	if (hp_ <= 0) {
 		isDead_ = true;
+	}
+}
+
+void Boss::Phase_Transition() {
+	// フェーズ移行時の行動
+	endTransition_ = true;
+	if (endTransition_) {
+		phase_ = nextPhase_;
+		endTransition_ = false;
+		return;
 	}
 }

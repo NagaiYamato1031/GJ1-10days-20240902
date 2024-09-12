@@ -75,6 +75,8 @@ private: //** プライベート変数 **//
 
 	//エネミー体力
 	int hp_ = 40;
+	// 大玉を打ち返す時のフラグ
+	bool endTransition_ = false;
 
 	//エネミー攻撃遷移フレーム
 	int AttackFrame01 = 80;
@@ -98,14 +100,20 @@ private: //** プライベート変数 **//
 
 	//フェーズ一覧
 	enum Phase {
+		p0,
 		p1,
 		p2,
 		p3,
 		p4,
+
+		transition,
+
 	};
 
 	//現在の行動
-	Phase phase_ = Phase::p1;
+	Phase phase_ = Phase::p0;
+	// 次の行動
+	Phase nextPhase_ = Phase::p1;
 
 	// 球の当たり判定
 	ACJPN::Math::Sphere colSphere_;
@@ -160,11 +168,18 @@ private: //** プライベート関数 **//
 	void EnemyAttack_4(); // 自機 + 周辺
 
 	//エネミーフェーズ
-	void Phase_01(); //第一段階
+	void Phase_0(); //第零段階
 
-	void Phase_02(); //第二段階
+	void Phase_1(); //第一段階
 
-	void Phase_03(); //第三段階
+	void Phase_2(); //第二段階
 
-	void Phase_04(); //最終段階
+	void Phase_3(); //第三段階
+
+	void Phase_4(); //死亡段階
+
+	/// <summary>
+	/// 大玉を撃っているフェーズ
+	/// </summary>
+	void Phase_Transition();
 };
