@@ -61,6 +61,9 @@ public: //** パブリック関数 **//
 
 private: //** プライベート変数 **//
 
+	// ステージにあたる距離
+	float kPaddingCenter_ = 45.0f;
+
 	// 3D モデル
 	std::unique_ptr<Model> model_;
 
@@ -140,16 +143,15 @@ private: //** プライベート関数 **//
 	/// <summary>
 	/// まっすぐ飛ばして波も出る弾を生成する
 	/// </summary>
-	void CreateBulletSimple(float speed = 1.0f);
+	void CreateBulletEffective(float speed = 1.0f);
 	/// <summary>
-	/// 少し外れたところに波を発生させる弾を生成する
+	/// ホーミングして波を発生させる弾を生成する
 	/// </summary>
-	/// <param name="speed">速度 : 1.0f 以下がいい感じ</param>
-	void CreateBulletEffective(float speed = 0.7f);
+	/// <param name="speed">速度 : 0.5f 以下がいい感じ</param>
+	void CreateBulletHoming(float speed = 0.5f);
 	/// <summary>
 	/// 弾を角度分開いて、二方向に撃ち出す
 	/// </summary>
-	/// <param name="speed"></param>
 	void CreateBulletEffective2Way(float theta, float speed = 1.0f);
 	/// <summary>
 	/// 角度から波を生成する

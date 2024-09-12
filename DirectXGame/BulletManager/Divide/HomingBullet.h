@@ -35,10 +35,13 @@ public: //** パブリック関数 **//
 public: //** パブリック関数 **//
 
 	// 生存する距離
-	int aliveLength_ = 50;
+	float aliveLength_ = 50.0f;
 
 	// 弾が消えるときに呼ばれる関数を入れる
 	std::function<void()> endFunction = []() {};
+
+	// 弾の速度
+	float speed_ = 0.5f;
 
 	// プレイヤーの座標を取得する
 	Player* player_ = nullptr;

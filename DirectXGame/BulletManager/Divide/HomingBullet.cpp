@@ -14,6 +14,20 @@ void HomingBullet::Init() {
 
 void HomingBullet::Update() {
 	elapsedFrame++;
+	// 一定時間経った後に動き始める
+	if (elapsedFrame <= 60) {
+		Vector3 norm = Normalize(player_->GetTransform()->translation_ - transform_.translation_);
+		//velocity_ = velocity_ * speed_;
+		// ボスの周りを回るように動く
+		// ボスの半径以上を入れる
+		transform_.translation_.x = norm.x * 12.0f;
+		transform_.translation_.y = norm.y * 12.0f;
+		// 当たり判定移動
+		colSphere_.center = transform_.translation_;
+		// 行列更新
+		transform_.UpdateMatrix();
+		return;
+	}
 	if (aliveLength_ <= Length(transform_.translation_)) {
 		// プレイヤーの弾に当たらなかったとき波発生
 		endFunction();
@@ -21,10 +35,9 @@ void HomingBullet::Update() {
 		return;
 	}
 	// 一定フレームごとに参照
-	if (Length(transform_.translation_) <= aliveLength_ * 0.75f) {
-		Vector3 preVel = velocity_;
-		velocity_ = Normalize(preVel + Normalize(player_->GetTransform()->translation_ - transform_.translation_));
-		velocity_ = velocity_ * 0.5f;
+	if (Length(transform_.translation_) <= aliveLength_ * 0.8f) {
+		velocity_ = Normalize(player_->GetTransform()->translation_ - transform_.translation_);
+		velocity_ = velocity_ * speed_;
 	}
 	transform_.translation_ += velocity_;
 

@@ -109,6 +109,42 @@ void Boss::DebugWindow() {
 		DecreasHP(1);
 	}
 
+	if (ImGui::TreeNode("BulletFunction")) {
+
+		if (ImGui::TreeNode("Effective")) {
+			static float speed = 0.45f;
+			ImGui::DragFloat("speed", &speed, 0.01f);
+			if (ImGui::Button("Shot")) {
+				CreateBulletEffective(speed);
+			}
+			ImGui::TreePop();
+			ImGui::Separator();
+		}
+		if (ImGui::TreeNode("Homing")) {
+			static float speed = 0.45f;
+			ImGui::DragFloat("speed", &speed, 0.01f);
+			if (ImGui::Button("Shot")) {
+				CreateBulletHoming(speed);
+			}
+			ImGui::TreePop();
+			ImGui::Separator();
+		}
+		if (ImGui::TreeNode("2Way")) {
+			static float theta = 0.8f;
+			static float speed = 0.45f;
+			ImGui::DragFloat("theta", &theta, 0.001f);
+			ImGui::DragFloat("speed", &speed, 0.01f);
+			if (ImGui::Button("Shot")) {
+				CreateBulletEffective2Way(theta, speed);
+			}
+			ImGui::TreePop();
+			ImGui::Separator();
+		}
+
+		ImGui::TreePop();
+		ImGui::Separator();
+	}
+
 	ImGui::Separator();
 
 	if (ImGui::TreeNode("Frames")) {
@@ -164,7 +200,7 @@ void Boss::EnterBulletFunction(int mask, IBullet* data) {
 	}
 }
 
-void Boss::CreateBulletSimple(float speed) {
+void Boss::CreateBulletEffective(float speed) {
 	// 弾を生成する
 	EffectiveBullet* data = new EffectiveBullet;
 	data->Init();
@@ -175,10 +211,10 @@ void Boss::CreateBulletSimple(float speed) {
 	// 弾とプレイヤーの距離を計算する
 	data->velocity_.x = norm.x * speed;
 	data->velocity_.y = norm.y * speed;
-	data->aliveLength_ = 50;
+	data->aliveLength_ = kPaddingCenter_;
 	//　球の当たり判定
 	data->colSphere_.center = { 0.0f,0.0f,0.0f };
-	data->colSphere_.radius = 1.0f;
+	data->colSphere_.radius = 4.0f;
 	data->collider_ = std::make_shared<ShapeCollider<Sphere>>(&data->colSphere_);
 	// マスク
 	data->collider_->mask = MBossBullet();
@@ -204,25 +240,23 @@ void Boss::CreateBulletSimple(float speed) {
 	bulletManager_.Regist(data);
 }
 
-void Boss::CreateBulletEffective(float speed) {
+void Boss::CreateBulletHoming(float speed) {
 	// 弾を生成する
 	HomingBullet* data = new HomingBullet;
 	data->Init();
 	data->transform_.translation_ = transform_.translation_;
 	// 座標
 	Vector3 pos = player_->GetTransform()->translation_;
-	// 座標にランダムに足す
-	pos.x += rand() % 20 - 10.0f;
-	pos.y += rand() % 20 - 10.0f;
 	Vector3 norm = Normalize(pos);
 	// 弾とプレイヤーの距離を計算する
 	data->velocity_.x = norm.x * speed;
 	data->velocity_.y = norm.y * speed;
-	data->aliveLength_ = 50;
+	data->aliveLength_ = kPaddingCenter_;
 	data->player_ = player_;
+	data->speed_ = speed;
 	//　球の当たり判定
 	data->colSphere_.center = { 0.0f,0.0f,0.0f };
-	data->colSphere_.radius = 1.0f;
+	data->colSphere_.radius = 4.0f;
 	data->collider_ = std::make_shared<ShapeCollider<Sphere>>(&data->colSphere_);
 	// マスク
 	data->collider_->mask = MBossBullet();
@@ -260,10 +294,10 @@ void Boss::CreateBulletEffective2Way(float theta, float speed) {
 	// 弾とプレイヤーの距離を計算する
 	data->velocity_.x = pos.x * speed;
 	data->velocity_.y = pos.y * speed;
-	data->aliveLength_ = 50;
+	data->aliveLength_ = kPaddingCenter_;
 	//　球の当たり判定
 	data->colSphere_.center = { 0.0f,0.0f,0.0f };
-	data->colSphere_.radius = 1.0f;
+	data->colSphere_.radius = 4.0f;
 	data->collider_ = std::make_shared<ShapeCollider<Sphere>>(&data->colSphere_);
 	// マスク
 	data->collider_->mask = MBossBullet();
@@ -279,6 +313,7 @@ void Boss::CreateBulletEffective2Way(float theta, float speed) {
 		// 場所を正規化
 		Vector3 norm = Normalize(data->transform_.translation_);
 		// 波を発生させる
+		// 2 Way の真ん中まで届かせたい
 		CreateBulletWave(std::atan2(norm.y, norm.x), 3.0f);
 		};
 
@@ -297,10 +332,10 @@ void Boss::CreateBulletEffective2Way(float theta, float speed) {
 	// 弾とプレイヤーの距離を計算する
 	data->velocity_.x = pos.x * speed;
 	data->velocity_.y = pos.y * speed;
-	data->aliveLength_ = 50;
+	data->aliveLength_ = kPaddingCenter_;
 	//　球の当たり判定
 	data->colSphere_.center = { 0.0f,0.0f,0.0f };
-	data->colSphere_.radius = 1.0f;
+	data->colSphere_.radius = 4.0f;
 	data->collider_ = std::make_shared<ShapeCollider<Sphere>>(&data->colSphere_);
 	// マスク
 	data->collider_->mask = MBossBullet();
@@ -394,12 +429,12 @@ void Boss::DecreasHP(int damage) {
 // エネミー攻撃処理
 void Boss::EnemyAttack_1() {
 	// プレイヤーを狙って飛んでくる弾
-	CreateBulletSimple();
+	CreateBulletEffective();
 }
 
 void Boss::EnemyAttack_2() {
 	// プレイヤーの周りを狙って飛んでくる弾
-	CreateBulletEffective(0.75f);
+	CreateBulletHoming(0.4f);
 }
 
 void Boss::EnemyAttack_3() {
@@ -417,9 +452,9 @@ void Boss::EnemyAttack_3() {
 
 void Boss::EnemyAttack_4() {
 	// プレイヤーを狙って飛んでくる弾
-	CreateBulletSimple();
-	// プレイヤーの周りを狙って飛んでくる弾
-	CreateBulletEffective(0.5f);
+	CreateBulletEffective();
+	// 2 Way を撃つ
+	CreateBulletEffective2Way(0.8f, 0.45f);
 }
 
 
@@ -437,15 +472,25 @@ void Boss::Phase_0() {
 void Boss::Phase_1() {
 
 	AttackFrame01--;
+	AttackFrame02--;
 
 	//攻撃処理呼び出し
 	if (AttackFrame01 <= 0) {
 		EnemyAttack_1();
 		//フレーム初期化
-		AttackFrame01 = 80 + rand() % 20 - 10;
+		AttackFrame01 = 200 + rand() % 10;
 
 #ifdef _DEBUG
 		DebugFrame01 = AttackFrame01;
+#endif // _DEBUG
+	}
+	// 攻撃処理呼び出し
+	if (AttackFrame02 <= 0) {
+		EnemyAttack_2();
+		AttackFrame02 = 600 - rand() % 10;
+
+#ifdef _DEBUG
+		DebugFrame02 = AttackFrame02;
 #endif // _DEBUG
 	}
 
@@ -462,11 +507,12 @@ void Boss::Phase_2() {
 
 	AttackFrame01--;
 	AttackFrame02--;
+	AttackFrame03--;
 
 	// 攻撃処理呼び出し
 	if (AttackFrame01 <= 0) {
 		EnemyAttack_1();
-		AttackFrame01 = 80 + rand() % 30 - 15;
+		AttackFrame01 = 200 + rand() % 15;
 
 #ifdef _DEBUG
 		DebugFrame01 = AttackFrame01;
@@ -475,10 +521,20 @@ void Boss::Phase_2() {
 	// 攻撃処理呼び出し
 	if (AttackFrame02 <= 0) {
 		EnemyAttack_2();
-		AttackFrame02 = 100 + rand() % 10;
+		AttackFrame02 = 600 - rand() % 10;
 
 #ifdef _DEBUG
 		DebugFrame02 = AttackFrame02;
+#endif // _DEBUG
+	}
+	// 攻撃処理呼び出し
+	if (AttackFrame03 <= 0) {
+		//EnemyAttack_3();
+		CreateBulletEffective2Way(0.6f, 0.5f);
+		AttackFrame03 = 500 + rand() % 15;
+
+#ifdef _DEBUG
+		DebugFrame03 = AttackFrame03;
 #endif // _DEBUG
 	}
 
