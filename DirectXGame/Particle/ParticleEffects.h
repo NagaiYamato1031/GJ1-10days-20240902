@@ -6,18 +6,24 @@
 #include "WorldTransform.h"
 #include "Particle_PlayerBullet.h"
 #include "Particle_EnemyBullet.h"
+#include "Particle_Wave.h"
+#include "Particle_Conflict.h"
 #include "list"
 
-struct BulletParticle {
-float scalar;       // 速さ
-Vector3 scale;      // サイズ
-float rotation;     // 回転
-float lifeTime;     // 生存時間
-float interval;     // 生成間隔
-float intervalBuff; // 生成間隔のバッファ
-int randomRenge;    // 生成ランダム範囲
-float randomFar;    // ランダムでずらす距離
+struct Particle {
+	float scalar;// 速さ
+	Vector3 scale;// サイズ
+	float rotation;// 回転
+	float lifeTime;// 生存時間
+	float interval;// 生成間隔
+	float intervalBuff; // 生成間隔のバッファ
+	int randomRenge;// 生成ランダム範囲
+	float randomFar;// ランダムでずらす距離
+	int createCount;//一度に生成する数(波とぶつかった時のエフェクトで使用するよ～
+	Vector3 shrinkScale;//小さくするやつ
 };
+
+
 
 
 class ParticleEffects {
@@ -41,12 +47,13 @@ public: /*パブリック関数*/
 	void CreateParticle_BoundBullet(const Vector3& position, const float& rotationDeg);
 	void CreateParticle_BBBullet(const Vector3& position, const float& rotationDeg);
 
+	void CreateParticle_Wave(const Vector3& position, const float& rotationDeg);
+	void CreateParticle_Conflict(const Vector3& position, const float& rotationDeg);
+
+
 	void UpdateParticle();//生成したパーティクルを動かす
-
 	void DrawParticle(const ViewProjection* viewProjection);//パーティクルを描画
-
 	void TestDelete();//パーティクルを全削除
-
 	// 頑張って自分で書いた奴}
 
 private: /*メンバ変数*/
@@ -60,12 +67,14 @@ private: /*メンバ変数*/
 	WorldTransform worldTransform_;
 
 	//パーティクルに必要な変数類
-	BulletParticle playerBullet_;//プレイヤーの弾
-	BulletParticle standardBullet_;//通常弾
-	BulletParticle chaserBullet_;//追跡弾
-	BulletParticle footpaceBullet_;//持続弾
-	BulletParticle boundBullet_;//バウンド弾
-	BulletParticle bbBullet_;
+	Particle playerBullet_;//プレイヤーの弾
+	Particle standardBullet_;//通常弾
+	Particle chaserBullet_;//追跡弾
+	Particle footpaceBullet_;//持続弾
+	Particle boundBullet_;//バウンド弾
+	Particle bbBullet_; //大玉
+	Particle wave_;//波攻撃
+	Particle conflict_;//弾と弾がぶつかった時のやつ
 
 
 	//パーティクルのリスト
@@ -76,5 +85,7 @@ private: /*メンバ変数*/
 	std::list<Particle_EnemyBullet*> particle_BoundBullets_;//バウンド弾
 	std::list<Particle_EnemyBullet*> particle_BBBullets_;//大玉
 
+	std::list<Particle_Wave*> particle_Waves_; // 波
+	std::list<Particle_Conflict*> particle_Conflicts_;//衝突
 
 };

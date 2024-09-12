@@ -18,8 +18,11 @@ void Particle_PlayerBullet::Init( float time,Model *model,const Vector3& positio
 	time_ = time;
 
 	//ランダム生成
-	int rand_ = (rand() % (randomRange * 2)) - randomRange;
-	float distance = rand_ * randomFar;
+	float distance = 0;
+	if (randomRange != 0) {
+		int rand_ = (rand() % (randomRange * 2)) - randomRange;
+		distance = rand_ * randomFar;
+	}
 
 	float rotate_ = ToRadian(rotate);	
 	//速さ速度変換
@@ -47,11 +50,17 @@ void Particle_PlayerBullet::Init( float time,Model *model,const Vector3& positio
 	worldTransform_.rotation_ = Vector3(0, 0, rotate_);
 }
 
-void Particle_PlayerBullet::Update() {
+void Particle_PlayerBullet::Update(const Vector3& shrinkScale) {
 
 	//速度加算
 	worldTransform_.translation_ += velocity_;
-
+	// サイズ減算
+	if (worldTransform_.scale_.x > 0) {
+		worldTransform_.scale_ -= shrinkScale;
+		if (worldTransform_.scale_.x < 0) {
+			worldTransform_.scale_ = Vector3(0.0f, 0.0f, 0.0f);
+		}
+	}
 	//壊れるまでの時間計算
 	time_--;
 	if (time_ <= 0) {
