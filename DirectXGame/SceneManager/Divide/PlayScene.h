@@ -6,6 +6,7 @@
 #include <Player/Player.h>
 #include <Stage/Stage.h>
 #include <Boss/Boss.h>
+#include <Collider/CollisionManager.h>
 
 // IScene クラスを継承したゲームプレイシーン
 class PlayScene : public ACJPN::Scene::IScene {
@@ -39,6 +40,9 @@ public: //** パブリック関数 **//
 	/// </summary>
 	void DebugWindow() override;
 private: //** メンバ変数 **//
+
+	// 当たり判定マネージャ
+	ACJPN::Collider::CollisionManager* collisionManager_ = nullptr;
 
 	// カメラ
 	FollowCamera camera_;

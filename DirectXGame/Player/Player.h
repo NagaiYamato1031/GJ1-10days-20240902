@@ -78,7 +78,8 @@ public: // パブリック関数 **//
 	/// </summary>
 	void DebugWindow();
 
-	bool GetIsActive() const { return isActive_; }
+	bool IsActive() const { return isActive_; }
+	bool IsDead() const { return isDead_; }
 
 private: //** メンバ変数 **//
 

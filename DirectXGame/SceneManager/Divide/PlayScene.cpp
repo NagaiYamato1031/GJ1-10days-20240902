@@ -2,7 +2,16 @@
 
 #include "EndScene.h"
 
+using namespace ACJPN;
+using namespace ACJPN::Collider;
+using namespace ACJPN::Math;
+
 void PlayScene::Init() {
+
+	// 当たり判定の初期化
+	collisionManager_ = CollisionManager::GetInstance();
+	collisionManager_->Init();
+
 	// カメラ初期化
 	camera_.Init();
 
@@ -34,8 +43,15 @@ void PlayScene::Update() {
 	// デバッグ情報
 	DebugWindow();
 
-	// スペースを押すとエンドシーンへ
-	if (input_->TriggerKey(DIK_RETURN)) {
+	// フラグを検知してシーンを切り替える
+	// プレイヤー死亡時
+	if (player_.IsDead()) {
+		nextScene_ = new EndScene;
+		sceneFlag_.isTransition_ = true;
+		sceneFlag_.allEnd_ = true;
+	}
+	// ボス死亡時
+	else if (boss_.IsDead()) {
 		nextScene_ = new EndScene;
 		sceneFlag_.isTransition_ = true;
 		sceneFlag_.allEnd_ = true;
@@ -51,6 +67,10 @@ void PlayScene::Update() {
 
 	// フォローカメラ更新
 	camera_.Update();
+
+	// 当たり判定
+	collisionManager_->Update();
+	collisionManager_->CheckCollision();
 }
 
 void PlayScene::DrawBackdrop() {
