@@ -139,6 +139,7 @@
     <ClCompile Include="SceneManager\SceneManager.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
     <ClCompile Include="Utility\WorldTransformEx.cpp" />
+    <ClCompile Include="Score.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\ImGuiManager.h" />
@@ -201,6 +202,7 @@
     <ClInclude Include="SceneManager\IScene.h" />
     <ClInclude Include="SceneManager\SceneManager.h" />
     <ClInclude Include="scene\GameScene.h" />
+    <ClInclude Include="Score.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\TerrainPS.hlsl">
