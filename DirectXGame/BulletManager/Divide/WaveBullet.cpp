@@ -7,7 +7,7 @@ using namespace ACJPN::Math;
 using namespace ACJPN::Collider;
 
 void WaveBullet::Init() {
-	model_.reset(Model::Create());
+	model_.reset(Model::CreateSphere());
 	transform_.Initialize();
 }
 

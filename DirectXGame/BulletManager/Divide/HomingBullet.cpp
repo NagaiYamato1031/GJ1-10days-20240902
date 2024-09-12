@@ -7,7 +7,7 @@ using namespace ACJPN::Math;
 using namespace ACJPN::Collider;
 
 void HomingBullet::Init() {
-	model_.reset(Model::Create());
+	model_.reset(Model::CreateFromOBJ("BossEnemy"));
 	transform_.Initialize();
 	velocity_.y = -1.0f;
 }

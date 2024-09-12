@@ -33,8 +33,8 @@ void Boss::Init() {
 	// 緑
 	colors_.push_back({ 0.0f,0.75f,0.0f,1.0f });
 	// 黄
-	colors_.push_back({ 0.5f,0.5f,0.0f,1.0f });
-	colors_.push_back({ 0.5f,0.5f,0.0f,1.0f });
+	colors_.push_back({ 0.95f,0.95f,0.0f,1.0f });
+	colors_.push_back({ 0.95f,0.95f,0.0f,1.0f });
 	// 赤
 	colors_.push_back({ 0.75f,0.0f,0.0f,1.0f });
 	// 灰
@@ -218,6 +218,7 @@ void Boss::CreateBulletEffective(float speed) {
 	EffectiveBullet* data = new EffectiveBullet;
 	data->Init();
 	data->transform_.translation_ = transform_.translation_;
+	data->transform_.scale_ = { 2.0f,2.0f,1.0f };
 	// 座標
 	Vector3 pos = player_->GetTransform()->translation_;
 	Vector3 norm = Normalize(pos);
@@ -258,6 +259,7 @@ void Boss::CreateBulletHoming(float speed) {
 	HomingBullet* data = new HomingBullet;
 	data->Init();
 	data->transform_.translation_ = transform_.translation_;
+	data->transform_.scale_ = { 2.0f,2.0f,1.0f };
 	// 座標
 	Vector3 pos = player_->GetTransform()->translation_;
 	Vector3 norm = Normalize(pos);
@@ -300,6 +302,7 @@ void Boss::CreateBulletEffective2Way(float theta, float speed) {
 	EffectiveBullet* data = new EffectiveBullet;
 	data->Init();
 	data->transform_.translation_ = transform_.translation_;
+	data->transform_.scale_ = { 2.0f,2.0f,1.0f };
 	// 角度を出す
 	float pTheta = player_->GetTheta();
 	// 座標
@@ -340,6 +343,7 @@ void Boss::CreateBulletEffective2Way(float theta, float speed) {
 	data = new EffectiveBullet;
 	data->Init();
 	data->transform_.translation_ = transform_.translation_;
+	data->transform_.scale_ = { 2.0f,2.0f,1.0f };
 	// 座標
 	pos = { std::cosf(pTheta - theta),std::sinf(pTheta - theta),0.0f };
 	// 弾とプレイヤーの距離を計算する

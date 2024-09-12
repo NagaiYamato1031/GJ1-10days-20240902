@@ -35,7 +35,7 @@ public: //** パブリック関数 **//
 	// 最大サイズ
 	float kMaxSize = 5.0f;
 	// 最小サイズ
-	float kMinSize = 0.5f;
+	float kMinSize = 1.0f;
 
 	// 円状の角度
 	float theta_ = 0.0f;

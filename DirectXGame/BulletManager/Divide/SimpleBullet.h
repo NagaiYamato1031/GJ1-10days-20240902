@@ -43,4 +43,6 @@ public: //** パブリック関数 **//
 	// 当たり判定
 	ACJPN::Math::Sphere colSphere_;
 	std::shared_ptr < ACJPN::Collider::ShapeCollider<ACJPN::Math::Sphere>> collider_;
+	// 色を変える
+	ObjectColor color_;
 };

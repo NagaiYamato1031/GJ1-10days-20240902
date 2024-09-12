@@ -5,9 +5,12 @@ using namespace ACJPN::Math;
 using namespace ACJPN::Collider;
 
 void SimpleBullet::Init() {
-	model_.reset(Model::Create());
+	model_.reset(Model::CreateSphere());
 	transform_.Initialize();
 	velocity_.y = -1.0f;
+	color_.Initialize();
+	color_.SetColor({ 0.9f,0.8f,0.0f,1.0f });
+	color_.TransferMatrix();
 }
 
 void SimpleBullet::Update() {
@@ -26,5 +29,5 @@ void SimpleBullet::Update() {
 }
 
 void SimpleBullet::DrawModel(ViewProjection* view) {
-	model_->Draw(transform_, *view);
+	model_->Draw(transform_, *view, &color_);
 }
