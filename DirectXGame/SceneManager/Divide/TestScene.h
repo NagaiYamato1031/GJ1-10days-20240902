@@ -10,9 +10,15 @@
 
 #include "EndScene.h"
 
+#include "Sprite.h"
+#include "TextureManager.h"
+
 // IScene クラスを継承したタイトルシーン
 class TestScene : public ACJPN::Scene::IScene {
 public: //** パブリック関数 **//
+
+	TestScene();
+	~TestScene();
 
 	/// <summary>
 	/// 初期化
@@ -69,6 +75,18 @@ private: //** メンバ変数 **//
 
 	ACJPN::Math::Sphere sphere_;
 	std::shared_ptr<ACJPN::Collider::ShapeCollider<ACJPN::Math::Sphere>> colSphere;
+
+	//ゲームクリア
+	uint32_t textureHandleFadeGC_ = 0;
+	Sprite* fadeSpriteGC_ = nullptr;
+	Vector4 FadeColorGC_ = {1.0f, 1.0f, 1.0f, 0.0};
+	bool FadeGC = false;
+
+	//ゲームオーバー
+	uint32_t textureHandleFadeGO_ = 0;
+	Sprite* fadeSpriteGO_ = nullptr;
+	Vector4 FadeColorGO_ = {1.0f, 1.0f, 1.0f, 0.0};
+	bool FadeGO = false;
 
 private: //** メンバ関数 **//
 

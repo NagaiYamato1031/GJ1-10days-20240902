@@ -6,6 +6,14 @@ using namespace ACJPN;
 using namespace ACJPN::Collider;
 using namespace ACJPN::Math;
 
+TestScene::TestScene() {}
+
+TestScene::~TestScene() {
+
+	delete fadeSpriteGC_;
+	delete fadeSpriteGO_;
+}
+
 void TestScene::Init() {
 
 	collisionManager_ = CollisionManager::GetInstance();
@@ -41,6 +49,13 @@ void TestScene::Init() {
 	sphere_.center = { 0.0f,0.0f,0.0f };
 	sphere_.radius = 1.0f;
 	colSphere = std::make_shared<ShapeCollider<Sphere>>(&sphere_);
+
+	//画像処理
+	textureHandleFadeGC_ = TextureManager::Load("Fade_GC.png");
+	fadeSpriteGC_ = Sprite::Create(textureHandleFadeGC_, {0, 0});
+
+	textureHandleFadeGO_ = TextureManager::Load("Fade_GO.png");
+	fadeSpriteGO_ = Sprite::Create(textureHandleFadeGO_, {0, 0});
 }
 
 void TestScene::Update() {
@@ -88,6 +103,15 @@ void TestScene::Draw3D() {
 }
 
 void TestScene::DrawOverlay() {
+	if (FadeGC == true) {
+		
+		fadeSpriteGC_->Draw();
+	}
+
+	if (FadeGO == true) {
+
+		fadeSpriteGO_->Draw();
+	}
 }
 
 void TestScene::DebugWindow() {
@@ -108,4 +132,31 @@ void TestScene::TransitionUpdate() {
 		return;
 	}
 	// 遷移中の処理
+	
+	//ゲームクリア
+	if (boss_.IsDead() == true) {
+
+		FadeGC = true;
+		if (FadeGC == true) {
+			FadeColorGC_.w += 0.005f;
+			fadeSpriteGC_->SetColor(FadeColorGC_);
+
+			if (FadeColorGC_.w >= 1.0f) {
+				FadeGC = false;
+			}
+		}
+	}
+	//ゲームオーバー
+	if (player_.IsDead() == true) {
+
+		FadeGO = true;
+		if (FadeGO == true) {
+			FadeColorGO_.w += 0.005f;
+			fadeSpriteGO_->SetColor(FadeColorGO_);
+
+			if (FadeColorGO_.w >= 1.0f) {
+				FadeGO = false;
+			}
+		}
+	}
 }
