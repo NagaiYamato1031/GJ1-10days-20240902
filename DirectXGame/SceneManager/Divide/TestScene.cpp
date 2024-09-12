@@ -33,19 +33,6 @@ void TestScene::Init() {
 	// ターゲットに設定
 	camera_.SetTarget(player_.GetTransform());
 
-	// 原点のオブジェクト
-	origin_.reset(Model::CreateSphere());
-	originTransform_.Initialize();
-	// 東側のオブジェクト
-	east_.reset(Model::Create());
-	eastTransform_.Initialize();
-	eastTransform_.translation_.x = 10.0f;
-	eastTransform_.UpdateMatrix();
-	//　球の当たり判定
-	sphere_.center = { 0.0f,0.0f,0.0f };
-	sphere_.radius = 1.0f;
-	colSphere = std::make_shared<ShapeCollider<Sphere>>(&sphere_);
-
 	//画像処理
 	textureHandle_ = TextureManager::Load("white1x1.png");
 	transitionSprite_.reset(Sprite::Create(textureHandle_, { 1280,0 }));
@@ -88,9 +75,6 @@ void TestScene::DrawBackdrop() {
 }
 
 void TestScene::Draw3D() {
-	origin_->Draw(originTransform_, *camera_.GetView());
-	east_->Draw(eastTransform_, *camera_.GetView());
-
 	stage_.DrawModel(camera_.GetView());
 	player_.DrawModel(camera_.GetView());
 	boss_.DrawModel(camera_.GetView());

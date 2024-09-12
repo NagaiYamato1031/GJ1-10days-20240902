@@ -67,18 +67,6 @@ private: //** メンバ変数 **//
 	// ボス
 	Boss boss_;
 
-
-	// 原点のわかるオブジェクト
-	std::unique_ptr<Model> origin_;
-	WorldTransform originTransform_;
-
-	// 原点から東にあるオブジェクト
-	std::unique_ptr<Model> east_;
-	WorldTransform eastTransform_;
-
-	ACJPN::Math::Sphere sphere_;
-	std::shared_ptr<ACJPN::Collider::ShapeCollider<ACJPN::Math::Sphere>> colSphere;
-
 	// 画面遷移用の画像
 	uint32_t textureHandle_ = 0u;
 	std::unique_ptr<Sprite> transitionSprite_;
