@@ -50,8 +50,16 @@ public: //** パブリック関数 **//
 	/// <summary>
 	/// フラグ取得
 	/// </summary>
+	bool IsActive() const { return isActive_; }
+	/// <summary>
+	/// フラグ取得
+	/// </summary>
 	bool IsDead() const { return isDead_; }
 
+	/// <summary>
+	/// プレイヤーのポインタ
+	/// </summary>
+	/// <param name="p"></param>
 	void SetPlayer(Player* p) { player_ = p; }
 
 	/// <summary>
@@ -98,6 +106,9 @@ private: //** プライベート変数 **//
 	int DebugFrame03 = 360;
 
 #endif // _DEBUG
+
+	// クラスが稼働状態か
+	bool isActive_ = true;
 
 	//エネミー死亡判定
 	bool isDead_ = false;
@@ -182,7 +193,13 @@ private: //** プライベート関数 **//
 	void Phase_4(); //死亡段階
 
 	/// <summary>
-	/// 大玉を撃っているフェーズ
+	/// 状態を切り替えているフェーズ
 	/// </summary>
 	void Phase_Transition();
+
+	/// <summary>
+	/// 死んでいる時に更新する
+	/// アニメーションとかをごり押ししたい
+	/// </summary>
+	void UpdateDeath();
 };
