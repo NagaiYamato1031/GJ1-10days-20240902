@@ -50,7 +50,14 @@ void Boss::Update() {
 
 	// 死んでたら処理しない
 	if (isDead_) {
-		bulletManager_.Update();
+		// 弾を消す
+		bulletManager_.Init();
+		UpdateDeath();
+		return;
+	}
+	// プレイヤーが死んでいたら弾を消す
+	if (player_->IsDead()) {
+		bulletManager_.Init();
 		return;
 	}
 
@@ -597,4 +604,7 @@ void Boss::Phase_Transition() {
 		colorIndex_ = phase_;
 		return;
 	}
+}
+
+void Boss::UpdateDeath() {
 }

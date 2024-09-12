@@ -186,5 +186,10 @@ private: //** メンバ関数 **//
 	/// </summary>
 	void DecreaseHP(int damage);
 
+	/// <summary>
+	/// 死んでいる時に更新する
+	/// ごり押しアニメーション
+	/// </summary>
+	void UpdateDeath();
 };
 

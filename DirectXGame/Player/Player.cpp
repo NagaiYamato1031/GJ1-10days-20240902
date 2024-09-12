@@ -47,7 +47,9 @@ void Player::Update() {
 
 	// 死んでしまったら更新しない
 	if (isDead_) {
-		bulletManager_.Update();
+		// 弾を消す
+		bulletManager_.Init();
+		UpdateDeath();
 		return;
 	}
 
@@ -336,4 +338,7 @@ void Player::CreateBullet() {
 	CollisionManager::GetInstance()->RegistCollider(data->collider_);
 	// 登録
 	bulletManager_.Regist(data);
+}
+
+void Player::UpdateDeath() {
 }
