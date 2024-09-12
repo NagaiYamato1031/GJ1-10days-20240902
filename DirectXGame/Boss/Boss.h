@@ -74,7 +74,7 @@ private: //** プライベート変数 **//
 	Player* player_ = nullptr;
 
 	//エネミー体力
-	int HP_ = 40;
+	int hp_ = 40;
 
 	//エネミー攻撃遷移フレーム
 	int AttackFrame01 = 80;

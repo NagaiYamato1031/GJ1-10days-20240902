@@ -18,7 +18,7 @@ void Boss::Init() {
 	bulletManager_.Init();
 
 	//ＨＰ・フラグ・フェーズ初期化
-	HP_ = 40;
+	hp_ = 1;
 	isDead_ = false;
 	phase_ = p1;
 	// 当たり判定を初期化
@@ -32,6 +32,11 @@ void Boss::Update() {
 
 	// デバッグ表示
 	DebugWindow();
+
+	// 死んでたら処理しない
+	if (isDead_) {
+		return;
+	}
 
 	switch (phase_) {
 	case Boss::p1:
@@ -71,7 +76,7 @@ void Boss::DebugWindow() {
 	ImGui::Begin("BossWindow");
 
 	ImGui::Text("Phase : %d", (int)phase_);
-	ImGui::Text("HP : %d", HP_);
+	ImGui::Text("HP : %d", hp_);
 	ImGui::Text("IsDead : %s", isDead_ ? "TRUE" : "FALSE");
 
 	ImGui::Separator();
@@ -328,10 +333,7 @@ void Boss::CreateBulletWave(float theta, float power) {
 }
 
 void Boss::DecreasHP(int damage) {
-	HP_ -= damage;
-	if (HP_ <= 0) {
-		isDead_ = true;
-	}
+	hp_ -= damage;
 }
 
 // エネミー攻撃処理
@@ -383,8 +385,9 @@ void Boss::Phase_01() {
 	}
 
 	// フェーズ２へ移行
-	if (HP_ <= 37) {
+	if (hp_ <= 0) {
 		phase_ = p2;
+		hp_ = 10;
 	}
 }
 
@@ -413,8 +416,9 @@ void Boss::Phase_02() {
 	}
 
 	//フェーズ３へ移行
-	if (HP_ <= 28) {
+	if (hp_ <= 0) {
 		phase_ = p3;
+		hp_ = 15;
 	}
 }
 
@@ -445,26 +449,15 @@ void Boss::Phase_03() {
 	}
 
 	// フェーズ４へ移行
-	if (HP_ <= 18) {
+	if (hp_ <= 0) {
 		phase_ = p4;
 	}
 }
 
 void Boss::Phase_04() {
-
-	// 攻撃処理呼び出し
-	if (false) {
-
-		EnemyAttack_1();
-	}
-	// 攻撃処理呼び出し
-	else if (false) {
-
-		EnemyAttack_2();
-	}
-	// 攻撃処理呼び出し
-	else if (false) {
-
-		EnemyAttack_3();
+	// 死亡時の演出
+	hp_--;
+	if (hp_ <= 0) {
+		isDead_ = true;
 	}
 }
