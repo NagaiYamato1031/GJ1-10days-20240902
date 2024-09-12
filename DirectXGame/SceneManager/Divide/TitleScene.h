@@ -2,8 +2,14 @@
 
 #include "SceneManager/IScene.h"
 
-#include "DirectXCommon.h"
 #include "Sprite.h"
+#include "TextureManager.h"
+#include <FollowCamera/FollowCamera.h>
+#include <Player/Player.h>
+#include <Skydome/Skydome.h>
+#include <Stage/Stage.h>
+#include <Boss/Boss.h>
+#include <Collider/CollisionManager.h>
 
 // IScene クラスを継承したタイトルシーン
 class TitleScene : public ACJPN::Scene::IScene {
@@ -41,13 +47,26 @@ public: //** パブリック関数 **//
 	void DebugWindow() override;
 private: //** メンバ変数 **//
 
-	//DirectXCommon* dxCommon_ = nullptr;
+	// 当たり判定マネージャ
+	ACJPN::Collider::CollisionManager* collisionManager_ = nullptr;
 
-	//uint32_t textureHandle_ = 0;
+	// タイトルの画像
+	uint32_t textureTitle_ = 0u;
+	std::unique_ptr<Sprite> titleSprite_;
+	Vector2 kSpritePosition_ = { 1280 * 0.5f,500.0f };
 
-	//Sprite* sprite_ = nullptr;
+	// スカイドーム
+	Skydome skydome_;
+	// ステージ
+	Stage stage_;
+	// プレイヤー
+	Player player_;
+	// カメラ
+	FollowCamera camera_;
 
-	//Vector3 MoziPos = {0, 0, 0};
+	// 当たり判定を作る
+	ACJPN::Math::Sphere colSphere_;
+	std::shared_ptr < ACJPN::Collider::ShapeCollider<ACJPN::Math::Sphere>> collider_;
 
 private: //** メンバ関数 **//
 };
