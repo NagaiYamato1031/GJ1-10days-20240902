@@ -41,7 +41,8 @@ private: //** サブクラス **//
 		bool isJumping_ = false;
 		// 先行入力
 		bool isDrop_ = false;
-
+		// 無敵判定
+		bool isInvincible_ = false;
 	};
 
 public: //** コンストラクタ **//
@@ -92,6 +93,9 @@ private: //** メンバ変数 **//
 	// 死んでしまったかどうか
 	bool isDead_ = false;
 
+	// 無敵時間固定値
+	int kInvincibleFrame_ = 60;
+
 	// 一度に変更する角度
 	float kSpeed_ = 0.01f;
 
@@ -99,6 +103,9 @@ private: //** メンバ変数 **//
 	float kPaddingCenter_ = 50.0f;
 	// 急降下ができる距離
 	float kPaddingDrop_ = 10.0f;
+
+	// 無敵判定フレーム
+	int invincibleFrame_ = 0;
 
 	// 入力管理
 	Input* input_ = nullptr;
