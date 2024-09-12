@@ -57,9 +57,7 @@ private:
 
 	//文字座標
 	Vector3 SMoziPos = {0, 0, 0};
-
 	Vector3 JMoziPos = {0, 0, 0};
-	
 	Vector3 HMoziPos = {0, 0, 0};
 
 	//スプライト関連
