@@ -1,16 +1,17 @@
 #pragma once
 
+#include <functional>
 #include <BulletManager/IBullet.h>
 #include <Collider/CollisionManager.h>
 
 /// <summary>
 /// ただまっすぐに飛んでいく
 /// </summary>
-class SimpleBullet : public IBullet {
+class SpecialBullet : public IBullet {
 public: //** コンストラクタ **//
 
-	SimpleBullet() = default;
-	~SimpleBullet() override = default;
+	SpecialBullet() = default;
+	~SpecialBullet() override = default;
 
 public: //** パブリック関数 **//
 
@@ -31,8 +32,14 @@ public: //** パブリック関数 **//
 
 public: //** パブリック関数 **//
 
-	// 生存時間
-	int aliveFrame_ = 60;
+	// 生きている距離
+	int aliveLength_ = 50;
+
+	// 弾の体力
+	int hp_ = 1;
+
+	// 弾が消えるときに呼ばれる関数を入れる
+	std::function<void()> endFunction = []() {};
 
 	// 進む速度
 	Vector3 velocity_ = { 0.0f,0.0f,0.0f };

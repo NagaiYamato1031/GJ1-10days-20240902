@@ -114,6 +114,7 @@
     <ClCompile Include="BulletManager\BulletManager.cpp" />
     <ClCompile Include="BulletManager\Divide\EffectiveBullet.cpp" />
     <ClCompile Include="BulletManager\Divide\SimpleBullet.cpp" />
+    <ClCompile Include="BulletManager\Divide\SpecialBullet.cpp" />
     <ClCompile Include="BulletManager\Divide\WaveBullet.cpp" />
     <ClCompile Include="Collider\CollisionManager.cpp" />
     <ClCompile Include="Collider\ShapeCollider.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="BulletManager\Divide\BulletList.h" />
     <ClInclude Include="BulletManager\Divide\EffectiveBullet.h" />
     <ClInclude Include="BulletManager\Divide\SimpleBullet.h" />
+    <ClInclude Include="BulletManager\Divide\SpecialBullet.h" />
     <ClInclude Include="BulletManager\Divide\WaveBullet.h" />
     <ClInclude Include="Collider\CollisionManager.h" />
     <ClInclude Include="Collider\MaskCollision.h" />

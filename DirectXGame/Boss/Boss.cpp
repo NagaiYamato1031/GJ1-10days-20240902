@@ -28,6 +28,19 @@ void Boss::Init() {
 
 	// ランダムを初期化
 	srand((unsigned)time(nullptr));
+
+	// 色を保存
+	// 緑
+	colors_.push_back({ 0.0f,0.75f,0.0f,1.0f });
+	// 黄
+	colors_.push_back({ 0.5f,0.5f,0.0f,1.0f });
+	colors_.push_back({ 0.5f,0.5f,0.0f,1.0f });
+	// 赤
+	colors_.push_back({ 0.75f,0.0f,0.0f,1.0f });
+	// 灰
+	colors_.push_back({ 0.25f,0.25f,0.25f,1.0f });
+	// 初期化
+	objectColor_.Initialize();
 }
 
 void Boss::Update() {
@@ -37,6 +50,7 @@ void Boss::Update() {
 
 	// 死んでたら処理しない
 	if (isDead_) {
+		bulletManager_.Update();
 		return;
 	}
 
@@ -67,6 +81,10 @@ void Boss::Update() {
 	// 当たり判定も更新
 	colSphere_.center = transform_.translation_;
 
+	// 色変更
+	objectColor_.SetColor(colors_[colorIndex_]);
+	objectColor_.TransferMatrix();
+
 	// 行列の更新
 	transform_.UpdateMatrix();
 }
@@ -76,7 +94,7 @@ void Boss::DrawModel(ViewProjection* view) {
 	//弾管理クラス描画
 	bulletManager_.DrawModel(view);
 
-	model_->Draw(transform_, *view);
+	model_->Draw(transform_, *view, &objectColor_);
 }
 
 void Boss::DebugWindow() {
@@ -87,6 +105,10 @@ void Boss::DebugWindow() {
 	ImGui::Text("HP : %d", hp_);
 	ImGui::Text("IsDead : %s", isDead_ ? "TRUE" : "FALSE");
 
+	if (ImGui::Button("Decrease")) {
+		DecreasHP(1);
+	}
+
 	ImGui::Separator();
 
 	if (ImGui::TreeNode("Frames")) {
@@ -95,7 +117,16 @@ void Boss::DebugWindow() {
 		ImGui::Text("3 : %d (%d)", AttackFrame03, DebugFrame03);
 		ImGui::TreePop();
 	}
+	ImGui::Separator();
 
+	if (ImGui::TreeNode("Color")) {
+		ImGui::Text("ColorIndex : %d", colorIndex_);
+		for (size_t i = 0; i < colors_.size(); i++) {
+			ImGui::Text("Color[%d] : %.1f, %.1f, %.1f, %.1f", i, colors_[i].x, colors_[i].y, colors_[i].z, colors_[i].w);
+		}
+
+		ImGui::TreePop();
+	}
 	ImGui::End();
 #endif // _DEBUG
 }
@@ -397,6 +428,7 @@ void Boss::Phase_0() {
 		phase_ = transition;
 		nextPhase_ = p1;
 		hp_ = 10;
+		transitionFrame_ = 60;
 	}
 }
 
@@ -421,6 +453,7 @@ void Boss::Phase_1() {
 		phase_ = transition;
 		nextPhase_ = p2;
 		hp_ = 10;
+		transitionFrame_ = 60;
 	}
 }
 
@@ -453,6 +486,7 @@ void Boss::Phase_2() {
 		phase_ = transition;
 		nextPhase_ = p3;
 		hp_ = 15;
+		transitionFrame_ = 60;
 	}
 }
 
@@ -486,6 +520,7 @@ void Boss::Phase_3() {
 	if (hp_ <= 0) {
 		phase_ = transition;
 		nextPhase_ = p4;
+		transitionFrame_ = 60;
 	}
 }
 
@@ -499,10 +534,10 @@ void Boss::Phase_4() {
 
 void Boss::Phase_Transition() {
 	// フェーズ移行時の行動
-	endTransition_ = true;
-	if (endTransition_) {
+	transitionFrame_--;
+	if (transitionFrame_ <= 0) {
 		phase_ = nextPhase_;
-		endTransition_ = false;
+		colorIndex_ = phase_;
 		return;
 	}
 }

@@ -75,8 +75,15 @@ private: //** プライベート変数 **//
 
 	//エネミー体力
 	int hp_ = 40;
-	// 大玉を打ち返す時のフラグ
-	bool endTransition_ = false;
+
+	// 移行フレーム
+	int transitionFrame_ = 0;
+	// 色を保存
+	std::vector<Vector4> colors_;
+	// 色の添え字
+	int colorIndex_ = 0;
+	// オブジェクトの色を変えるもの
+	ObjectColor objectColor_;
 
 	//エネミー攻撃遷移フレーム
 	int AttackFrame01 = 80;
@@ -92,9 +99,6 @@ private: //** プライベート変数 **//
 
 #endif // _DEBUG
 
-	// 中心からの回転角
-	float theta_ = 0.0f;
-
 	//エネミー死亡判定
 	bool isDead_ = false;
 
@@ -107,7 +111,6 @@ private: //** プライベート変数 **//
 		p4,
 
 		transition,
-
 	};
 
 	//現在の行動
