@@ -8,9 +8,11 @@ public: /*コンストラクト*/
 	~CreateHpbar()=default;
 
 public: /*パブリック関数*/
-	void Init(const Vector3& pos, Model* model_);
+	void Init(const Vector3& pos, Model* model_,const float &deg ,const float &far_);
 	void Update();
 	void Draw(const ViewProjection *viewProjection);
+
+	float ToRadian(float angle);
 
 private: /*メンバ変数*/
 	//3Dモデル
@@ -19,6 +21,13 @@ private: /*メンバ変数*/
 	WorldTransform worldTransform_;
 	//破壊フラグ
 	bool isBreak;
+	//ベクトル
+	Vector3 velocity_;
+	//中心からの距離
+	float distance_;
+	//中心
+	Vector3 pos_;
+
 	//テクスチャハンドル
-	TextureManager textureHandle_;
+	uint32_t textureHandle_;
 };
