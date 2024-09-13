@@ -113,6 +113,11 @@ void PlayScene::DebugWindow() {
 #ifdef _DEBUG
 	ImGui::Begin("Scene");
 	ImGui::Text("Play");
+	if (ImGui::Button("ToEnd")) {
+		nextScene_ = new EndScene;
+		sceneFlag_.isTransition_ = true;
+		sceneFlag_.allEnd_ = true;
+	}
 	ImGui::End();
 #endif // _DEBUG
 }

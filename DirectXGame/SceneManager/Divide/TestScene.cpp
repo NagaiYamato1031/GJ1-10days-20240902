@@ -81,6 +81,7 @@ void TestScene::Update() {
 	if (input_->TriggerKey(DIK_M)) {
 		nextScene_ = new TitleScene;
 		sceneFlag_.isTransition_ = true;
+		sceneFlag_.allEnd_ = true;
 	}
 
 	// プレイヤー更新
