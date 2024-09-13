@@ -16,6 +16,10 @@ void TestScene::Init() {
 	collisionManager_ = CollisionManager::GetInstance();
 	collisionManager_->Init();
 
+	// 音声関係
+	audio_ = Audio::GetInstance();
+	soundHandle_ = audio_->LoadWave("mokugyo.wav");
+
 	// 時間を設定
 	time = kTransitionFrame_;
 
@@ -82,6 +86,11 @@ void TestScene::Update() {
 		nextScene_ = new TitleScene;
 		sceneFlag_.isTransition_ = true;
 		sceneFlag_.allEnd_ = true;
+	}
+
+	// Q を押して音を鳴らす
+	if (input_->TriggerKey(DIK_Q)) {
+		audio_->PlayWave(soundHandle_);
 	}
 
 	// プレイヤー更新

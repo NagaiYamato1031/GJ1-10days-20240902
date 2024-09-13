@@ -53,6 +53,10 @@ private: //** メンバ変数 **//
 	// 当たり判定マネージャ
 	ACJPN::Collider::CollisionManager* collisionManager_ = nullptr;
 
+	Audio* audio_ = nullptr;
+	uint32_t soundHandle_ = 0u;
+
+
 	// 遷移するフレーム
 	int kTransitionFrame_ = 60;
 
