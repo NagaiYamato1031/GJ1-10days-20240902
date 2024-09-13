@@ -6,6 +6,7 @@
 #include <Skydome/Skydome.h>
 #include <Boss/Boss.h>
 #include <Collider/CollisionManager.h>
+#include <Boss/DisplayHp.h>
 
 #include "SceneManager/IScene.h"
 
@@ -69,6 +70,8 @@ private: //** メンバ変数 **//
 	Skydome skydome_;
 	// ボス
 	Boss boss_;
+	//Hpバー
+	DisplayHp displayHp_;
 
 	// 画面遷移用の画像
 	uint32_t textureHandle_ = 0u;
