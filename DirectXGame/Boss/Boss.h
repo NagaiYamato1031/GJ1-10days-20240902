@@ -110,6 +110,7 @@ private: //** プライベート変数 **//
 	int AttackFrame01 = 80;
 	int AttackFrame02 = 180;
 	int AttackFrame03 = 360;
+	int AttackFrame04 = 360;
 
 #ifdef _DEBUG
 
@@ -180,6 +181,11 @@ private: //** プライベート関数 **//
 	/// <param name="speed">速度 : 1.0f</param>
 	void CreateBulletBound(float speed = 1.0f);
 	/// <summary>
+	/// バウンドして波を発生させる弾 2 Way で生成する
+	/// </summary>
+	/// <param name="speed">速度 : 0.45f</param>
+	void CreateBulletBound2Way(float theta, float speed = 0.45f, int hp = 3);
+	/// <summary>
 	/// 弾を角度分開いて、二方向に撃ち出す
 	/// </summary>
 	void CreateBulletEffective2Way(float theta, float speed = 1.0f);
@@ -201,6 +207,8 @@ private: //** プライベート関数 **//
 	void EnemyAttack_3(); //波発生
 
 	void EnemyAttack_4(); // 自機 + 周辺
+
+	void EnemyAttack_5(); // 真横バウンド x2
 
 	//エネミーフェーズ
 	void Phase_0(); //第零段階
