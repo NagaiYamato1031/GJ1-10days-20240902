@@ -11,10 +11,10 @@ public: /*コンストラクタ*/
 
 public: /*パブリック関数*/
 	void Init();
-	void Create(const Vector3&position,const int &hp);
-	void Update();
-	void DrawModel(const ViewProjection* viewProjection);
-	void DamageBreak();
+	void Create(const Vector3&position,const int &hp);//HpBar生成
+	void Update();//弾が動く
+	void DrawModel(const ViewProjection* viewProjection);//描画
+	void DamageBreak();//ダメージ受けたら呼び出す奴（ゲージが一つ減る
 
 
 private: /*メンバ変数*/

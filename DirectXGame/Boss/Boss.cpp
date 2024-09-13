@@ -14,6 +14,9 @@ void Boss::Init() {
 	transform_.Initialize();
 	transform_.scale_ = { 10.0f,10.0f,1.0f };
 
+	//Hpbarの中心からの距離とか初期化
+	displayHp_.Init();
+
 	// 弾管理クラス初期化
 	bulletManager_.Init();
 
@@ -45,6 +48,8 @@ void Boss::Init() {
 }
 
 void Boss::Update() {
+	//Hpbar更新
+	displayHp_.Update();
 
 	// デバッグ表示
 	DebugWindow();
@@ -103,6 +108,7 @@ void Boss::DrawModel(ViewProjection* view) {
 	bulletManager_.DrawModel(view);
 
 	model_->Draw(transform_, *view, &objectColor_);
+	displayHp_.DrawModel(view);
 }
 
 void Boss::DebugWindow() {
@@ -120,7 +126,7 @@ void Boss::DebugWindow() {
 	ImGui::Text("IsDead : %s", isDead_ ? "TRUE" : "FALSE");
 
 	if (ImGui::Button("Decrease")) {
-		DecreasHP(1);
+		DecreaseHP(1);
 	}
 
 	if (ImGui::TreeNode("BulletFunction")) {
@@ -150,6 +156,15 @@ void Boss::DebugWindow() {
 			ImGui::DragFloat("speed", &speed, 0.01f);
 			if (ImGui::Button("Shot")) {
 				CreateBulletEffective2Way(theta, speed);
+			}
+			ImGui::TreePop();
+			ImGui::Separator();
+		}
+		if (ImGui::TreeNode("Bound")) {
+			static float speed = 0.45f;
+			ImGui::DragFloat("speed", &speed, 0.01f);
+			if (ImGui::Button("Shot")) {
+				CreateBulletBound(speed);
 			}
 			ImGui::TreePop();
 			ImGui::Separator();
@@ -193,7 +208,7 @@ void Boss::InitCollision() {
 	collider_->enterLambda = [=](int mask) {
 		// プレイヤーの弾の時
 		if (mask == MPlayerBullet()) {
-			DecreasHP(1);
+			DecreaseHP(1);
 		}
 		};
 
@@ -289,6 +304,47 @@ void Boss::CreateBulletHoming(float speed) {
 		Vector3 norm = Normalize(data->transform_.translation_);
 		// 波を発生させる
 		CreateBulletWave(std::atan2(norm.y, norm.x), 5.0f);
+		};
+
+	// コリジョンマネージャーに登録
+	CollisionManager::GetInstance()->RegistCollider(data->collider_);
+	// 登録
+	bulletManager_.Regist(data);
+}
+
+void Boss::CreateBulletBound(float speed) {
+	// 弾を生成する
+	BoundBullet* data = new BoundBullet;
+	data->Init();
+	data->transform_.translation_ = transform_.translation_;
+	data->transform_.scale_ = { 2.0f,2.0f,1.0f };
+	// 座標
+	Vector3 pos = player_->GetTransform()->translation_;
+	Vector3 norm = Normalize(pos);
+	// 弾とプレイヤーの距離を計算する
+	data->velocity_.x = norm.x * speed;
+	data->velocity_.y = norm.y * speed;
+	data->aliveLength_ = kPaddingCenter_;
+	//　球の当たり判定
+	data->colSphere_.center = { 0.0f,0.0f,0.0f };
+	data->colSphere_.radius = 4.0f;
+	data->collider_ = std::make_shared<ShapeCollider<Sphere>>(&data->colSphere_);
+	// マスク
+	data->collider_->mask = MBossBullet();
+
+	// ヒット時処理
+	data->collider_->enterLambda = [=](int mask) {
+		if (mask == MPlayerBullet()) {
+			data->DecreaseHP(1);
+		}
+		};
+	// 終了時の関数
+	data->endFunction = [=]() {
+		// 弾がどこにも当たらずに終了したら呼ばれる
+		// 場所を正規化
+		Vector3 norm = Normalize(data->transform_.translation_);
+		// 波を発生させる
+		CreateBulletWave(std::atan2(norm.y, norm.x), 10.0f);
 		};
 
 	// コリジョンマネージャーに登録
@@ -440,8 +496,9 @@ void Boss::CreateBulletWave(float theta, float power) {
 	bulletManager_.Regist(data);
 }
 
-void Boss::DecreasHP(int damage) {
+void Boss::DecreaseHP(int damage) {
 	hp_ -= damage;
+	displayHp_.DamageBreak();
 }
 
 // エネミー攻撃処理
@@ -483,6 +540,7 @@ void Boss::Phase_0() {
 		nextPhase_ = p1;
 		hp_ = 10;
 		transitionFrame_ = 60;
+		displayHp_.Create(transform_.translation_, hp_);
 	}
 }
 
@@ -518,6 +576,9 @@ void Boss::Phase_1() {
 		nextPhase_ = p2;
 		hp_ = 10;
 		transitionFrame_ = 60;
+
+		//Hpbar表示
+		displayHp_.Create(transform_.translation_, hp_);
 	}
 }
 
@@ -562,6 +623,7 @@ void Boss::Phase_2() {
 		nextPhase_ = p3;
 		hp_ = 15;
 		transitionFrame_ = 60;
+		displayHp_.Create(transform_.translation_, hp_);
 	}
 }
 

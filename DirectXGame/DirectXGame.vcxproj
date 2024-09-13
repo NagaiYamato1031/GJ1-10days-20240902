@@ -114,6 +114,7 @@
     <ClCompile Include="Boss\CreateHpbar.cpp" />
     <ClCompile Include="Boss\DisplayHp.cpp" />
     <ClCompile Include="BulletManager\BulletManager.cpp" />
+    <ClCompile Include="BulletManager\Divide\BoundBullet.cpp" />
     <ClCompile Include="BulletManager\Divide\EffectiveBullet.cpp" />
     <ClCompile Include="BulletManager\Divide\HomingBullet.cpp" />
     <ClCompile Include="BulletManager\Divide\SimpleBullet.cpp" />
@@ -170,6 +171,7 @@
     <ClInclude Include="Boss\CreateHpbar.h" />
     <ClInclude Include="Boss\DisplayHp.h" />
     <ClInclude Include="BulletManager\BulletManager.h" />
+    <ClInclude Include="BulletManager\Divide\BoundBullet.h" />
     <ClInclude Include="BulletManager\Divide\BulletList.h" />
     <ClInclude Include="BulletManager\Divide\EffectiveBullet.h" />
     <ClInclude Include="BulletManager\Divide\HomingBullet.h" />

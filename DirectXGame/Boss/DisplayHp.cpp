@@ -38,7 +38,7 @@ void DisplayHp::Update() {
 	});
 	for (CreateHpbar*createHpBar:hpBars_) {
 		createHpBar->Update();
-		//}
+		
 	}
 }
 
