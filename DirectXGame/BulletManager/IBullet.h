@@ -50,6 +50,11 @@ public: //** パブリック関数 **//
 	/// </summary>
 	virtual void DrawModel(ViewProjection* view) { view; }
 
+	void UpdateColor() {
+		objColor_.SetColor(color_);
+		objColor_.TransferMatrix();
+	}
+
 public: //** パブリック変数 **//
 
 	// このインスタンスが稼働状態か
@@ -60,6 +65,8 @@ public: //** パブリック変数 **//
 
 	// 3D モデル
 	std::unique_ptr<Model> model_;
+	ObjectColor objColor_;
+	Vector4 color_ = { 1.0f,1.0f,1.0f,1.0f };
 
 	// 経過フレーム
 	int elapsedFrame = 0;

@@ -9,6 +9,9 @@ using namespace ACJPN::Collider;
 void WaveBullet::Init() {
 	model_.reset(Model::CreateSphere());
 	transform_.Initialize();
+	objColor_.Initialize();
+	color_ = { 0.2f,0.4f,0.8f,1.0f };
+	UpdateColor();
 }
 
 void WaveBullet::Update() {
@@ -50,5 +53,5 @@ void WaveBullet::Update() {
 }
 
 void WaveBullet::DrawModel(ViewProjection* view) {
-	model_->Draw(transform_, *view);
+	model_->Draw(transform_, *view, &objColor_);
 }

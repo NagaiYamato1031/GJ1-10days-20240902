@@ -8,6 +8,9 @@ void EffectiveBullet::Init() {
 	model_.reset(Model::CreateFromOBJ("BossEnemy"));
 	transform_.Initialize();
 	velocity_.y = -1.0f;
+	objColor_.Initialize();
+	color_ = { 1.0f,0.75f,0.0f,1.0f };
+	UpdateColor();
 }
 
 void EffectiveBullet::Update() {
@@ -41,5 +44,5 @@ void EffectiveBullet::Update() {
 }
 
 void EffectiveBullet::DrawModel(ViewProjection* view) {
-	model_->Draw(transform_, *view);
+	model_->Draw(transform_, *view, &objColor_);
 }

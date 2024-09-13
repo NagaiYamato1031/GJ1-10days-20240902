@@ -9,6 +9,9 @@ void BoundBullet::Init() {
 	transform_.Initialize();
 	velocity_.y = -1.0f;
 	isOutMove_ = true;
+	objColor_.Initialize();
+	color_ = { 0.3f,0.3f,0.3f,1.0f };
+	UpdateColor();
 }
 
 void BoundBullet::Update() {
@@ -38,11 +41,11 @@ void BoundBullet::Update() {
 		}
 		isOutMove_ = false;
 		// 速度を反転
-		velocity_ = direct_ * -1;;
+		velocity_ = direct_ * -0.75f;
 	}
 	// 半分に達していたら
 	if (!isOutMove_) {
-		velocity_ += direct_ * 0.03f;
+		velocity_ += direct_ * 0.01f;
 	}
 	transform_.translation_ += velocity_;
 
@@ -54,7 +57,7 @@ void BoundBullet::Update() {
 }
 
 void BoundBullet::DrawModel(ViewProjection* view) {
-	model_->Draw(transform_, *view);
+	model_->Draw(transform_, *view, &objColor_);
 }
 
 void BoundBullet::DecreaseHP(int damage) {

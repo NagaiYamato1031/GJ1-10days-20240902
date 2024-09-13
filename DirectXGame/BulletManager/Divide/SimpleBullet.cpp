@@ -8,9 +8,9 @@ void SimpleBullet::Init() {
 	model_.reset(Model::CreateSphere());
 	transform_.Initialize();
 	velocity_.y = -1.0f;
-	color_.Initialize();
-	color_.SetColor({ 0.9f,0.8f,0.0f,1.0f });
-	color_.TransferMatrix();
+	objColor_.Initialize();
+	color_ = { 0.99f,0.6f,0.84f,1.0f };
+	UpdateColor();
 }
 
 void SimpleBullet::Update() {
@@ -29,5 +29,5 @@ void SimpleBullet::Update() {
 }
 
 void SimpleBullet::DrawModel(ViewProjection* view) {
-	model_->Draw(transform_, *view, &color_);
+	model_->Draw(transform_, *view, &objColor_);
 }
