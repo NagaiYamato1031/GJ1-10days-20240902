@@ -30,6 +30,7 @@ void Player::Init() {
 	// 体力を設定
 	hp_ = 10;
 
+	playerHP_.Init(hp_);
 
 	// メンバ関数ポインタ配列を初期化
 	InitFunctionArray();
@@ -73,6 +74,9 @@ void Player::Update() {
 		reqBehavior_ = Behavior::Drop;
 	}
 
+	// HP 表示更新
+	playerHP_.Update();
+
 	// 弾管理クラス更新
 	bulletManager_.Update();
 
@@ -97,15 +101,23 @@ void Player::Update() {
 		// 判定を無くすと弾が消えなくなる
 		//collider_->isEnable = false;
 		invincibleFrame_--;
+		flag_.isDraw_ = !flag_.isDraw_;
 		if (invincibleFrame_ <= 0) {
 			flag_.isInvincible_ = false;
+			flag_.isDraw_ = true;
 		}
 	}
 }
 
 void Player::DrawModel(ViewProjection* view) {
 	bulletManager_.DrawModel(view);
-	model_->Draw(transform_, *view);
+	if (flag_.isDraw_) {
+		model_->Draw(transform_, *view);
+	}
+}
+
+void Player::DrawOverlay() {
+	playerHP_.DrawSprite();
 }
 
 void Player::DebugWindow() {
@@ -309,6 +321,8 @@ void Player::DecreaseHP(int damage) {
 	// 無敵になる
 	flag_.isInvincible_ = true;
 	invincibleFrame_ = kInvincibleFrame_;
+	// 数を減らす
+	playerHP_.DecreaseHP();
 	if (hp_ <= 0) {
 		isDead_ = true;
 	}

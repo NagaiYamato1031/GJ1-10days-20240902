@@ -12,6 +12,7 @@
 #include "WorldTransform.h"
 #include <BulletManager/BulletManager.h>
 #include <Collider/CollisionManager.h>
+#include "PlayerHP.h"
 
 /// <summary>
 /// 操作するプレイヤー
@@ -43,6 +44,8 @@ private: //** サブクラス **//
 		bool isDrop_ = false;
 		// 無敵判定
 		bool isInvincible_ = false;
+		// 描画フラグ
+		bool isDraw_ = true;
 	};
 
 public: //** コンストラクタ **//
@@ -66,6 +69,11 @@ public: // パブリック関数 **//
 	/// モデル描画
 	/// </summary>
 	void DrawModel(ViewProjection* view);
+
+	/// <summary>
+	/// UI 描画
+	/// </summary>
+	void DrawOverlay();
 
 	/// <summary>
 	/// ワールド座標取得
@@ -121,6 +129,9 @@ private: //** メンバ変数 **//
 
 	// 弾管理
 	BulletManager bulletManager_;
+
+	// プレイヤーの HP を表示
+	PlayerHP playerHP_;
 
 	// 中心からの回転角
 	float theta_ = 0.0f;
