@@ -23,10 +23,10 @@ void Particle_EnemyBullet::Init_Standard(float time, Model* model, const Vector3
 		distance = rand_ * randomFar;
 	}
 
-	float rotate_ = ToRadian(rotate);
+
 	// 速さ速度変換
-	velocity_ = Vector3(scalar * sinf(rotate_), -scalar * cosf(rotate_), 0);
-	Vector3 disranceVec = Vector3(distance * cosf(rotate_), distance * sinf(rotate), 0);
+	velocity_ = Vector3(scalar * sinf(rotate), -scalar * cosf(rotate), 0);
+	Vector3 disranceVec = Vector3(distance * cosf(rotate), distance * sinf(rotate), 0);
 
 	// 破壊フラグ初期化
 	isBreak_ = false;
@@ -38,7 +38,7 @@ void Particle_EnemyBullet::Init_Standard(float time, Model* model, const Vector3
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = Vector3(position.x + disranceVec.x, position.y + disranceVec.y, position.z + disranceVec.z);
 	worldTransform_.scale_ = scale;
-	worldTransform_.rotation_ = Vector3(0, 0, rotate_);
+	worldTransform_.rotation_ = Vector3(0, 0, rotate);
 }
 void Particle_EnemyBullet::Update_Standard(const Vector3& shrinkScale) {
 	// 速度加算
@@ -78,10 +78,10 @@ void Particle_EnemyBullet::Init_Chaser(float time, Model* model, const Vector3& 
 		distance = rand_ * randomFar;
 	}
 
-	float rotate_ = ToRadian(rotate);
+
 	// 速さ速度変換
-	velocity_ = Vector3(scalar * sinf(rotate_), -scalar * cosf(rotate_), 0);
-	Vector3 disranceVec = Vector3(distance * cosf(rotate_), distance * sinf(rotate), 0);
+	velocity_ = Vector3(scalar * sinf(rotate), -scalar * cosf(rotate), 0);
+	Vector3 disranceVec = Vector3(distance * cosf(rotate), distance * sinf(rotate), 0);
 
 	// 破壊フラグ初期化
 	isBreak_ = false;
@@ -93,7 +93,7 @@ void Particle_EnemyBullet::Init_Chaser(float time, Model* model, const Vector3& 
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = Vector3(position.x + disranceVec.x, position.y + disranceVec.y, position.z + disranceVec.z);
 	worldTransform_.scale_ = scale;
-	worldTransform_.rotation_ = Vector3(0, 0, rotate_);
+	worldTransform_.rotation_ = Vector3(0, 0, rotate);
 }
 void Particle_EnemyBullet::Update_Chaser(const Vector3& shrinkScale) {
 	// 速度加算
@@ -133,10 +133,10 @@ void Particle_EnemyBullet::Init_Footpace(float time, Model* model, const Vector3
 		distance = rand_ * randomFar;
 	}
 
-	float rotate_ = ToRadian(rotate);
+
 	// 速さ速度変換
-	velocity_ = Vector3(scalar * sinf(rotate_), -scalar * cosf(rotate_), 0);
-	Vector3 disranceVec = Vector3(distance * cosf(rotate_), distance * sinf(rotate), 0);
+	velocity_ = Vector3(scalar * sinf(rotate), -scalar * cosf(rotate), 0);
+	Vector3 disranceVec = Vector3(distance * cosf(rotate), distance * sinf(rotate), 0);
 
 	// 破壊フラグ初期化
 	isBreak_ = false;
@@ -148,7 +148,7 @@ void Particle_EnemyBullet::Init_Footpace(float time, Model* model, const Vector3
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = Vector3(position.x + disranceVec.x, position.y + disranceVec.y, position.z + disranceVec.z);
 	worldTransform_.scale_ = scale;
-	worldTransform_.rotation_ = Vector3(0, 0, rotate_);
+	worldTransform_.rotation_ = Vector3(0, 0, rotate);
 }
 void Particle_EnemyBullet::Update_Footpace(const Vector3& shrinkScale) {
 	// 速度加算
@@ -188,10 +188,10 @@ void Particle_EnemyBullet::Init_Bound(float time, Model* model, const Vector3& p
 		distance = rand_ * randomFar;
 	}
 
-	float rotate_ = ToRadian(rotate);
+
 	// 速さ速度変換
-	velocity_ = Vector3(scalar * sinf(rotate_), -scalar * cosf(rotate_), 0);
-	Vector3 disranceVec = Vector3(distance * cosf(rotate_), distance * sinf(rotate), 0);
+	velocity_ = Vector3(scalar * sinf(rotate), -scalar * cosf(rotate), 0);
+	Vector3 disranceVec = Vector3(distance * cosf(rotate), distance * sinf(rotate), 0);
 
 	// 破壊フラグ初期化
 	isBreak_ = false;
@@ -203,7 +203,7 @@ void Particle_EnemyBullet::Init_Bound(float time, Model* model, const Vector3& p
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = Vector3(position.x + disranceVec.x, position.y + disranceVec.y, position.z + disranceVec.z);
 	worldTransform_.scale_ = scale;
-	worldTransform_.rotation_ = Vector3(0, 0, rotate_);
+	worldTransform_.rotation_ = Vector3(0, 0, rotate);
 }
 void Particle_EnemyBullet::Update_Bound(const Vector3& shrinkScale) {
 	// 速度加算
@@ -243,10 +243,10 @@ void Particle_EnemyBullet::Init_BB(float time, Model* model, const Vector3& posi
 		distance = rand_ * randomFar;
 	}
 
-	float rotate_ = ToRadian(rotate);
+
 	// 速さ速度変換
-	velocity_ = Vector3(scalar * sinf(rotate_), -scalar * cosf(rotate_), 0);
-	Vector3 disranceVec = Vector3(distance * cosf(rotate_), distance * sinf(rotate), 0);
+	velocity_ = Vector3(scalar * sinf(rotate), -scalar * cosf(rotate), 0);
+	Vector3 disranceVec = Vector3(distance * cosf(rotate), distance * sinf(rotate), 0);
 
 	// 破壊フラグ初期化
 	isBreak_ = false;
@@ -258,7 +258,7 @@ void Particle_EnemyBullet::Init_BB(float time, Model* model, const Vector3& posi
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = Vector3(position.x + disranceVec.x, position.y + disranceVec.y, position.z + disranceVec.z);
 	worldTransform_.scale_ = scale;
-	worldTransform_.rotation_ = Vector3(0, 0, rotate_);
+	worldTransform_.rotation_ = Vector3(0, 0, rotate);
 }
 void Particle_EnemyBullet::Update_BB(const Vector3& shrinkScale) {
 	// 速度加算

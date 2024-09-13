@@ -21,10 +21,10 @@ void Particle_Wave::Init(float time, Model* model, const Vector3& position, cons
 		int rand_ = (rand() % (randomRange * 2)) - randomRange;
 		distance = rand_ * randomFar;
 	}
-	float rotate_ = ToRadian(rotate);
+	
 	// 速さ速度変換
-	velocity_ = Vector3(-scalar * sinf(rotate_), scalar * cosf(rotate_), 0);
-	Vector3 disranceVec = Vector3(distance * cosf(rotate_), distance * sinf(rotate), 0);
+	velocity_ = Vector3(-scalar * sinf(rotate), scalar * cosf(rotate), 0);
+	Vector3 disranceVec = Vector3(distance * cosf(rotate), distance * sinf(rotate), 0);
 
 	// 破壊フラグ初期化
 	isBreak_ = false;
@@ -36,7 +36,7 @@ void Particle_Wave::Init(float time, Model* model, const Vector3& position, cons
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = Vector3(position.x + disranceVec.x, position.y + disranceVec.y, position.z + disranceVec.z);
 	worldTransform_.scale_ = scale;
-	worldTransform_.rotation_ = Vector3(0, 0, rotate_);
+	worldTransform_.rotation_ = Vector3(0, 0, rotate);
 }
 void Particle_Wave::Update(const Vector3& shrinkScale) {
 	// 速度加算

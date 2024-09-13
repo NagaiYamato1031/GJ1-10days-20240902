@@ -11,6 +11,7 @@ void EffectiveBullet::Init() {
 	objColor_.Initialize();
 	color_ = { 1.0f,0.75f,0.0f,1.0f };
 	UpdateColor();
+	particleEffects_.Init();
 }
 
 void EffectiveBullet::Update() {
@@ -38,6 +39,10 @@ void EffectiveBullet::Update() {
 
 	// 当たり判定移動
 	colSphere_.center = transform_.translation_;
+	
+	//パーティクル生成
+	particleEffects_.CreateParticle_FootpaceBullet(transform_.translation_, transform_.rotation_.z);
+	particleEffects_.UpdateParticle();
 
 	// 行列更新
 	transform_.UpdateMatrix();
@@ -45,4 +50,5 @@ void EffectiveBullet::Update() {
 
 void EffectiveBullet::DrawModel(ViewProjection* view) {
 	model_->Draw(transform_, *view, &objColor_);
+	particleEffects_.DrawParticle(view);
 }
