@@ -27,10 +27,6 @@ void CreateHpbar::Init(const Vector3& pos, Model *model ,const float &deg,const 
 }
 
 void CreateHpbar::Update() { 
-
-
-
-
 	float rotate_ = worldTransform_.rotation_.z - 0.05f;
 	velocity_ = Vector3(distance_ * sinf(rotate_), distance_ * cosf(rotate_), 0);
 
