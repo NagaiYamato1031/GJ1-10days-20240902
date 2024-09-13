@@ -12,7 +12,7 @@ using namespace ACJPN::Math;
 
 void DisplayHp::Init() { 
 
-	distance_ = 12.0f;
+	distance_ = 6.5f;
 
 	model_ = Model::Create();
 }

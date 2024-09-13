@@ -497,6 +497,10 @@ void Boss::CreateBulletWave(float theta, float power) {
 }
 
 void Boss::DecreaseHP(int damage) {
+	// フェーズ移行中は無敵
+	if (phase_ == Phase::transition) {
+		return;
+	}
 	hp_ -= damage;
 	displayHp_.DamageBreak();
 }

@@ -12,6 +12,7 @@ void CreateHpbar::Init(const Vector3& pos, Model *model ,const float &deg,const 
 	model_ = model;
 	distance_ = far_;
 	pos_ = pos;
+	pos_.z = -5.0f;
 	textureHandle_ = TextureManager::Load("HpBar/HpBar.png");
 	
 	//角度で位置を求める
