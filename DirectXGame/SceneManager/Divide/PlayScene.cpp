@@ -46,20 +46,21 @@ void PlayScene::Update() {
 
 
 	// 遷移中はほかのことをしない
+	// 演出が出来なくなるので処理するようにする
 	if (sceneFlag_.isTransition_) {
 		TransitionUpdate();
-		return;
+		//return;
 	}
 
 	// フラグを検知してシーンを切り替える
 	// プレイヤー死亡時
-	if (player_.IsDead()) {
+	if (!IsTransition() && player_.IsDead()) {
 		nextScene_ = new EndScene;
 		sceneFlag_.isTransition_ = true;
 		//sceneFlag_.allEnd_ = true;
 	}
 	// ボス死亡時
-	else if (boss_.IsDead()) {
+	else if (!IsTransition() && boss_.IsDead()) {
 		nextScene_ = new EndScene;
 		sceneFlag_.isTransition_ = true;
 		//sceneFlag_.allEnd_ = true;
@@ -110,6 +111,12 @@ void PlayScene::DebugWindow() {
 }
 
 void PlayScene::TransitionUpdate() {
+
+	// プレイヤーかボスの演出後に更新するようにする
+	if (player_.IsActive() && boss_.IsActive()) {
+		return;
+	}
+
 	// 時間で終了時間を決めることもできる
 	time--;
 	// フラグで管理していれば終了がわかる

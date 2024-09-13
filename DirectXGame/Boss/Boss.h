@@ -59,6 +59,7 @@ public: //** パブリック関数 **//
 	/// フェーズを取得
 	/// </summary>
 	int GetPhase() const { return phase_; }
+	WorldTransform* GetTransform() { return &transform_; }
 
 	/// <summary>
 	/// プレイヤーのポインタ
@@ -140,6 +141,10 @@ private: //** プライベート変数 **//
 	// 球の当たり判定
 	ACJPN::Math::Sphere colSphere_;
 	std::shared_ptr<ACJPN::Collider::ShapeCollider<ACJPN::Math::Sphere>> collider_;
+
+	// アニメーション用の時間
+	int animationFrame_ = 0;
+
 
 private: //** プライベート関数 **//
 

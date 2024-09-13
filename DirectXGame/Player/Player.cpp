@@ -359,4 +359,6 @@ void Player::CreateBullet() {
 }
 
 void Player::UpdateDeath() {
+	// 演出した後に役割が終わったことを知らせる
+	isActive_ = false;
 }

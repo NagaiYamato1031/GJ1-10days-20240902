@@ -8,10 +8,15 @@ void Skydome::Init() {
 	//行列初期化
 	transform_.Initialize();
 
+	isToggle_ = false;
+	endTurnOff_ = false;
 	transform_.translation_ = {};
 	transform_.scale_ = { 100.0f,100.0f,100.0f };
 	// 色
 	objColor_.Initialize();
+	color_ = { 1.0f,1.0f,1.0f,1.0f };
+	objColor_.SetColor(color_);
+	objColor_.TransferMatrix();
 }
 
 void Skydome::Update() {
@@ -54,8 +59,8 @@ void Skydome::DirectionTwinkle() {
 		rgb.x = 0.7f - rgb.x * t / 255;
 		rgb.y = 0.7f - rgb.y * t / 255;
 		rgb.z = 0.7f - rgb.z * t / 255;
-		Vector4 color = { rgb.x,rgb.y,rgb.z,1.0f };
-		objColor_.SetColor(color);
+		color_ = { rgb.x,rgb.y,rgb.z,1.0f };
+		objColor_.SetColor(color_);
 		objColor_.TransferMatrix();
 	}
 	else {
@@ -83,8 +88,8 @@ void Skydome::DirectionRed() {
 		}
 		Vector3 rgb = { 1.0f,0.3f,0.3f };
 		rgb.x = 1.0f - rgb.x * t / 255;
-		Vector4 color = { rgb.x,rgb.y,rgb.z,1.0f };
-		objColor_.SetColor(color);
+		color_ = { rgb.x,rgb.y,rgb.z,1.0f };
+		objColor_.SetColor(color_);
 		objColor_.TransferMatrix();
 	}
 	else {
@@ -95,26 +100,38 @@ void Skydome::DirectionRed() {
 		}
 		Vector3 rgb = { 1.0f,0.3f,0.3f };
 		rgb.x = 1.0f - rgb.x * t / 255;
-		Vector4 color = { rgb.x,rgb.y,rgb.z,1.0f };
-		objColor_.SetColor(color);
+		color_ = { rgb.x,rgb.y,rgb.z,1.0f };
+		objColor_.SetColor(color_);
 		objColor_.TransferMatrix();
 	}
 }
 
 void Skydome::DirectionTurnOff() {
-	if (isToggle_) {
+	// 最初に値を保存しておく
+	if (!isCall_) {
+		preColor_ = color_;
+		isCall_ = true;
+	}
+
+	if (endTurnOff_) {
 		return;
 	}
 	t += 5;
 	if (kColorRange3_ <= t) {
 		t = kColorRange3_;
-		isToggle_ = !isToggle_;
+		endTurnOff_ = true;
 	}
-	Vector3 rgb = { 1.0f,1.0f,1.0f };
-	rgb.x = 0.85f - rgb.x * t / 255;
-	rgb.y = 0.85f - rgb.y * t / 255;
-	rgb.z = 0.85f - rgb.z * t / 255;
-	Vector4 color = { rgb.x,rgb.y,rgb.z,1.0f };
-	objColor_.SetColor(color);
+	// 元の色から暗くなっていくようにしたい
+	Vector3 rgb = { preColor_.x, preColor_.y, preColor_.z };
+	// 0.0f から 1.0f の範囲を取る
+	float easeT = (t / (float)kColorRange3_);
+	// 色の最低値
+	float minValue = 1.0f - kColorRange3_ / 255.0f;
+	// イージング
+	rgb.x = rgb.x * (1.0f - easeT) + easeT * minValue;
+	rgb.y = rgb.y * (1.0f - easeT) + easeT * minValue;
+	rgb.z = rgb.z * (1.0f - easeT) + easeT * minValue;
+	color_ = { rgb.x,rgb.y,rgb.z,1.0f };
+	objColor_.SetColor(color_);
 	objColor_.TransferMatrix();
 }

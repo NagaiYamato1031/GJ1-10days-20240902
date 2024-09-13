@@ -19,6 +19,7 @@ void Boss::Init() {
 
 	//ＨＰ・フラグ・フェーズ初期化
 	hp_ = 1;
+	isActive_ = true;
 	isDead_ = false;
 	phase_ = p0;
 	nextPhase_ = p1;
@@ -595,15 +596,14 @@ void Boss::Phase_3() {
 		phase_ = transition;
 		nextPhase_ = p4;
 		transitionFrame_ = 60;
+		// 弾を消す
+		bulletManager_.Init();
 	}
 }
 
 void Boss::Phase_4() {
-	// 死亡時の演出
-	hp_--;
-	if (hp_ <= 0) {
-		isDead_ = true;
-	}
+	// 現状何もしていない
+	isDead_ = true;
 }
 
 void Boss::Phase_Transition() {
@@ -617,4 +617,14 @@ void Boss::Phase_Transition() {
 }
 
 void Boss::UpdateDeath() {
+	animationFrame_++;
+	if (300 <= animationFrame_) {
+		// 演出した後に役割が終わったことを知らせる
+		isActive_ = false;
+		return;
+	}
+	if (animationFrame_ <= 200) {
+		transform_.scale_ -= {0.03f, 0.03f, 0.03f};
+	}
+	transform_.UpdateMatrix();
 }

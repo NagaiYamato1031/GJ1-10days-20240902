@@ -18,6 +18,23 @@ void FollowCamera::Update() {
 	// デバッグ情報表示
 	DebguWindow();
 
+	if (!target_) {
+		camera_->translation_ = { 0.0f,0.0f,kOffset.z };
+		// カメラ更新
+		camera_->UpdateMatrix();
+
+		// 自力で計算する
+		// ビュー行列を生成
+		Matrix4x4 mScale = MakeIdentity4x4();
+		Matrix4x4 mRotate = MakeRotateXYZMatrix(camera_->rotation_);
+		Matrix4x4 mTranslate = MakeTranslateMatrix(camera_->translation_);
+		// ビュー行列にする
+		camera_->matView = Inverse(Multiply(Multiply(mScale, mRotate), mTranslate));
+		// 行列を転送
+		camera_->TransferMatrix();
+		return;
+	}
+
 	// ターゲットの位置から最適なカメラ位置を求める
 	Vector3 position = target_->translation_;
 	position.z += kOffset.z;
@@ -47,7 +64,7 @@ void FollowCamera::Update() {
 	Matrix4x4 mRotate = MakeRotateXYZMatrix(camera_->rotation_);
 	Matrix4x4 mTranslate = MakeTranslateMatrix(camera_->translation_);
 	// ビュー行列にする
-	camera_->matView = Inverse(Multiply(Multiply(mScale,mRotate),mTranslate));
+	camera_->matView = Inverse(Multiply(Multiply(mScale, mRotate), mTranslate));
 	// 行列を転送
 	camera_->TransferMatrix();
 }
