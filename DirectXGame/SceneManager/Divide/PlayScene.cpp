@@ -44,6 +44,13 @@ void PlayScene::Update() {
 	// デバッグ情報
 	DebugWindow();
 
+	// Skydome の演出
+	if (boss_.GetPhase() == 3) {
+		skydome_.DirectionRed();
+	}
+	else if (boss_.IsDead()) {
+		skydome_.DirectionTurnOff();
+	}
 
 	// 遷移中はほかのことをしない
 	// 演出が出来なくなるので処理するようにする
