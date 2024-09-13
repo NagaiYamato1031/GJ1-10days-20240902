@@ -34,6 +34,8 @@ void TestScene::Init() {
 	boss_.Init();
 	boss_.SetPlayer(&player_);
 
+	score_.Init(Vector2(0, 0));
+
 	// ターゲットに設定
 	camera_.SetTarget(player_.GetTransform());
 
@@ -59,6 +61,9 @@ void TestScene::Update() {
 		TransitionUpdate();
 		return;
 	}
+	if (input_->TriggerKey(DIK_L)) {
+		score_.EnterTScore(2222);
+	}
 	// M を押すとタイトルへ
 	if (input_->TriggerKey(DIK_M)) {
 		nextScene_ = new TitleScene;
@@ -79,6 +84,8 @@ void TestScene::Update() {
 	// フォローカメラ更新
 	camera_.Update();
 
+	score_.Update();
+
 	collisionManager_->Update();
 	collisionManager_->CheckCollision();
 }
@@ -96,6 +103,9 @@ void TestScene::Draw3D() {
 void TestScene::DrawOverlay() {
 	if (IsTransition()) {
 		transitionSprite_->Draw();
+	}
+	if (score_.IsActive()) {
+		score_.Draw();
 	}
 }
 

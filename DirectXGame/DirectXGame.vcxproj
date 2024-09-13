@@ -125,6 +125,7 @@
     <ClCompile Include="Particle\Particle_Conflict.cpp" />
     <ClCompile Include="Particle\Particle_EnemyBullet.cpp" />
     <ClCompile Include="Particle\Particle_PlayerBullet.cpp" />
+    <ClCompile Include="score\Score.cpp" />
     <ClCompile Include="Skydome\Skydome.cpp" />
     <ClCompile Include="Particle\Particle_Wave.cpp" />
     <ClCompile Include="Utility\Mymath.cpp" />
@@ -138,7 +139,6 @@
     <ClCompile Include="SceneManager\SceneManager.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
     <ClCompile Include="Utility\WorldTransformEx.cpp" />
-    <ClCompile Include="Score.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\ImGuiManager.h" />
@@ -187,6 +187,7 @@
     <ClInclude Include="Particle\Particle_EnemyBullet.h" />
     <ClInclude Include="Particle\Particle_PlayerBullet.h" />
     <ClInclude Include="SceneManager\Divide\EndScene.h" />
+    <ClInclude Include="score\Score.h" />
     <ClInclude Include="Skydome\Skydome.h" />
     <ClInclude Include="Stage\Stage.h" />
     <ClInclude Include="Particle\Particle_Wave.h" />
@@ -201,7 +202,6 @@
     <ClInclude Include="SceneManager\IScene.h" />
     <ClInclude Include="SceneManager\SceneManager.h" />
     <ClInclude Include="scene\GameScene.h" />
-    <ClInclude Include="Score.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\TerrainPS.hlsl">
