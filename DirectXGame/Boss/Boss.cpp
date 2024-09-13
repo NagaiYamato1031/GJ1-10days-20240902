@@ -325,7 +325,7 @@ void Boss::CreateBulletBound(float speed) {
 	data->velocity_.x = norm.x * speed;
 	data->velocity_.y = norm.y * speed;
 	data->aliveLength_ = kPaddingCenter_;
-	data->hp_ = 2;
+	data->hp_ = 3;
 	//　球の当たり判定
 	data->colSphere_.center = { 0.0f,0.0f,0.0f };
 	data->colSphere_.radius = 4.0f;
