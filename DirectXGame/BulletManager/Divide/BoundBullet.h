@@ -3,6 +3,7 @@
 #include <functional>
 #include <BulletManager/IBullet.h>
 #include <Collider/CollisionManager.h>
+#include <Particle/ParticleEffects.h>
 
 /// <summary>
 /// 波を起こす機能を持った弾
