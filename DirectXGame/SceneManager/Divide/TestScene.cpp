@@ -68,6 +68,9 @@ void TestScene::Update() {
 	if (input_->TriggerKey(DIK_9)) {
 		particleEffects_->CreateParticle_Conflict(testVec, testDeg);
 	}
+	if (input_->PushKey(DIK_0)) {
+		particleEffects_->CreatParticle_Background();
+	}
 
 	if (input_->TriggerKey(DIK_U)) {
 		particleEffects_->TestDelete();
