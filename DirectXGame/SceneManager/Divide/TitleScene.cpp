@@ -128,7 +128,7 @@ void TitleScene::Draw3D() {
 }
 
 void TitleScene::DrawOverlay() {
-	moveSprite_->Draw();
+	//moveSprite_->Draw();
 	spaceSprite_->Draw();
 	if (isJump_) {
 		jumpSprite_->Draw();

@@ -14,7 +14,8 @@ void EndScene::Init() {
 
 	// カメラ初期化
 	camera_.Initialize();
-
+	camera_.translation_.z = -1.0f;
+	camera_.UpdateMatrix();
 	// スカイドーム初期化
 	skydome_.Init();
 
@@ -46,6 +47,8 @@ void EndScene::Update() {
 		sceneFlag_.isTransition_ = true;
 		sceneFlag_.allEnd_ = true;
 	}
+	// カメラ更新
+	camera_.UpdateMatrix();
 }
 
 void EndScene::DrawBackdrop() {
@@ -65,6 +68,7 @@ void EndScene::DebugWindow() {
 #ifdef _DEBUG
 	ImGui::Begin("Scene");
 	ImGui::Text("End");
+	ImGui::DragFloat3("cameraPos", &camera_.translation_.x, 1.0f);
 	ImGui::End();
 #endif // _DEBUG
 }

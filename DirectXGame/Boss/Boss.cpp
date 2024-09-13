@@ -537,7 +537,6 @@ void Boss::Phase_0() {
 		nextPhase_ = p1;
 		hp_ = 6;
 		transitionFrame_ = 60;
-		displayHp_.Create(transform_.translation_, hp_);
 	}
 }
 
@@ -574,8 +573,6 @@ void Boss::Phase_1() {
 		hp_ = 8;
 		transitionFrame_ = 60;
 
-		//Hpbar表示
-		displayHp_.Create(transform_.translation_, hp_);
 	}
 }
 
@@ -620,7 +617,6 @@ void Boss::Phase_2() {
 		nextPhase_ = p3;
 		hp_ = 10;
 		transitionFrame_ = 60;
-		displayHp_.Create(transform_.translation_, hp_);
 	}
 }
 
@@ -681,6 +677,8 @@ void Boss::Phase_Transition() {
 	if (transitionFrame_ <= 0) {
 		phase_ = nextPhase_;
 		colorIndex_ = phase_;
+		//Hpbar表示
+		displayHp_.Create(transform_.translation_, hp_);
 		return;
 	}
 }
