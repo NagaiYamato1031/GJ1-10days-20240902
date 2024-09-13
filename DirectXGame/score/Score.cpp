@@ -26,9 +26,8 @@ void Score::Init(const Vector2& position) {
 	textureHndle_[9] = TextureManager::Load("numbers/9.png");
 	for (int i = 0; i < digit_; i++) {
 		number[i] = 0;
-		Sprite* newSprite = new Sprite();
-		Vector2 createPos = Vector2(position.x, position.y);
-		newSprite->Create(textureHndle_[0], createPos);
+		Vector2 createPos = Vector2(position.x+32*(size.x+i), position.y);
+		Sprite* newSprite= Sprite::Create(textureHndle_[0], createPos);
 		spriteNumbers_.push_back(newSprite);
 	}
 }
@@ -40,25 +39,31 @@ void Score::Update() {
 		if (score_ < targetScore_) {
 			score_ += gettingScore_;
 			if (score_ >= targetScore_) {
-				score_ = targetScore_;
+				score_ = (float)targetScore_;
 			}
-			SelectNumber(score_);
+			SelectNumber((int)score_);
 		}
 	}
 }
 
-void Score::Draw() {
-	for (Sprite* spriteNumber : spriteNumbers_) {
+void Score::Draw() { 
+	for (auto it = spriteNumbers_.begin(); it != spriteNumbers_.end();) {
+		Sprite* spriteNumber = *it;
 		spriteNumber->Draw();
+		++it;
 	}
 }
 
 
-void Score::SelectNumber(float score) { 
-	int scoreBuff = (int)score; 
+void Score::SelectNumber(int score) { 
+;	int scoreBuff = score; 
 	for (int i = digit_; i > 0; i--) {
-		number[digit_ - i] = scoreBuff / (10 ^ digit_);
-		scoreBuff = scoreBuff % (10 ^ digit_);		
+		int ten = 1;
+		for (int j = 1; j <  i; j++) {
+			ten *= 10;
+		}
+		number[digit_ - i] = scoreBuff / ten;
+		scoreBuff = scoreBuff % ten;		
 	}
 	int i = 0;
 	for (auto it = spriteNumbers_.begin(); it != spriteNumbers_.end();) {
@@ -90,10 +95,10 @@ void Score::SelectNumber(float score) {
 
 }
 
-void Score::EnterTScore(const float& score) {
+void Score::EnterTScore(const int& score) {
 	targetScore_ = score;
 	score_ = 0;
-	gettingScore_ = score / time_;
+	gettingScore_ = (float)(score) / time_;
 	isScore = true;
 }
 bool Score::IsActive() {

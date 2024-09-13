@@ -62,7 +62,7 @@ void TestScene::Update() {
 		return;
 	}
 	if (input_->TriggerKey(DIK_L)) {
-		score_.EnterTScore(2222);
+		score_.EnterTScore(22229);
 	}
 	// M を押すとタイトルへ
 	if (input_->TriggerKey(DIK_M)) {

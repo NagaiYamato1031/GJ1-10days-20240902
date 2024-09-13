@@ -14,15 +14,15 @@ public:/*パブリック関数*/
 	void Init(const Vector2& position); // 初期化
 	void Update();//スコア計算風演出
 	void Draw();//スコアの描画
-	void SelectNumber(float score);//テクスチャを適応させる
-	void EnterTScore(const float& score);//スコアやらを入れる
+	void SelectNumber(int score);//テクスチャを適応させる
+	void EnterTScore(const int& score);//スコアやらを入れる
 	void Destroy();
 	bool IsActive();
 
 private: /*メンバ変数*/
 	
 	int time_;//スコア計算演出をする時間
-	float targetScore_;//取得したスコア
+	int targetScore_;//取得したスコア
 	float score_;//描画中のスコア
 	float gettingScore_;//scoreに加算していく量
 	int digit_;//スコアの桁数
