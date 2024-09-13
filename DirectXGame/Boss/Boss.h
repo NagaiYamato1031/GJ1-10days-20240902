@@ -171,6 +171,11 @@ private: //** プライベート関数 **//
 	/// <param name="speed">速度 : 0.5f 以下がいい感じ</param>
 	void CreateBulletHoming(float speed = 0.5f);
 	/// <summary>
+	/// バウンドして波を発生させる弾を生成する
+	/// </summary>
+	/// <param name="speed">速度 : 1.0f</param>
+	void CreateBulletBound(float speed = 1.0f);
+	/// <summary>
 	/// 弾を角度分開いて、二方向に撃ち出す
 	/// </summary>
 	void CreateBulletEffective2Way(float theta, float speed = 1.0f);
@@ -182,7 +187,7 @@ private: //** プライベート関数 **//
 	/// <summary>
 	/// HP を減らす
 	/// </summary>
-	void DecreasHP(int damage);
+	void DecreaseHP(int damage);
 
 	//エネミー攻撃手段
 	void EnemyAttack_1(); //自機狙い

@@ -47,7 +47,11 @@ public: //** パブリック関数 **//
 	// 弾の体力
 	int hp_ = 2;
 
+	// 速度が外側に向かっているか
+	bool isOutMove_ = true;
+
 	// 進む速度
+	Vector3 direct_ = { 0.0f,0.0f,0.0f };
 	Vector3 velocity_ = { 0.0f,0.0f,0.0f };
 
 	// 当たり判定

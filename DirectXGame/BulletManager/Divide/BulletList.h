@@ -5,3 +5,4 @@
 #include "WaveBullet.h"
 #include "HomingBullet.h"
 #include "SpecialBullet.h"
+#include "BoundBullet.h"
