@@ -3,6 +3,7 @@
 #include <functional>
 #include <BulletManager/IBullet.h>
 #include <Collider/CollisionManager.h>
+#include <Particle/ParticleEffects.h>
 
 /// <summary>
 /// 波を起こす機能を持った弾
@@ -57,4 +58,7 @@ public: //** パブリック関数 **//
 	// 当たり判定
 	ACJPN::Math::Sphere colSphere_;
 	std::shared_ptr < ACJPN::Collider::ShapeCollider<ACJPN::Math::Sphere>> collider_;
+
+	//パーティクル
+	ParticleEffects particleEffects;
 };

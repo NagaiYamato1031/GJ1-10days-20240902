@@ -52,7 +52,7 @@ public: /*パブリック関数*/
 	void CreateParticle_StandardBullet(const Vector3& position, const float& rotationDeg);
 	void CreateParticle_ChaserBullet(const Vector3& position, const float& rotationDeg);
 	void CreateParticle_FootpaceBullet(const Vector3& position, const float& rotationDeg);
-	void CreateParticle_BoundBullet(const Vector3& position, const float& rotationDeg);
+	void CreateParticle_BoundBullet(const Vector3& position, const float& rotationRad);
 	void CreateParticle_BBBullet(const Vector3& position, const float& rotationDeg);
 
 	void CreateParticle_Wave(const Vector3& position, const float& rotationDeg);
@@ -86,6 +86,7 @@ private: /*メンバ変数*/
 	Particle conflict_;//弾と弾がぶつかった時のやつ
 	Particle background_;
 
+	float shift;
 
 
 	//パーティクルのリスト

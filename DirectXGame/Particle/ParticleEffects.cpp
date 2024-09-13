@@ -15,7 +15,7 @@ void ParticleEffects::Init() {
 	#pragma region 弾の構造体
 	//プレイヤーの弾
 	playerBullet_={
-	    0.3f, // 速さ
+	    0.0f, // 速さ
 	    {1.0f, 1.0f, 1.0f}, // サイズ
 	    0.0f,// 回転角
 		30,//生存時間
@@ -28,7 +28,7 @@ void ParticleEffects::Init() {
 	};
 	//通常弾
 	standardBullet_ = {
-	    0.3f, // 速さ
+	    0.0f, // 速さ
 	    {1.0f, 1.0f, 1.0f}, // サイズ
 	    0.0f, // 回転角
 	    30, //  生存時間
@@ -41,7 +41,7 @@ void ParticleEffects::Init() {
 	};
 	//追跡弾
 	chaserBullet_ = {
-	    0.3f, // 速さ
+	    0.0f, // 速さ
 	    {1.0f, 1.0f, 1.0f}, // サイズ
 	    0.0f, // 回転角
 	    30, //  生存時間
@@ -54,7 +54,7 @@ void ParticleEffects::Init() {
 	};
 	//持続弾
 	footpaceBullet_ = {
-	    0.3f, // 速さ
+	    0.0f, // 速さ
 	    {1.0f, 1.0f, 1.0f}, // サイズ
 	    0.0f, // 回転角
 	    30, //  生存時間
@@ -67,7 +67,7 @@ void ParticleEffects::Init() {
 	};
 	//バウンド弾
 	boundBullet_ = {
-	    0.3f, // 速さ
+	    0.0f, // 速さ
 	    {1.0f, 1.0f, 1.0f}, // サイズ
 	    0.0f, // 回転角
 	    30, //  生存時間
@@ -80,7 +80,7 @@ void ParticleEffects::Init() {
 	};
 	//大玉
 	bbBullet_ = {
-	    0.3f, // 速さ
+	    0.0f, // 速さ
 	    {1.0f, 1.0f, 1.0f}, // サイズ
 	    0.0f, // 回転角
 	    30, //  生存時間
@@ -140,7 +140,7 @@ void ParticleEffects::Init() {
 	background_.model_dodecahedron = Model::CreateFromOBJ("Particle/dodecahedron");
 	//ここまでbackgroud_の変数
 
-
+	shift = 1;
 	model_ = Model::Create();
 
 }
@@ -157,7 +157,7 @@ void ParticleEffects::CreateParticle_PlayerBullet(const Vector3& position,const 
 
 		for (int i = 0; i < playerBullet_.createCount; i++) {
 			Particle_PlayerBullet* newParticle = new Particle_PlayerBullet();
-			Vector3 createPos = Vector3(((position.x + (playerBullet_.scale.x * i * 2)) - (playerBullet_.scale.x * 2.0f * (playerBullet_.createCount - 1.0f) / 2.0f)), position.y, position.z);
+			Vector3 createPos = Vector3(((position.x + (playerBullet_.scale.x * i * 2)) - (playerBullet_.scale.x * 2.0f * (playerBullet_.createCount - 1.0f) / 2.0f)), position.y, position.z+shift);
 			newParticle->Init(playerBullet_.lifeTime, model_, createPos, playerBullet_.scalar, playerBullet_.scale, rotationDeg, playerBullet_.randomRenge, playerBullet_.randomFar);
 			particle_PlayerBullets_.push_back(newParticle);
 		}
@@ -171,7 +171,8 @@ void ParticleEffects::CreateParticle_StandardBullet(const Vector3& position, con
 
 		for (int i = 0; i < standardBullet_.createCount; i++) {
 			Particle_EnemyBullet* newParticle = new Particle_EnemyBullet();
-			Vector3 createPos = Vector3(((position.x + (standardBullet_.scale.x * i * 2)) - (standardBullet_.scale.x * 2.0f * (standardBullet_.createCount - 1.0f) / 2.0f)), position.y, position.z);
+			Vector3 createPos =
+			    Vector3(((position.x + (standardBullet_.scale.x * i * 2)) - (standardBullet_.scale.x * 2.0f * (standardBullet_.createCount - 1.0f) / 2.0f)), position.y, position.z + shift);
 			newParticle->Init_Standard(standardBullet_.lifeTime, model_, createPos, standardBullet_.scalar, standardBullet_.scale, rotationDeg, standardBullet_.randomRenge, standardBullet_.randomFar);
 			particle_StandardBullets_.push_back(newParticle);
 		}
@@ -185,7 +186,7 @@ void ParticleEffects::CreateParticle_ChaserBullet(const Vector3& position, const
 
 		for (int i = 0; i < chaserBullet_.createCount; i++) {
 			Particle_EnemyBullet* newParticle = new Particle_EnemyBullet();
-			Vector3 createPos = Vector3(((position.x + (chaserBullet_.scale.x * i * 2)) - (chaserBullet_.scale.x * 2.0f * (chaserBullet_.createCount - 1.0f) / 2.0f)), position.y, position.z);
+			Vector3 createPos = Vector3(((position.x + (chaserBullet_.scale.x * i * 2)) - (chaserBullet_.scale.x * 2.0f * (chaserBullet_.createCount - 1.0f) / 2.0f)), position.y, position.z + shift);
 			newParticle->Init_Chaser(chaserBullet_.lifeTime, model_, createPos, chaserBullet_.scalar, chaserBullet_.scale, rotationDeg, chaserBullet_.randomRenge, chaserBullet_.randomFar);
 			particle_ChaserBullets_.push_back(newParticle);
 		}
@@ -198,21 +199,22 @@ void ParticleEffects::CreateParticle_FootpaceBullet(const Vector3& position, con
 
 		for (int i = 0; i < footpaceBullet_.createCount; i++) {
 			Particle_EnemyBullet* newParticle = new Particle_EnemyBullet();
-			Vector3 createPos = Vector3(((position.x + (footpaceBullet_.scale.x * i * 2)) - (footpaceBullet_.scale.x * 2.0f * (footpaceBullet_.createCount - 1.0f) / 2.0f)), position.y, position.z);
+			Vector3 createPos =
+			    Vector3(((position.x + (footpaceBullet_.scale.x * i * 2)) - (footpaceBullet_.scale.x * 2.0f * (footpaceBullet_.createCount - 1.0f) / 2.0f)), position.y, position.z + shift);
 			newParticle->Init_Footpace(footpaceBullet_.lifeTime, model_, createPos, footpaceBullet_.scalar, footpaceBullet_.scale, rotationDeg, footpaceBullet_.randomRenge, footpaceBullet_.randomFar);
 			particle_FootpaceBullets_.push_back(newParticle);
 		}
 	}
 	footpaceBullet_.intervalBuff--;
 }
-void ParticleEffects::CreateParticle_BoundBullet(const Vector3& position, const float& rotationDeg) {
+void ParticleEffects::CreateParticle_BoundBullet(const Vector3& position, const float& rotationRad) {
 	if (boundBullet_.intervalBuff <= 0) {
 		boundBullet_.intervalBuff = boundBullet_.interval;
 
 		for (int i = 0; i < boundBullet_.createCount; i++) {
 			Particle_EnemyBullet* newParticle = new Particle_EnemyBullet();
-			Vector3 createPos = Vector3(((position.x + (boundBullet_.scale.x * i * 2)) - (boundBullet_.scale.x * 2.0f * (boundBullet_.createCount - 1.0f) / 2.0f)), position.y, position.z);
-			newParticle->Init_Bound(boundBullet_.lifeTime, model_, createPos, boundBullet_.scalar, boundBullet_.scale, rotationDeg, boundBullet_.randomRenge, boundBullet_.randomFar);
+			Vector3 createPos = Vector3(((position.x + (boundBullet_.scale.x * i * 2)) - (boundBullet_.scale.x * 2.0f * (boundBullet_.createCount - 1.0f) / 2.0f)), position.y, position.z + shift);
+			newParticle->Init_Bound(boundBullet_.lifeTime, model_, createPos, boundBullet_.scalar, boundBullet_.scale,rotationRad, boundBullet_.randomRenge, boundBullet_.randomFar);
 			particle_BoundBullets_.push_back(newParticle);
 		}
 	}
@@ -224,7 +226,7 @@ void ParticleEffects::CreateParticle_BBBullet(const Vector3& position, const flo
 
 		for (int i = 0; i < bbBullet_.createCount; i++) {
 			Particle_EnemyBullet* newParticle = new Particle_EnemyBullet();
-			Vector3 createPos = Vector3(((position.x + (bbBullet_.scale.x * i * 2)) - (bbBullet_.scale.x * 2.0f * (bbBullet_.createCount - 1.0f) / 2.0f)), position.y, position.z);
+			Vector3 createPos = Vector3(((position.x + (bbBullet_.scale.x * i * 2)) - (bbBullet_.scale.x * 2.0f * (bbBullet_.createCount - 1.0f) / 2.0f)), position.y, position.z + shift);
 			newParticle->Init_BB(bbBullet_.lifeTime, model_, createPos, bbBullet_.scalar, bbBullet_.scale, rotationDeg, bbBullet_.randomRenge, bbBullet_.randomFar);
 			particle_BBBullets_.push_back(newParticle);
 		}
@@ -238,7 +240,7 @@ void ParticleEffects::CreateParticle_Wave(const Vector3& position, const float& 
 
 		for (int i = 0; i < wave_.createCount; i++) {
 			Particle_Wave* newParticle = new Particle_Wave();
-			Vector3 createPos = Vector3(((position.x + (wave_.scale.x * i * 2)) - (wave_.scale.x * 2.0f * (wave_.createCount - 1.0f) / 2.0f)), position.y, position.z);
+			Vector3 createPos = Vector3(((position.x + (wave_.scale.x * i * 2)) - (wave_.scale.x * 2.0f * (wave_.createCount - 1.0f) / 2.0f)), position.y, position.z + shift);
 			createPos = Vector3(-createPos.x * cosf(-rotationDeg), -createPos.x * sinf(-rotationDeg), 0);
 			newParticle->Init(wave_.lifeTime, model_, createPos, wave_.scalar, wave_.scale, rotationDeg, wave_.randomRenge, wave_.randomFar);
 			particle_Waves_.push_back(newParticle);
@@ -252,7 +254,8 @@ void ParticleEffects::CreateParticle_Conflict(const Vector3& position, const flo
 		float createDeg = 0;
 		createDeg = (float)(rand() % 360);
 		
-		newParticle->Init(conflict_.lifeTime, model_, position, conflict_.scalar, conflict_.scale, rotationDeg+createDeg, conflict_.randomRenge, conflict_.randomFar);
+		newParticle->Init(
+		    conflict_.lifeTime, model_, Vector3(position.x, position.y, position.z + shift), conflict_.scalar, conflict_.scale, rotationDeg + createDeg, conflict_.randomRenge, conflict_.randomFar);
 		particle_Conflicts_.push_back(newParticle);
 	}
 }

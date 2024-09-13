@@ -12,9 +12,11 @@ void BoundBullet::Init() {
 	objColor_.Initialize();
 	color_ = { 0.3f,0.3f,0.3f,1.0f };
 	UpdateColor();
+	particleEffects.Init();
 }
 
 void BoundBullet::Update() {
+	
 	elapsedFrame++;
 	// 一定時間経った後に動き始める
 	if (elapsedFrame <= 60) {
@@ -25,6 +27,10 @@ void BoundBullet::Update() {
 		transform_.translation_.y = direct_.y * 12.0f;
 		// 当たり判定移動
 		colSphere_.center = transform_.translation_;
+
+		//パーティクル生成
+
+
 		// 行列更新
 		transform_.UpdateMatrix();
 		return;
@@ -51,13 +57,15 @@ void BoundBullet::Update() {
 
 	// 当たり判定移動
 	colSphere_.center = transform_.translation_;
-
+	particleEffects.CreateParticle_BoundBullet(transform_.translation_, transform_.rotation_.z);
+	particleEffects.UpdateParticle();
 	// 行列更新
 	transform_.UpdateMatrix();
 }
 
 void BoundBullet::DrawModel(ViewProjection* view) {
 	model_->Draw(transform_, *view, &objColor_);
+	particleEffects.DrawParticle(view);
 }
 
 void BoundBullet::DecreaseHP(int damage) {

@@ -11,6 +11,7 @@ void SimpleBullet::Init() {
 	objColor_.Initialize();
 	color_ = { 0.99f,0.6f,0.84f,1.0f };
 	UpdateColor();
+	particleEffect_.Init();
 }
 
 void SimpleBullet::Update() {
@@ -23,11 +24,14 @@ void SimpleBullet::Update() {
 
 	// 当たり判定移動
 	colSphere_.center = transform_.translation_;
-
+	//パーティクル生成
+	particleEffect_.CreateParticle_StandardBullet(transform_.translation_, transform_.rotation_.z);
+	particleEffect_.UpdateParticle();
 	// 行列更新
 	transform_.UpdateMatrix();
 }
 
 void SimpleBullet::DrawModel(ViewProjection* view) {
 	model_->Draw(transform_, *view, &objColor_);
+	particleEffect_.DrawParticle(view);
 }

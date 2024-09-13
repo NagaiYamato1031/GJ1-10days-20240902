@@ -3,6 +3,7 @@
 #include <functional>
 #include <BulletManager/IBullet.h>
 #include <Collider/CollisionManager.h>
+#include<Particle/ParticleEffects.h>
 
 /// <summary>
 /// ただまっすぐに飛んでいく
@@ -43,6 +44,8 @@ public: //** パブリック関数 **//
 
 	// 進む速度
 	Vector3 velocity_ = { 0.0f,0.0f,0.0f };
+	//パーティクル生成
+	ParticleEffects particleEffect_;
 
 	// 当たり判定
 	ACJPN::Math::Sphere colSphere_;
