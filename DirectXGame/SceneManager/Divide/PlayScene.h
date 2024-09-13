@@ -68,6 +68,29 @@ private: //** メンバ変数 **//
 	std::unique_ptr<Sprite> transitionSprite_;
 	Vector2 transitionPosition_ = { 1280,0 };
 
+	// 移動を示す画像
+	uint32_t moveHandle_ = 0u;
+	std::unique_ptr<Sprite> moveSprite_;
+	Vector2 moveSpritePosition_ = { 0.0f,0.0f };
+
+	// スペースを示す画像
+	uint32_t spaceHandle_ = 0u;
+	std::unique_ptr<Sprite> spaceSprite_;
+	Vector2 spaceSpritePosition_ = { 0.0f,0.0f };
+	// ジャンプ
+	uint32_t jumpHandle_ = 0u;
+	std::unique_ptr<Sprite> jumpSprite_;
+	// ドロップ
+	uint32_t dropHandle_ = 0u;
+	std::unique_ptr<Sprite> dropSprite_;
+	// 共通の座標
+	Vector2 jumpdropSpritePosition_ = { 0.0f,0.0f };
+
+	// ごり押し時間計測
+	int timeToggle_ = 0;
+	// ジャンプとドロップを切り替える
+	bool isJump_ = true;
+
 private: //** メンバ関数 **//
 
 	/// <summary>

@@ -45,11 +45,40 @@ void TestScene::Init() {
 	textureHandle_ = TextureManager::Load("white1x1.png");
 	transitionSprite_.reset(Sprite::Create(textureHandle_, { 1280,0 }));
 	transitionSprite_->SetSize({ 1280,720 });
+
+	// 移動画像初期化
+	moveHandle_ = TextureManager::Load("ui/move.png");
+	moveSpritePosition_ = { 50.0f,43.0f };
+	moveSprite_.reset(Sprite::Create(moveHandle_, moveSpritePosition_));
+	moveSprite_->SetSize({ 215.0f,50.0f });
+	// スペース画像初期化
+	spaceHandle_ = TextureManager::Load("ui/SPACE.png");
+	spaceSpritePosition_ = { 70.0f,110.0f };
+	spaceSprite_.reset(Sprite::Create(spaceHandle_, spaceSpritePosition_));
+	spaceSprite_->SetSize({ 170.0f,65.0f });
+	// ジャンプ画像初期化
+	jumpHandle_ = TextureManager::Load("ui/jump.png");
+	jumpdropSpritePosition_ = { 150.0f,200.0f };
+	jumpSprite_.reset(Sprite::Create(jumpHandle_, jumpdropSpritePosition_));
+	jumpSprite_->SetAnchorPoint({ 0.5f,0.5f });
+	jumpSprite_->SetSize({ 100.0f,50.0f });
+	// ドロップ画像初期化
+	dropHandle_ = TextureManager::Load("ui/drop.png");
+	dropSprite_.reset(Sprite::Create(dropHandle_, jumpdropSpritePosition_));
+	dropSprite_->SetAnchorPoint({ 0.5f,0.5f });
+	dropSprite_->SetSize({ 100.0f,50.0f });
 }
 
 void TestScene::Update() {
 	// デバッグ情報
 	DebugWindow();
+
+	// 時間で切り替え
+	timeToggle_++;
+	if (100 <= timeToggle_) {
+		isJump_ = !isJump_;
+		timeToggle_ = 0;
+	}
 
 	// Skydome の演出
 	if (boss_.GetPhase() == 3) {
@@ -128,6 +157,15 @@ void TestScene::Draw3D() {
 }
 
 void TestScene::DrawOverlay() {
+	moveSprite_->Draw();
+	spaceSprite_->Draw();
+	if (isJump_) {
+		jumpSprite_->Draw();
+	}
+	else {
+		dropSprite_->Draw();
+	}
+
 	if (IsTransition()) {
 		transitionSprite_->Draw();
 	}
@@ -138,6 +176,50 @@ void TestScene::DebugWindow() {
 #ifdef _DEBUG
 	ImGui::Begin("Scene");
 	ImGui::Text("Test");
+	if (ImGui::TreeNode("Move")) {
+		Vector2 size = moveSprite_->GetSize();
+		if (ImGui::DragFloat3("pos", &moveSpritePosition_.x, 0.01f)) {
+			moveSprite_->SetPosition(moveSpritePosition_);
+		}
+		if (ImGui::DragFloat3("size", &size.x, 0.01f)) {
+			moveSprite_->SetSize(size);
+		}
+		ImGui::TreePop();
+		ImGui::Separator();
+	}
+	if (ImGui::TreeNode("Space")) {
+		Vector2 size = spaceSprite_->GetSize();
+		if (ImGui::DragFloat3("pos", &spaceSpritePosition_.x, 0.01f)) {
+			spaceSprite_->SetPosition(spaceSpritePosition_);
+		}
+		if (ImGui::DragFloat3("size", &size.x, 0.01f)) {
+			spaceSprite_->SetSize(size);
+		}
+		ImGui::TreePop();
+		ImGui::Separator();
+	}
+	if (ImGui::TreeNode("jump")) {
+		Vector2 size = jumpSprite_->GetSize();
+		if (ImGui::DragFloat3("pos", &jumpdropSpritePosition_.x, 0.01f)) {
+			jumpSprite_->SetPosition(jumpdropSpritePosition_);
+		}
+		if (ImGui::DragFloat3("size", &size.x, 0.01f)) {
+			jumpSprite_->SetSize(size);
+		}
+		ImGui::TreePop();
+		ImGui::Separator();
+	}
+	if (ImGui::TreeNode("drop")) {
+		Vector2 size = dropSprite_->GetSize();
+		if (ImGui::DragFloat3("pos", &jumpdropSpritePosition_.x, 0.01f)) {
+			dropSprite_->SetPosition(jumpdropSpritePosition_);
+		}
+		if (ImGui::DragFloat3("size", &size.x, 0.01f)) {
+			dropSprite_->SetSize(size);
+		}
+		ImGui::TreePop();
+		ImGui::Separator();
+	}
 	ImGui::End();
 #endif // _DEBUG
 }

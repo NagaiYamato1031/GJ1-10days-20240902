@@ -64,12 +64,13 @@ void TitleScene::Update() {
 	// デバッグ表示
 	DebugWindow();
 
-	//// キー入力で次のシーンへ
-	//if (input_->TriggerKey(DIK_SPACE)) {
-	//	nextScene_ = new PlayScene;
-	//	sceneFlag_.isTransition_ = true;
-	//	sceneFlag_.allEnd_ = true;
-	//}
+
+	// 時間で切り替え
+	timeToggle_++;
+	if (100 <= timeToggle_) {
+		isJump_ = !isJump_;
+		timeToggle_ = 0;
+	}
 
 	// プレイヤー更新
 	player_.Update();
@@ -92,6 +93,28 @@ void TitleScene::Update() {
 	// 当たり判定更新
 	collisionManager_->Update();
 	collisionManager_->CheckCollision();
+
+	// 移動画像初期化
+	moveHandle_ = TextureManager::Load("ui/move.png");
+	moveSpritePosition_ = { 50.0f,43.0f };
+	moveSprite_.reset(Sprite::Create(moveHandle_, moveSpritePosition_));
+	moveSprite_->SetSize({ 215.0f,50.0f });
+	// スペース画像初期化
+	spaceHandle_ = TextureManager::Load("ui/SPACE.png");
+	spaceSpritePosition_ = { 70.0f,110.0f };
+	spaceSprite_.reset(Sprite::Create(spaceHandle_, spaceSpritePosition_));
+	spaceSprite_->SetSize({ 170.0f,65.0f });
+	// ジャンプ画像初期化
+	jumpHandle_ = TextureManager::Load("ui/jump.png");
+	jumpdropSpritePosition_ = { 150.0f,200.0f };
+	jumpSprite_.reset(Sprite::Create(jumpHandle_, jumpdropSpritePosition_));
+	jumpSprite_->SetAnchorPoint({ 0.5f,0.5f });
+	jumpSprite_->SetSize({ 100.0f,50.0f });
+	// ドロップ画像初期化
+	dropHandle_ = TextureManager::Load("ui/drop.png");
+	dropSprite_.reset(Sprite::Create(dropHandle_, jumpdropSpritePosition_));
+	dropSprite_->SetAnchorPoint({ 0.5f,0.5f });
+	dropSprite_->SetSize({ 100.0f,50.0f });
 }
 
 void TitleScene::DrawBackdrop() {
@@ -105,6 +128,14 @@ void TitleScene::Draw3D() {
 }
 
 void TitleScene::DrawOverlay() {
+	moveSprite_->Draw();
+	spaceSprite_->Draw();
+	if (isJump_) {
+		jumpSprite_->Draw();
+	}
+	else {
+		dropSprite_->Draw();
+	}
 	titleSprite_->Draw();
 }
 
