@@ -8,54 +8,43 @@
 
 EndScene::EndScene() {}
 
-EndScene::~EndScene() {
-
-	delete spriteT_;
-	delete spriteP_;
-}
+EndScene::~EndScene() {}
 
 void EndScene::Init() {
 
-	selectTitle_ = true;
+	// カメラ初期化
+	camera_.Initialize();
 
-	toTitlePosition_ = { 640, 500, 0 };
-	toPlayPosition_ = { 640, 600, 0 };
+	// スカイドーム初期化
+	skydome_.Init();
 
-	//textHandleTitle_ = TextureManager::GetInstance()->Load("");
-	//textHandlePlay_ = TextureManager::GetInstance()->Load("");
+	textHandleTitle_ = TextureManager::GetInstance()->Load("title/Title.png");
 
-	spriteT_ = Sprite::Create(textHandleTitle_, { toTitlePosition_.x, toTitlePosition_.y });
-	spriteP_ = Sprite::Create(textHandlePlay_, { toPlayPosition_.x, toPlayPosition_.y });
-
+	spriteTitlePosition_ = { 1280 * 0.5f, 720 * 0.5f };
+	spriteTitle_.reset(Sprite::Create(textHandleTitle_, spriteTitlePosition_));
+	spriteTitle_->SetAnchorPoint({ 0.5f,0.5f });
+	spriteTitle_->SetPosition(spriteTitlePosition_);
 }
 
 void EndScene::Update() {
 	// デバッグ情報
 	DebugWindow();
 
-	// 左はタイトル
-	// 上下に変えるかも
-	if (input_->TriggerKey(DIK_A)) {
-		selectTitle_ = true;
-	}
-	else if (input_->TriggerKey(DIK_D)) {
-		selectTitle_ = false;
-	}
+	//// 左はタイトル
+	//// 上下に変えるかも
+	//if (input_->TriggerKey(DIK_A)) {
+	//	selectTitle_ = true;
+	//}
+	//else if (input_->TriggerKey(DIK_D)) {
+	//	selectTitle_ = false;
+	//}
 
 	// スペースを押す
 	if (input_->TriggerKey(DIK_SPACE)) {
 		// タイトルへ
-		if (selectTitle_ == true) {
-			nextScene_ = new TitleScene;
-			sceneFlag_.isTransition_ = true;
-			sceneFlag_.allEnd_ = true;
-		}
-		// プレイシーンへ
-		else {
-			nextScene_ = new PlayScene;
-			sceneFlag_.isTransition_ = true;
-			sceneFlag_.allEnd_ = true;
-		}
+		nextScene_ = new TitleScene;
+		sceneFlag_.isTransition_ = true;
+		sceneFlag_.allEnd_ = true;
 	}
 }
 
@@ -64,13 +53,12 @@ void EndScene::DrawBackdrop() {
 
 
 void EndScene::Draw3D() {
+	skydome_.DrawModel(&camera_);
 }
 
 void EndScene::DrawOverlay() {
 	// タイトルへ向かう画像
-	spriteT_->Draw();
-	// プレイシーンへ向かう画像
-	spriteP_->Draw();
+	spriteTitle_->Draw();
 }
 
 void EndScene::DebugWindow() {

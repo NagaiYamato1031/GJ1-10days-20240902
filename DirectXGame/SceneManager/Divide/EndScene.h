@@ -5,6 +5,8 @@
 #include "DirectXCommon.h"
 #include "Sprite.h"
 
+#include <Skydome/Skydome.h>
+
 // IScene クラスを継承した終了時のシーン
 class EndScene : public ACJPN::Scene::IScene {
 public: //** パブリック関数 **//
@@ -43,17 +45,16 @@ private: //** メンバ変数 **//
 
 	DirectXCommon* dxCommon_ = nullptr;
 
-	bool selectTitle_ = true;
+	// カメラ
+	ViewProjection camera_;
 
-	Vector3 toTitlePosition_ = {0, 0, 0};
-	Vector3 toPlayPosition_ = {0, 0, 0};
+	// スカイドーム
+	Skydome skydome_;
 
+	// 画像表示
+	Vector2 spriteTitlePosition_ = { 0, 0 };
 	uint32_t textHandleTitle_ = 0;
-	uint32_t textHandlePlay_ = 0;
-
-	Sprite* spriteT_ = nullptr;
-	Sprite* spriteP_ = nullptr;
-
+	std::unique_ptr<Sprite> spriteTitle_;
 
 private: //** メンバ関数 **//
 };
