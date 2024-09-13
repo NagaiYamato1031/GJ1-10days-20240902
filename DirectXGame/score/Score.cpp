@@ -10,7 +10,7 @@ using namespace ACJPN::Math;
 
 void Score::Init(const Vector2& position) { 
 	time_ = 60;
-	digit_ = 5;
+	digit_ = 10;
 	targetScore_ = 0;
 	isScore = false;
 	

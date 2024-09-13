@@ -26,7 +26,7 @@ private: /*メンバ変数*/
 	float score_;//描画中のスコア
 	float gettingScore_;//scoreに加算していく量
 	int digit_;//スコアの桁数
-	int number[5] = {};
+	int number[10] = {};
 	std::list<Sprite*> spriteNumbers_;
 	Vector2 size;
 	bool isScore = false;
