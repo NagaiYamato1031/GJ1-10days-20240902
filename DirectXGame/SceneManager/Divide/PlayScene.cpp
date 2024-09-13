@@ -142,6 +142,7 @@ void PlayScene::DrawOverlay() {
 	else {
 		dropSprite_->Draw();
 	}
+	player_.DrawOverlay();
 	if (IsTransition()) {
 		transitionSprite_->Draw();
 	}
