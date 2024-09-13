@@ -325,6 +325,7 @@ void Boss::CreateBulletBound(float speed) {
 	data->velocity_.x = norm.x * speed;
 	data->velocity_.y = norm.y * speed;
 	data->aliveLength_ = kPaddingCenter_;
+	data->hp_ = 3;
 	//　球の当たり判定
 	data->colSphere_.center = { 0.0f,0.0f,0.0f };
 	data->colSphere_.radius = 4.0f;
@@ -517,16 +518,8 @@ void Boss::EnemyAttack_2() {
 }
 
 void Boss::EnemyAttack_3() {
-
-	//// 円に向かって飛び、波を発生させる弾
-	//SimpleBullet* data = new SimpleBullet;
-	//data->Init();
-	//data->transform_.translation_ = transform_.translation_;
-	//// 弾をプレイヤーの方向に向ける
-	//data->velocity_.x;
-	//data->velocity_.y;
-	//// 登録
-	//bulletManager_.Regist(data);
+	// バウンドする弾を撃つ
+	CreateBulletBound(0.2f);
 }
 
 void Boss::EnemyAttack_4() {
@@ -542,7 +535,7 @@ void Boss::Phase_0() {
 	if (hp_ <= 0) {
 		phase_ = transition;
 		nextPhase_ = p1;
-		hp_ = 10;
+		hp_ = 6;
 		transitionFrame_ = 60;
 		displayHp_.Create(transform_.translation_, hp_);
 	}
@@ -578,7 +571,7 @@ void Boss::Phase_1() {
 	if (hp_ <= 0) {
 		phase_ = transition;
 		nextPhase_ = p2;
-		hp_ = 10;
+		hp_ = 8;
 		transitionFrame_ = 60;
 
 		//Hpbar表示
@@ -625,7 +618,7 @@ void Boss::Phase_2() {
 	if (hp_ <= 0) {
 		phase_ = transition;
 		nextPhase_ = p3;
-		hp_ = 15;
+		hp_ = 10;
 		transitionFrame_ = 60;
 		displayHp_.Create(transform_.translation_, hp_);
 	}
@@ -634,6 +627,7 @@ void Boss::Phase_2() {
 void Boss::Phase_3() {
 
 	AttackFrame01--;
+	AttackFrame02--;
 	AttackFrame03--;
 
 	// 攻撃処理呼び出し
@@ -643,6 +637,15 @@ void Boss::Phase_3() {
 
 #ifdef _DEBUG
 		DebugFrame01 = AttackFrame01;
+#endif // _DEBUG
+	}
+	// 攻撃処理呼び出し
+	if (AttackFrame02 <= 0) {
+		EnemyAttack_3();
+		AttackFrame02 = 600 - rand() % 10;
+
+#ifdef _DEBUG
+		DebugFrame02 = AttackFrame02;
 #endif // _DEBUG
 	}
 	// 攻撃処理呼び出し
