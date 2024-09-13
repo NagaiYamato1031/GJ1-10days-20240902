@@ -8,6 +8,7 @@
 #include "Particle_EnemyBullet.h"
 #include "Particle_Wave.h"
 #include "Particle_Conflict.h"
+#include "Particle_Background.h"
 #include "list"
 
 struct Particle {
@@ -21,6 +22,13 @@ struct Particle {
 	float randomFar;// ランダムでずらす距離
 	int createCount;//一度に生成する数(波とぶつかった時のエフェクトで使用するよ～
 	Vector3 shrinkScale;//小さくするやつ
+
+	
+	Vector3 createPos;        // 背景用発生位置
+	float breakPos;         // 背景用消滅位置
+	Model *model_tetrahedron; // 背景用モデル正四面体
+	Model *model_hexahedron;//背景用モデル正六面体
+	Model *model_dodecahedron;//背景用モデル正十二面体
 };
 
 
@@ -49,6 +57,7 @@ public: /*パブリック関数*/
 
 	void CreateParticle_Wave(const Vector3& position, const float& rotationDeg);
 	void CreateParticle_Conflict(const Vector3& position, const float& rotationDeg);
+	void CreatParticle_Background();
 
 
 	void UpdateParticle();//生成したパーティクルを動かす
@@ -75,6 +84,8 @@ private: /*メンバ変数*/
 	Particle bbBullet_; //大玉
 	Particle wave_;//波攻撃
 	Particle conflict_;//弾と弾がぶつかった時のやつ
+	Particle background_;
+
 
 
 	//パーティクルのリスト
@@ -85,7 +96,9 @@ private: /*メンバ変数*/
 	std::list<Particle_EnemyBullet*> particle_BoundBullets_;//バウンド弾
 	std::list<Particle_EnemyBullet*> particle_BBBullets_;//大玉
 
+
 	std::list<Particle_Wave*> particle_Waves_; // 波
 	std::list<Particle_Conflict*> particle_Conflicts_;//衝突
+	std::list<Particle_Background*> particle_Backgrounds_;
 
 };

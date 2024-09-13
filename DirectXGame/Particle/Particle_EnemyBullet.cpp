@@ -11,7 +11,7 @@ using namespace ACJPN::Math;
 //通常弾
 void Particle_EnemyBullet::Init_Standard(float time, Model* model, const Vector3& position, const float& scalar, const Vector3& scale, const float& rotate, const int& randomRange, const float& randomFar) {
 	// ファイル名を指定してテクスチャを読み込む
-	textureHandle_ = TextureManager::Load("standard_Bullet.png");
+	textureHandle_ = TextureManager::Load("Particle/standard_Bullet.png");
 
 	// 生存時間受け取り
 	time_ = time;
@@ -66,7 +66,7 @@ void Particle_EnemyBullet::Draw_Standard(const ViewProjection* viewProjection) {
 //追跡弾
 void Particle_EnemyBullet::Init_Chaser(float time, Model* model, const Vector3& position, const float& scalar, const Vector3& scale, const float& rotate, const int& randomRange, const float& randomFar) {
 	// ファイル名を指定してテクスチャを読み込む
-	textureHandle_ = TextureManager::Load("chaser_Bullet.png");
+	textureHandle_ = TextureManager::Load("Particle/chaser_Bullet.png");
 
 	// 生存時間受け取り
 	time_ = time;
@@ -121,7 +121,7 @@ void Particle_EnemyBullet::Draw_Chaser(const ViewProjection* viewProjection) {
 //持続弾
 void Particle_EnemyBullet::Init_Footpace(float time, Model* model, const Vector3& position, const float& scalar, const Vector3& scale, const float& rotate, const int& randomRange, const float& randomFar) {
 	// ファイル名を指定してテクスチャを読み込む
-	textureHandle_ = TextureManager::Load("footpace_Bullet.png");
+	textureHandle_ = TextureManager::Load("Particle/footpace_Bullet.png");
 
 	// 生存時間受け取り
 	time_ = time;
@@ -176,7 +176,7 @@ void Particle_EnemyBullet::Draw_Footpace(const ViewProjection* viewProjection) {
 //バウンド弾
 void Particle_EnemyBullet::Init_Bound(float time, Model* model, const Vector3& position, const float& scalar, const Vector3& scale, const float& rotate, const int& randomRange, const float& randomFar) {
 	// ファイル名を指定してテクスチャを読み込む
-	textureHandle_ = TextureManager::Load("Bound_Bullet.png");
+	textureHandle_ = TextureManager::Load("Particle/Bound_Bullet.png");
 
 	// 生存時間受け取り
 	time_ = time;
@@ -231,7 +231,7 @@ void Particle_EnemyBullet::Draw_Bound(const ViewProjection* viewProjection) {
 //大玉
 void Particle_EnemyBullet::Init_BB(float time, Model* model, const Vector3& position, const float& scalar, const Vector3& scale, const float& rotate, const int& randomRange, const float& randomFar) {
 	// ファイル名を指定してテクスチャを読み込む
-	textureHandle_ = TextureManager::Load("bb_Bullet.png");
+	textureHandle_ = TextureManager::Load("Particle/bb_Bullet.png");
 
 	// 生存時間受け取り
 	time_ = time;

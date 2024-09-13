@@ -120,6 +120,26 @@ void ParticleEffects::Init() {
 	    {0.08f,    0.08f,    0.08f   }, //  小さくするときにいじるやつ
 	};
 
+	background_ = {
+	   0.3f, // 速さ
+	   {5.0f,  5.0f,  5.0f }, // サイズ
+	   0.0f, // 回転角
+	   30, //  生存時間
+	   30.0f, //  生成間隔(フレーム)
+	   0.0f, //  生成間隔バッファ
+	   0, //  ランダム範囲（正方向のみ
+	   0.0f, //  ランダムでずらす距離
+	   1, //  一度に生成する数(波とぶつかった時のエフェクトで使用するよ～
+	   {0.08f, 0.08f, 0.08f}, //  小さくするときにいじるやつ
+	};
+	background_.createPos = Vector3(0, -45, 50);
+	background_.breakPos = 45;
+
+	background_.model_tetrahedron = Model::CreateFromOBJ("Particle/tetrahedron");
+	background_.model_hexahedron = Model::CreateFromOBJ("Particle/hexahedron");
+	background_.model_dodecahedron = Model::CreateFromOBJ("Particle/dodecahedron");
+	//ここまでbackgroud_の変数
+
 
 	model_ = Model::Create();
 
@@ -237,7 +257,30 @@ void ParticleEffects::CreateParticle_Conflict(const Vector3& position, const flo
 	}
 }
 
-#pragma endregion
+void ParticleEffects::CreatParticle_Background() {
+	Vector3 pos = Vector3(0, 0, 0);
+	if (background_.intervalBuff <= 0) {
+		background_.intervalBuff = background_.interval;
+		for (int i = 0; i < background_.createCount; i++) {
+
+			Particle_Background* newParticle = new Particle_Background();
+
+			int random = rand() % 3;
+			if (random == 0) {
+				newParticle->Init(background_.model_tetrahedron, background_.createPos, background_.scalar, background_.breakPos,background_.scale);
+			} else if (random == 1) {
+				newParticle->Init(background_.model_hexahedron, background_.createPos, background_.scalar, background_.breakPos,background_.scale);
+			} else {
+				newParticle->Init(background_.model_dodecahedron, background_.createPos, background_.scalar, background_.breakPos, background_.scale);
+			}
+
+			particle_Backgrounds_.push_back(newParticle);
+		}
+	}
+	background_.intervalBuff--;
+}
+
+
 
 void ParticleEffects::UpdateParticle() {
 
@@ -342,12 +385,23 @@ void ParticleEffects::UpdateParticle() {
 	ImGui::DragInt("CreateCount_Conflict", &conflict_.createCount, 1);
 	ImGui::DragFloat3("ShrinkScale_Conflict", &conflict_.shrinkScale.x, 0.01f);
 
-
+	// 背景
+	ImGui::Text("Background_");
+	ImGui::DragFloat("Scalar_Background", &background_.scalar, 0.1f);
+	ImGui::DragFloat("Rotate_Background", &background_.rotation, 0.1f);
+	ImGui::DragFloat3("Scale_Background", &background_.scale.x, 0.1f);
+	ImGui::DragFloat("Intervall_Background", &background_.interval, 0.1f);
+	ImGui::DragInt("RandomRenge_Background", &background_.randomRenge, 0.1f);
+	ImGui::DragFloat("RandomFar_Background", &background_.randomFar, 0.1f);
+	ImGui::DragInt("CreateCount_Background", &background_.createCount, 1);
+	ImGui::DragFloat3("CreatePos_Background", &background_.createPos.x, 0.1f);
+	ImGui::DragFloat("BreakPos_Background", &background_.breakPos, 0.1f);
 
 	ImGui::End();
 
 #endif // _DEBUG
 
+	#pragma region 弾
 
 	for (auto it = particle_PlayerBullets_.begin(); it != particle_PlayerBullets_.end();) {
 		Particle_PlayerBullet* particle_PlayerBullet = *it;
@@ -421,6 +475,8 @@ void ParticleEffects::UpdateParticle() {
 			++it;
 		}
 	}
+#pragma endregion
+
 
 	for (auto it = particle_Waves_.begin(); it != particle_Waves_.end();) {
 		Particle_Wave* particle_Wave = *it;
@@ -441,6 +497,19 @@ void ParticleEffects::UpdateParticle() {
 		if (particle_Conflict->IsBreak()) {
 			delete particle_Conflict;
 			it = particle_Conflicts_.erase(it);
+
+		} else {
+			++it;
+		}
+	}
+
+		for (auto it = particle_Backgrounds_.begin(); it != particle_Backgrounds_.end();) {
+		Particle_Background* particle_Background = *it;
+		particle_Background->Update();
+
+		if (particle_Background->IsBreak()) {
+			delete particle_Background;
+			it = particle_Backgrounds_.erase(it);
 
 		} else {
 			++it;
@@ -473,6 +542,9 @@ void ParticleEffects::DrawParticle(const ViewProjection* viewProjection) {
 	}
 	for (Particle_Conflict* particle_Conflict : particle_Conflicts_) {
 		particle_Conflict->Draw(viewProjection);
+	}
+	for (Particle_Background* particle_Background : particle_Backgrounds_) {
+		particle_Background->DrawModel(viewProjection);
 	}
 }
 
@@ -510,4 +582,9 @@ void ParticleEffects::TestDelete() {
 		delete particle_Conflict;
 	}
 	particle_Waves_.clear();
+
+	for (Particle_Background* particle_Background : particle_Backgrounds_) {
+		delete particle_Background;
+	}
+	particle_Backgrounds_.clear();
 }

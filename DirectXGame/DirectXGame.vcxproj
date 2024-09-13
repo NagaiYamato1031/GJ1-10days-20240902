@@ -125,6 +125,7 @@
     <ClCompile Include="FollowCamera\FollowCamera.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Particle\ParticleEffects.cpp" />
+    <ClCompile Include="Particle\Particle_Background.cpp" />
     <ClCompile Include="Particle\Particle_Conflict.cpp" />
     <ClCompile Include="Particle\Particle_EnemyBullet.cpp" />
     <ClCompile Include="Particle\Particle_PlayerBullet.cpp" />
@@ -189,6 +190,7 @@
     <ClInclude Include="math\Vector3.h" />
     <ClInclude Include="math\Vector4.h" />
     <ClInclude Include="Particle\ParticleEffects.h" />
+    <ClInclude Include="Particle\Particle_Background.h" />
     <ClInclude Include="Particle\Particle_Conflict.h" />
     <ClInclude Include="Particle\Particle_EnemyBullet.h" />
     <ClInclude Include="Particle\Particle_PlayerBullet.h" />
