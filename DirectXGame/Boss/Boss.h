@@ -61,6 +61,11 @@ public: //** パブリック関数 **//
 
 private: //** プライベート変数 **//
 
+	Audio* audio_ = nullptr;
+	uint32_t soundHandle_ = 0u;
+
+	Input* input_ = nullptr;
+
 	// 3D モデル
 	std::unique_ptr<Model> model_;
 

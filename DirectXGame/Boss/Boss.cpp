@@ -10,6 +10,13 @@ using namespace ACJPN::Math;
 using namespace ACJPN::Collider;
 
 void Boss::Init() {
+
+	// 入力取得
+	input_ = Input::GetInstance();
+
+	audio_ = Audio::GetInstance();
+	soundHandle_ = audio_->LoadWave("mokugyo.wav");
+
 	model_.reset(Model::CreateFromOBJ("BossEnemy"));
 	transform_.Initialize();
 	transform_.scale_ = { 10.0f,10.0f,1.0f };
@@ -87,6 +94,12 @@ void Boss::Update() {
 
 	// 行列の更新
 	transform_.UpdateMatrix();
+
+	if (input_->TriggerKey(DIK_Q)) {
+	
+		audio_->PlayWave(soundHandle_);
+	}
+	
 }
 
 void Boss::DrawModel(ViewProjection* view) {
