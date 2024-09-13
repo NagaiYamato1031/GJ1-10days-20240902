@@ -14,6 +14,9 @@ void Boss::Init() {
 	transform_.Initialize();
 	transform_.scale_ = { 10.0f,10.0f,1.0f };
 
+	//Hpbarの中心からの距離とか初期化
+	displayHp_.Init();
+
 	// 弾管理クラス初期化
 	bulletManager_.Init();
 
@@ -45,6 +48,8 @@ void Boss::Init() {
 }
 
 void Boss::Update() {
+	//Hpbar更新
+	displayHp_.Update();
 
 	// デバッグ表示
 	DebugWindow();
@@ -103,6 +108,7 @@ void Boss::DrawModel(ViewProjection* view) {
 	bulletManager_.DrawModel(view);
 
 	model_->Draw(transform_, *view, &objectColor_);
+	displayHp_.DrawModel(view);
 }
 
 void Boss::DebugWindow() {
@@ -492,6 +498,7 @@ void Boss::CreateBulletWave(float theta, float power) {
 
 void Boss::DecreaseHP(int damage) {
 	hp_ -= damage;
+	displayHp_.DamageBreak();
 }
 
 // エネミー攻撃処理
@@ -533,6 +540,7 @@ void Boss::Phase_0() {
 		nextPhase_ = p1;
 		hp_ = 10;
 		transitionFrame_ = 60;
+		displayHp_.Create(transform_.translation_, hp_);
 	}
 }
 
@@ -568,6 +576,9 @@ void Boss::Phase_1() {
 		nextPhase_ = p2;
 		hp_ = 10;
 		transitionFrame_ = 60;
+
+		//Hpbar表示
+		displayHp_.Create(transform_.translation_, hp_);
 	}
 }
 
@@ -612,6 +623,7 @@ void Boss::Phase_2() {
 		nextPhase_ = p3;
 		hp_ = 15;
 		transitionFrame_ = 60;
+		displayHp_.Create(transform_.translation_, hp_);
 	}
 }
 

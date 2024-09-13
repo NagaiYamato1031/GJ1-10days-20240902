@@ -10,6 +10,7 @@
 #include <Utility/Mymath.h>
 #include <BulletManager/BulletManager.h>
 #include <Collider/CollisionManager.h>
+#include "DisplayHp.h"
 
 // 前方宣言
 class Player;
@@ -89,6 +90,9 @@ private: //** プライベート変数 **//
 
 	// プレイヤーを参照する
 	Player* player_ = nullptr;
+
+	//Hp出す奴
+	DisplayHp displayHp_;
 
 	//エネミー体力
 	int hp_ = 40;
