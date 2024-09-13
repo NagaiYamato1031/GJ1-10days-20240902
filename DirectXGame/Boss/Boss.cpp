@@ -526,7 +526,7 @@ void Boss::EnemyAttack_4() {
 	// プレイヤーを狙って飛んでくる弾
 	CreateBulletEffective();
 	// 2 Way を撃つ
-	CreateBulletEffective2Way(3.14f, 1.0f);
+	CreateBulletEffective2Way(2.37f, 1.0f);
 }
 
 
@@ -650,9 +650,9 @@ void Boss::Phase_3() {
 	}
 	// 攻撃処理呼び出し
 	if (AttackFrame03 <= 0) {
-		EnemyAttack_2();
+		//EnemyAttack_2();
 		//EnemyAttack_3();
-		CreateBulletEffective2Way(0.6f, 0.75f);
+		CreateBulletEffective2Way(1.0f, 0.75f);
 		AttackFrame03 = 180 + rand() % 20 - 15;
 
 #ifdef _DEBUG
